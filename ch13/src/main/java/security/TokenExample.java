@@ -1,8 +1,5 @@
 package security;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -10,33 +7,35 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.security.token.AuthenticationTokenIdentifier;
 import org.apache.hadoop.hbase.security.token.TokenUtil;
-
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.token.Token;
+
+import java.io.File;
+import java.io.IOException;
 
 // cc TokenExample Shows the use of the HBase delegation token
 public class TokenExample {
 
-  public static void main(String[] args) throws IOException, InterruptedException {
-    Configuration conf = HBaseConfiguration.create();
-    Connection connection = ConnectionFactory.createConnection(conf);
+    public static void main(String[] args) throws IOException {
+        Configuration conf = HBaseConfiguration.create();
+        Connection connection = ConnectionFactory.createConnection(conf);
 
-    // vv TokenExample
-    Token<AuthenticationTokenIdentifier> token =
-      TokenUtil.obtainToken(connection);
-    String urlString = token.encodeToUrlString();
-    File temp = new File(FileUtils.getTempDirectory(), "token");
-    FileUtils.writeStringToFile(temp, urlString);
+        // vv TokenExample
+        Token<AuthenticationTokenIdentifier> token =
+                TokenUtil.obtainToken(connection);
+        String urlString = token.encodeToUrlString();
+        File temp = new File(FileUtils.getTempDirectory(), "token");
+        FileUtils.writeStringToFile(temp, urlString);
 
-    System.out.println("Encoded Token: " + urlString);
+        System.out.println("Encoded Token: " + urlString);
 
-    String strToken = FileUtils.readFileToString(new File("token"));
-    Token token2 = new Token();
-    token2.decodeFromUrlString(strToken);
-    UserGroupInformation.getCurrentUser().addToken(token2);
-    // ^^ TokenExample
-    connection.close();
-  }
+        String strToken = FileUtils.readFileToString(new File("token"));
+        Token token2 = new Token();
+        token2.decodeFromUrlString(strToken);
+        UserGroupInformation.getCurrentUser().addToken(token2);
+        // ^^ TokenExample
+        connection.close();
+    }
 }
 
 /*

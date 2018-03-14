@@ -35,8 +35,7 @@ import java.util.NavigableSet;
 // cc ScanControlObserverEndpoint Observer and endpoint for scan operations
 // vv ScanControlObserverEndpoint
 @SuppressWarnings("deprecation") // because of API usage
-public class ScanControlObserverEndpoint
-        extends ScanControlProtos.ScanControlService
+public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlService
         implements Coprocessor, CoprocessorService, RegionObserver {
 
     private RegionCoprocessorEnvironment env;

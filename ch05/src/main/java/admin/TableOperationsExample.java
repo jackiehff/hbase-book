@@ -16,7 +16,7 @@ import java.io.IOException;
 // cc TableOperationsExample Example using the various calls to disable, enable, and check that status of a table
 public class TableOperationsExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);

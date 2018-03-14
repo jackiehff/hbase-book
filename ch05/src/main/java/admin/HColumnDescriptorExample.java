@@ -5,7 +5,6 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.regionserver.BloomType;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import java.io.IOException;
 import java.util.Map;
 
 // cc HColumnDescriptorExample Example how to create a HColumnDescriptor in code

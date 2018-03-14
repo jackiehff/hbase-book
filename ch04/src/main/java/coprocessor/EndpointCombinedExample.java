@@ -5,7 +5,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.client.coprocessor.Batch;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
@@ -55,27 +54,24 @@ public class EndpointCombinedExample {
             Map<byte[], /*[*/Pair<Long, Long>/*]*/> results = table.coprocessorService(
                     RowCounterProtos.RowCountService.class,
                     null, null,
-                    /*[*/new Batch.Call<RowCounterProtos.RowCountService, Pair<Long, Long>>() {
-                        public Pair<Long, Long> call(RowCounterProtos.RowCountService counter)
-                                throws IOException {
-                            BlockingRpcCallback<RowCounterProtos.CountResponse> rowCallback =
-                                    new BlockingRpcCallback<RowCounterProtos.CountResponse>();
-                            counter.getRowCount(null, request, rowCallback);
+                    counter -> {
+                        BlockingRpcCallback<RowCounterProtos.CountResponse> rowCallback =
+                                new BlockingRpcCallback<>();
+                        counter.getRowCount(null, request, rowCallback);
 
-                            BlockingRpcCallback<RowCounterProtos.CountResponse> cellCallback =
-                                    new BlockingRpcCallback<RowCounterProtos.CountResponse>();
-                            counter.getCellCount(null, request, cellCallback);
+                        BlockingRpcCallback<RowCounterProtos.CountResponse> cellCallback =
+                                new BlockingRpcCallback<>();
+                        counter.getCellCount(null, request, cellCallback);
 
-                            RowCounterProtos.CountResponse rowResponse = rowCallback.get();
-                            Long rowCount = rowResponse.hasCount() ?
-                                    rowResponse.getCount() : 0;
+                        RowCounterProtos.CountResponse rowResponse = rowCallback.get();
+                        Long rowCount = rowResponse.hasCount() ?
+                                rowResponse.getCount() : 0;
 
-                            RowCounterProtos.CountResponse cellResponse = cellCallback.get();
-                            Long cellCount = cellResponse.hasCount() ?
-                                    cellResponse.getCount() : 0;
+                        RowCounterProtos.CountResponse cellResponse = cellCallback.get();
+                        Long cellCount = cellResponse.hasCount() ?
+                                cellResponse.getCount() : 0;
 
-                            return new Pair<Long, Long>(rowCount, cellCount);/*]*/
-                        }
+                        return new Pair<>(rowCount, cellCount);
                     }
             );
 
@@ -84,8 +80,8 @@ public class EndpointCombinedExample {
             long totalKeyValues = 0;/*]*/
             for (Map.Entry<byte[], /*[*/Pair<Long, Long>/*]*/> entry : results.entrySet()) {
                 /*[*/
-                totalRows += entry.getValue().getFirst().longValue();
-                totalKeyValues += entry.getValue().getSecond().longValue();
+                totalRows += entry.getValue().getFirst();
+                totalKeyValues += entry.getValue().getSecond();
                 System.out.println("Region: " + Bytes.toString(entry.getKey()) +
                         ", Count: " + entry.getValue());/*]*/
             }

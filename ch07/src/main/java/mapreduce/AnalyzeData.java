@@ -1,14 +1,6 @@
 package mapreduce;
 
-import java.io.IOException;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -32,6 +24,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import java.io.IOException;
 
 // cc AnalyzeData MapReduce job that reads the imported data and analyzes it.
 public class AnalyzeData {
@@ -64,8 +58,7 @@ public class AnalyzeData {
          */
         // vv AnalyzeData
         @Override
-        public void map(ImmutableBytesWritable row, Result columns, Context context)
-                throws IOException {
+        public void map(ImmutableBytesWritable row, Result columns, Context context) {
             context.getCounter(Counters.ROWS).increment(1);
             String value = null;
             try {
@@ -164,7 +157,7 @@ public class AnalyzeData {
      * @return The parsed command line.
      * @throws org.apache.commons.cli.ParseException When the parsing of the parameters fails.
      */
-    private static CommandLine parseArgs(String[] args) throws ParseException {
+    private static CommandLine parseArgs(String[] args) {
         Options options = new Options();
         Option o = new Option("t", "table", true,
                 "table to read from (must exist)");

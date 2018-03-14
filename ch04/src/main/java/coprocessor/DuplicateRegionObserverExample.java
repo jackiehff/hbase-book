@@ -26,7 +26,7 @@ public class DuplicateRegionObserverExample extends BaseRegionObserver {
 
     @Override
     public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e,
-                         Get get, List<Cell> results) throws IOException {
+                         Get get, List<Cell> results) {
         int count = counter.incrementAndGet();
         LOG.info("Current preGet count: " + count + " [" + this + "]");
     }

@@ -1,8 +1,6 @@
 package pig;
 
-import java.io.IOException;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
@@ -12,7 +10,8 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>Transforms a Json string into a Pig map.<br>
