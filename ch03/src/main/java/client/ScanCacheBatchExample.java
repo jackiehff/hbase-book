@@ -28,11 +28,12 @@ public class ScanCacheBatchExample {
         for (Result result : scanner) {
             count++; // co ScanCacheBatchExample-2-Count Count the number of Results available.
         }
-        scanner.close();
-        ScanMetrics metrics = scan.getScanMetrics();
+        ScanMetrics metrics = scanner.getScanMetrics();
         System.out.println("Caching: " + caching + ", Batch: " + batch +
                 ", Small: " + small + ", Results: " + count +
                 ", RPCs: " + metrics.countOfRPCcalls);
+
+        scanner.close();
     }
 
     public static void main(String[] args) throws IOException {
