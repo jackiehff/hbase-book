@@ -12,7 +12,6 @@ import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.regionserver.HRegion;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import java.io.IOException;
 import java.util.List;
 
 // cc RegionObserverWithCompleteExample Example region observer checking for special get requests and bypassing all further processing
@@ -21,7 +20,7 @@ public class RegionObserverWithCompleteExample extends BaseRegionObserver {
     public static final byte[] FIXED_ROW = Bytes.toBytes("@@@GETTIME@@@");
 
     @Override
-    public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results)  {
+    public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results) {
         LOG.debug("Got preGet for row: " + Bytes.toStringBinary(get.getRow()));
         // vv RegionObserverWithCompleteExample
         if (Bytes.equals(get.getRow(), FIXED_ROW)) {
