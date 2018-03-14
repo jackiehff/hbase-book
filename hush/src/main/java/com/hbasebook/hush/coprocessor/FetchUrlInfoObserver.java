@@ -10,20 +10,20 @@ import java.io.IOException;
  * asynchronously fetches some into about it.
  */
 public class FetchUrlInfoObserver extends BaseRegionObserver
-  implements RegionObserver, FetchUrlInfoProtocol {
+        implements RegionObserver, FetchUrlInfoProtocol {
 
 
-  @Override
-  public void processQueue() {
-  }
+    @Override
+    public void processQueue() {
+    }
 
-  @Override
-  public void updateUrl(String url) throws IOException {
-  }
+    @Override
+    public void updateUrl(String url) throws IOException {
+    }
 
-  @Override
-  public void updateUrlMD5(String urlMD5) throws IOException {
-  }
+    @Override
+    public void updateUrlMD5(String urlMD5) throws IOException {
+    }
 
 //  @Override
 //  public long getProtocolVersion(String s, long l) throws IOException {

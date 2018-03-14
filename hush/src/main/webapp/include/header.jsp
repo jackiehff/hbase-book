@@ -1,6 +1,6 @@
 <%@ page import="java.security.Principal" %>
 <%
-  Principal principal = request.getUserPrincipal();
+    Principal principal = request.getUserPrincipal();
 %>
 <div id="header">
   <span>

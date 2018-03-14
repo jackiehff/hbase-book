@@ -9,8 +9,9 @@ import java.io.IOException;
  */
 public interface FetchUrlInfoProtocol { //extends CoprocessorProtocol {
 
-  void processQueue();
+    void processQueue();
 
-  void updateUrl(String url) throws IOException;
-  void updateUrlMD5(String urlMD5) throws IOException;
+    void updateUrl(String url) throws IOException;
+
+    void updateUrlMD5(String urlMD5) throws IOException;
 }

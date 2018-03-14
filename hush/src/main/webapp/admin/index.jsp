@@ -1,4 +1,4 @@
 <%
-  response.sendRedirect("/admin/domains.jsp");
-  return ;
+    response.sendRedirect("/admin/domains.jsp");
+    return;
 %>
