@@ -82,6 +82,7 @@ public class HTraceExample {
 
         //conf.set("hbase.htrace.sampler", "ProbabilitySampler");
         //conf.set("hbase.htrace.sampler.fraction", "0.5");
+
         conf.set("hbase.htrace.sampler", "CountSampler");
         conf.set("hbase.htrace.sampler.frequency", "5");
 

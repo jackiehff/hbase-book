@@ -34,13 +34,12 @@
 
     <properties>
         <jdkLevel>1.8</jdkLevel>
-        <requiredMavenVersion>[2.1,)</requiredMavenVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
         <hadoop.version>3.0.0</hadoop.version>
-        <hbase.version>1.4.1</hbase.version>
-        <pig.version>0.17.0</pig.version>
+        <hbase.version>1.4.2</hbase.version>
+        <m.version>0.17.0</m.version>
         <zookeeper.version>3.4.11</zookeeper.version>
         <libthrift.version>0.11.0</libthrift.version>
     </properties>

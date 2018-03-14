@@ -56,7 +56,7 @@ public class ObserverStatisticsEndpoint
     /*...*/
     // ^^ ObserverStatisticsEndpoint
     @Override
-    public void stop(CoprocessorEnvironment env) throws IOException {
+    public void stop(CoprocessorEnvironment env) {
         // nothing to do when coprocessor is shutting down
     }
 
