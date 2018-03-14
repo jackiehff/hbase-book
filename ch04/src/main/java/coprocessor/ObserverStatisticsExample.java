@@ -1,37 +1,23 @@
 package coprocessor;
 
+import coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair;
+import coprocessor.generated.ObserverStatisticsProtos.ObserverStatisticsService;
+import coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest;
+import coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
+import org.apache.hadoop.hbase.util.Bytes;
+import util.HBaseHelper;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import coprocessor.generated.ObserverStatisticsProtos;
-import coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Append;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.Increment;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Row;
-import org.apache.hadoop.hbase.client.RowMutations;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.client.Table;
-import org.apache.hadoop.hbase.client.coprocessor.Batch;
-import org.apache.hadoop.hbase.filter.CompareFilter;
-import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
-import org.apache.hadoop.hbase.util.Bytes;
-
-import util.HBaseHelper;
-
-import static coprocessor.generated.ObserverStatisticsProtos.*;
 
 // cc ObserverStatisticsExample Use an endpoint to query observer statistics
 public class ObserverStatisticsExample {
@@ -117,8 +103,8 @@ public class ObserverStatisticsExample {
 
             System.out.println("Scan single row...");
             Scan scan = new Scan()
-                    .setStartRow(Bytes.toBytes("row10"))
-                    .setStopRow(Bytes.toBytes("row11"));
+                    .withStartRow(Bytes.toBytes("row10"))
+                    .withStopRow(Bytes.toBytes("row11"));
             ResultScanner scanner = table.getScanner(scan);
             System.out.println("  -> after getScanner()...");
             printStatistics(true, true);
@@ -169,8 +155,7 @@ public class ObserverStatisticsExample {
             printStatistics(true, true);
 
             System.out.println("Apply single incrementColumnValue...");
-            table.incrementColumnValue(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual12"), 1);
+            table.incrementColumnValue(Bytes.toBytes("row10"), Bytes.toBytes("colfam1"), Bytes.toBytes("qual12"), 1);
             printStatistics(true, true);
 
             System.out.println("Call single exists()...");
@@ -179,22 +164,19 @@ public class ObserverStatisticsExample {
 
             System.out.println("Apply single delete...");
             Delete delete = new Delete(Bytes.toBytes("row10"));
-            delete.addColumn(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual10"));
+            delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"));
             table.delete(delete);
             printStatistics(true, true);
 
             System.out.println("Apply single append...");
             Append append = new Append(Bytes.toBytes("row10"));
-            append.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"),
-                    Bytes.toBytes("-valnew"));
+            append.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), Bytes.toBytes("-valnew"));
             table.append(append);
             printStatistics(true, true);
 
             System.out.println("Apply checkAndPut (failing)...");
             put = new Put(Bytes.toBytes("row10"));
-            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"),
-                    Bytes.toBytes("val17"));
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"), Bytes.toBytes("val17"));
             boolean cap = table.checkAndPut(Bytes.toBytes("row10"),
                     Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), null, put);
             System.out.println("  -> success: " + cap);
@@ -223,8 +205,7 @@ public class ObserverStatisticsExample {
             System.out.println("Apply checkAndMutate (failing)...");
             mutations = new RowMutations(Bytes.toBytes("row10"));
             put = new Put(Bytes.toBytes("row10"));
-            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual20"),
-                    Bytes.toBytes("val20"));
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual20"), Bytes.toBytes("val20"));
             delete = new Delete(Bytes.toBytes("row10"));
             delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"));
             mutations.add(put);

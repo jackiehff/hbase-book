@@ -30,7 +30,7 @@ public class InclusiveStopFilterExample {
         Filter filter = new InclusiveStopFilter(Bytes.toBytes("row-5"));
 
         Scan scan = new Scan();
-        scan.setStartRow(Bytes.toBytes("row-3"));
+        scan.withStartRow(Bytes.toBytes("row-3"));
         scan.setFilter(filter);
         ResultScanner scanner = table.getScanner(scan);
         // ^^ InclusiveStopFilterExample

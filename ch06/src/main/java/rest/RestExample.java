@@ -41,8 +41,8 @@ public class RestExample {
         System.out.println("Get result1: " + result1);
 
         Scan scan = new Scan();
-        scan.setStartRow(Bytes.toBytes("row-10"));
-        scan.setStopRow(Bytes.toBytes("row-15"));
+        scan.withStartRow(Bytes.toBytes("row-10"));
+        scan.withStopRow(Bytes.toBytes("row-15"));
         scan.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-5"));
         ResultScanner scanner = table.getScanner(scan); // co RestExample-5-Scan Scan the table, again, the same approach as if using the native Java API.
 

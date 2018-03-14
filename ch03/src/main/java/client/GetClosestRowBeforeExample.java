@@ -31,10 +31,9 @@ public class GetClosestRowBeforeExample {
     Connection connection = ConnectionFactory.createConnection(conf);
     Table table = connection.getTable(TableName.valueOf("testtable"));
 
-    List<Put> puts = new ArrayList<Put>();
+    List<Put> puts = new ArrayList<>();
     Put put1 = new Put(Bytes.toBytes("row1"));
-    put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-      Bytes.toBytes("val1"));
+    put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
     puts.add(put1);
     Put put2 = new Put(Bytes.toBytes("row2"));
     put2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),

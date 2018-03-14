@@ -43,7 +43,7 @@ public class PageFilterExample {
                 byte[] startRow = Bytes.add(lastRow, POSTFIX);
                 System.out.println("start row: " +
                         Bytes.toStringBinary(startRow));
-                scan.setStartRow(startRow);
+                scan.withStartRow(startRow);
             }
             ResultScanner scanner = table.getScanner(scan);
             int localRows = 0;

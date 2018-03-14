@@ -53,8 +53,8 @@ public class ScanExample {
         Scan scan3 = new Scan();
         scan3.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-5")).
                 addColumn(Bytes.toBytes("colfam2"), Bytes.toBytes("col-33")). // co ScanExample-6-Build Use fluent pattern to add specific details to the Scan.
-                setStartRow(Bytes.toBytes("row-10")).
-                setStopRow(Bytes.toBytes("row-20"));
+                withStartRow(Bytes.toBytes("row-10")).
+                withStopRow(Bytes.toBytes("row-20"));
         ResultScanner scanner3 = table.getScanner(scan3);
         for (Result res : scanner3) {
             System.out.println(res);
@@ -66,8 +66,8 @@ public class ScanExample {
         // vv ScanExample
         Scan scan4 = new Scan();
         scan4.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-5")). // co ScanExample-7-Build Only select one column.
-                setStartRow(Bytes.toBytes("row-10")).
-                setStopRow(Bytes.toBytes("row-20"));
+                withStartRow(Bytes.toBytes("row-10")).
+                withStopRow(Bytes.toBytes("row-20"));
         ResultScanner scanner4 = table.getScanner(scan4);
         for (Result res : scanner4) {
             System.out.println(res);
@@ -82,8 +82,8 @@ public class ScanExample {
         // When using padding above, use "col-005", and "row-020", "row-010".
         // vv ScanExample
         scan5.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-5")).
-                setStartRow(Bytes.toBytes("row-20")).
-                setStopRow(Bytes.toBytes("row-10")).
+                withStartRow(Bytes.toBytes("row-20")).
+                withStopRow(Bytes.toBytes("row-10")).
                 setReversed(true); // co ScanExample-8-Build One column scan that runs in reverse.
         ResultScanner scanner5 = table.getScanner(scan5);
         for (Result res : scanner5) {

@@ -39,7 +39,7 @@ public class GetListExample {
     byte[] row1 = Bytes.toBytes("row1");
     byte[] row2 = Bytes.toBytes("row2");
 
-    List<Get> gets = new ArrayList<Get>();  // co GetListExample-2-CreateList Create a list that holds the Get instances.
+    List<Get> gets = new ArrayList<>();  // co GetListExample-2-CreateList Create a list that holds the Get instances.
 
     Get get1 = new Get(row1);
     get1.addColumn(cf1, qf1);

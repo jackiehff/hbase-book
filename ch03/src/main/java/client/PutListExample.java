@@ -29,7 +29,7 @@ public class PutListExample {
     Table table = connection.getTable(TableName.valueOf("testtable"));
 
     // vv PutListExample
-    List<Put> puts = new ArrayList<Put>(); // co PutListExample-1-CreateList Create a list that holds the Put instances.
+    List<Put> puts = new ArrayList<>(); // co PutListExample-1-CreateList Create a list that holds the Put instances.
 
     Put put1 = new Put(Bytes.toBytes("row1"));
     put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),

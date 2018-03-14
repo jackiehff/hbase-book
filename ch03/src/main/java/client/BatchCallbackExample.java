@@ -23,7 +23,7 @@ public class BatchCallbackExample {
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
     private final static byte[] QUAL2 = Bytes.toBytes("qual2");
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);
@@ -42,7 +42,7 @@ public class BatchCallbackExample {
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
         // vv BatchCallbackExample
-        List<Row> batch = new ArrayList<Row>(); // co BatchCallbackExample-1-CreateList Create a list to hold all values.
+        List<Row> batch = new ArrayList<>(); // co BatchCallbackExample-1-CreateList Create a list to hold all values.
 
         Put put = new Put(ROW2);
         put.addColumn(COLFAM2, QUAL1, 4, Bytes.toBytes("val5")); // co BatchCallbackExample-2-AddPut Add a Put instance.

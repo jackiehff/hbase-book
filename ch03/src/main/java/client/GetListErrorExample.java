@@ -37,7 +37,7 @@ public class GetListErrorExample {
     byte[] row2 = Bytes.toBytes("row2");
 
     // vv GetListErrorExample
-    List<Get> gets = new ArrayList<Get>();
+    List<Get> gets = new ArrayList<>();
 
     Get get1 = new Get(row1);
     get1.addColumn(cf1, qf1);

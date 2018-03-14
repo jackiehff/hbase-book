@@ -49,7 +49,7 @@ public class DeleteListExample {
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
         // vv DeleteListExample
-        List<Delete> deletes = new ArrayList<Delete>(); // co DeleteListExample-1-CreateList Create a list that holds the Delete instances.
+        List<Delete> deletes = new ArrayList<>(); // co DeleteListExample-1-CreateList Create a list that holds the Delete instances.
 
         Delete delete1 = new Delete(Bytes.toBytes("row1"));
         delete1.setTimestamp(4); // co DeleteListExample-2-SetTS Set timestamp for row deletes.

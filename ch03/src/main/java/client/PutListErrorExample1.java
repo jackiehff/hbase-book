@@ -28,7 +28,7 @@ public class PutListErrorExample1 {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        List<Put> puts = new ArrayList<Put>();
+        List<Put> puts = new ArrayList<>();
 
         // vv PutListErrorExample1
         Put put1 = new Put(Bytes.toBytes("row1"));
