@@ -38,7 +38,7 @@ public class GetMaxResultsRowOffsetExample2 {
 
         Get get0 = new Get(Bytes.toBytes("row1"));
         get0.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual0001"));
-        get0.setMaxVersions(); // co GetMaxResultsRowOffsetExample2-2-Get0 Get a column with all versions as a test.
+        get0.readAllVersions(); // co GetMaxResultsRowOffsetExample2-2-Get0 Get a column with all versions as a test.
         Result result0 = table.get(get0);
         CellScanner scanner0 = result0.cellScanner();
         while (scanner0.advance()) {

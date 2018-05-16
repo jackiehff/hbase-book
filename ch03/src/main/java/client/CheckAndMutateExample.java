@@ -3,10 +3,10 @@ package client;
 // cc
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -56,7 +56,7 @@ public class CheckAndMutateExample {
 
         boolean res1 = table.checkAndMutate(Bytes.toBytes("row1"),
                 Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"),
-                CompareFilter.CompareOp.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-1-Check1 Check if the column contains a value that is less than "val1". Here we receive "false" as the value is equal, but not lesser.
+                CompareOperator.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-1-Check1 Check if the column contains a value that is less than "val1". Here we receive "false" as the value is equal, but not lesser.
         System.out.println("Mutate 1 successful: " + res1);
 
         Put put2 = new Put(Bytes.toBytes("row1"));
@@ -66,7 +66,7 @@ public class CheckAndMutateExample {
 
         boolean res2 = table.checkAndMutate(Bytes.toBytes("row1"),
                 Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"),
-                CompareFilter.CompareOp.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-3-Check2 Now "val1" is less than "val2" (binary comparison) and we expect "true" to be printed on the console.
+                CompareOperator.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-3-Check2 Now "val1" is less than "val2" (binary comparison) and we expect "true" to be printed on the console.
         System.out.println("Mutate 2 successful: " + res2);
 
         // ^^ CheckAndMutateExample

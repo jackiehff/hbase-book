@@ -37,10 +37,8 @@ public class AppendExample {
 
         // vv AppendExample
         Append append = new Append(Bytes.toBytes("row1"));
-        append.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                Bytes.toBytes("newvalue"));
-        append.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"),
-                Bytes.toBytes("anothervalue"));
+        append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("newvalue"));
+        append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("anothervalue"));
 
         table.append(append);
         // ^^ AppendExample

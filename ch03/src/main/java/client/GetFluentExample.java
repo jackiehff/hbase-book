@@ -34,8 +34,8 @@ public class GetFluentExample {
         // vv GetFluentExample
         Get get = new Get(Bytes.toBytes("row1")) // co GetFluentExample-1-Create Create a new get using the fluent interface.
                 .setId("GetFluentExample")
-                .setMaxVersions()
-                .setTimeStamp(1)
+                .readAllVersions()
+                .setTimestamp(1)
                 .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"))
                 .addFamily(Bytes.toBytes("colfam2"));
 
