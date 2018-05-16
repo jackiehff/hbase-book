@@ -11,7 +11,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
-import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.*;
 import org.apache.hadoop.hbase.filter.ByteArrayComparable;
@@ -19,12 +18,11 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
-import org.apache.hadoop.hbase.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.regionserver.*;
 import org.apache.hadoop.hbase.regionserver.compactions.CompactionRequest;
-import org.apache.hadoop.hbase.regionserver.wal.HLogKey;
-import org.apache.hadoop.hbase.regionserver.wal.WALEdit;
+import org.apache.hadoop.hbase.shaded.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.util.Pair;
+import org.apache.hadoop.hbase.wal.WALEdit;
 import org.apache.hadoop.hbase.wal.WALKey;
 
 import java.io.IOException;
@@ -545,26 +543,26 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public void preWALRestore(
             ObserverContext<? extends RegionCoprocessorEnvironment> ctx,
-            HRegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
+            RegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
 
     }
 
     @Override
     public void preWALRestore(ObserverContext<RegionCoprocessorEnvironment> ctx,
-                              HRegionInfo info, HLogKey logKey, WALEdit logEdit) throws IOException {
+                              RegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
 
     }
 
     @Override
     public void postWALRestore(
             ObserverContext<? extends RegionCoprocessorEnvironment> ctx,
-            HRegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
+            RegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
 
     }
 
     @Override
     public void postWALRestore(ObserverContext<RegionCoprocessorEnvironment> ctx,
-                               HRegionInfo info, HLogKey logKey, WALEdit logEdit) throws IOException {
+                               RegionInfo info, WALKey logKey, WALEdit logEdit) throws IOException {
 
     }
 

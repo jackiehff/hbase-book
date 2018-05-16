@@ -1,7 +1,5 @@
 package client;
 
-// cc ScanCacheBatchExample Example using caching and batch parameters for scans
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -11,6 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ScanCacheBatchExample Example using caching and batch parameters for scans
+ */
 public class ScanCacheBatchExample {
 
     private static Table table = null;

@@ -1,7 +1,5 @@
 package client;
 
-// cc BatchCallbackExample Example application using batch operations with callbacks
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -14,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BatchCallbackExample Example application using batch operations with callbacks
+ */
 public class BatchCallbackExample {
 
     private final static byte[] ROW1 = Bytes.toBytes("row1");

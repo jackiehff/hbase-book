@@ -14,7 +14,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import java.util.List;
 
-// cc RegionObserverWithCompleteExample Example region observer checking for special get requests and bypassing all further processing
+/**
+ * RegionObserverWithCompleteExample Example region observer checking for special get requests and bypassing all further processing
+ */
 public class RegionObserverWithCompleteExample extends BaseRegionObserver {
     public static final Log LOG = LogFactory.getLog(HRegion.class);
     public static final byte[] FIXED_ROW = Bytes.toBytes("@@@GETTIME@@@");

@@ -1,12 +1,13 @@
 package client;
 
-// cc FingerprintExample Shows what the fingerprint and ID of a data class comprises
-
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.net.InetAddress;
 
+/**
+ * FingerprintExample Shows what the fingerprint and ID of a data class comprises
+ */
 public class FingerprintExample {
 
     public static void main(String[] args) throws Exception {

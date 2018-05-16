@@ -18,7 +18,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 
-// cc BufferedMutatorExample Shows the use of the client side write buffer
+/**
+ * BufferedMutatorExample Shows the use of the client side write buffer
+ */
 public class BufferedMutatorExample {
 
     private static final Log LOG = LogFactory.getLog(BufferedMutatorExample.class);

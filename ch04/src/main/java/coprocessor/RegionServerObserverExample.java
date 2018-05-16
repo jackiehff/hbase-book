@@ -10,7 +10,9 @@ import org.apache.hadoop.hbase.regionserver.Region;
 
 import java.io.IOException;
 
-// cc RegionServerObserverExample Example region server observer that ...
+/**
+ * RegionServerObserverExample Example region server observer that ...
+ */
 public class RegionServerObserverExample extends BaseRegionServerObserver {
     public static final Log LOG = LogFactory.getLog(Region.class);
 

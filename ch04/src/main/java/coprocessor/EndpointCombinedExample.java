@@ -13,7 +13,9 @@ import util.HBaseHelper;
 import java.io.IOException;
 import java.util.Map;
 
-// cc EndpointCombinedExample Example extending the batch call to execute multiple endpoint calls
+/**
+ * EndpointCombinedExample Example extending the batch call to execute multiple endpoint calls
+ */
 public class EndpointCombinedExample {
 
     public static void main(String[] args) throws IOException {

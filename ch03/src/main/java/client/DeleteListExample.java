@@ -1,7 +1,5 @@
 package client;
 
-// cc DeleteListExample Example application deleting lists of data from HBase
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -16,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DeleteListExample Example application deleting lists of data from HBase
+ */
 public class DeleteListExample {
 
     public static void main(String[] args) throws IOException {

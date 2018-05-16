@@ -18,12 +18,12 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
-import org.apache.hadoop.hbase.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.regionserver.*;
 import org.apache.hadoop.hbase.regionserver.compactions.CompactionRequest;
-import org.apache.hadoop.hbase.regionserver.wal.HLogKey;
-import org.apache.hadoop.hbase.regionserver.wal.WALEdit;
+import org.apache.hadoop.hbase.regionserver.querymatcher.DeleteTracker;
+import org.apache.hadoop.hbase.shaded.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.util.Pair;
+import org.apache.hadoop.hbase.wal.WALEdit;
 import org.apache.hadoop.hbase.wal.WALKey;
 
 import java.io.IOException;
@@ -603,7 +603,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public void preWALRestore(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            HRegionInfo hRegionInfo, HLogKey hLogKey, WALEdit walEdit)
+            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit)
             throws IOException {
         addCallCount("preWALRestore2");
     }
@@ -619,7 +619,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public void postWALRestore(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            HRegionInfo hRegionInfo, HLogKey hLogKey, WALEdit walEdit)
+            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit)
             throws IOException {
         addCallCount("postWALRestore2");
     }
@@ -666,7 +666,7 @@ public class ObserverStatisticsEndpoint
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             FileSystem fileSystem, Path path,
             FSDataInputStreamWrapper fsDataInputStreamWrapper, long l,
-            CacheConfig cacheConfig, Reference reference, StoreFile.Reader reader)
+            CacheConfig cacheConfig, Reference reference, HStoreFile. reader)
             throws IOException {
         addCallCount("postStoreFileReaderOpen");
         addCallCount("- postStoreFileReaderOpen-" + path.getName());

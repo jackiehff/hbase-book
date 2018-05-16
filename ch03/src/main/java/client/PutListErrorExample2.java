@@ -1,7 +1,5 @@
 package client;
 
-// cc PutListErrorExample2 Example inserting an empty Put instance into HBase
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -16,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PutListErrorExample2 Example inserting an empty Put instance into HBase
+ */
 public class PutListErrorExample2 {
 
     public static void main(String[] args) throws IOException {

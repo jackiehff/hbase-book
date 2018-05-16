@@ -1,7 +1,5 @@
 package client;
 
-// cc CheckAndPutExample Example application using the atomic compare-and-set operations
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -14,6 +12,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * CheckAndPutExample Example application using the atomic compare-and-set operations
+ */
 public class CheckAndPutExample {
 
     public static void main(String[] args) throws IOException {

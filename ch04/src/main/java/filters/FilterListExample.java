@@ -29,7 +29,7 @@ public class FilterListExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
         // vv FilterListExample
-        List<Filter> filters = new ArrayList<Filter>();
+        List<Filter> filters = new ArrayList<>();
 
         Filter filter1 = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL,
                 new BinaryComparator(Bytes.toBytes("row-03")));

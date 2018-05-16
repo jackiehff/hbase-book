@@ -1,7 +1,5 @@
 package client;
 
-// cc DeleteListErrorExample Example deleting faulty data from HBase
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -18,6 +16,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * DeleteListErrorExample Example deleting faulty data from HBase
+ */
 public class DeleteListErrorExample {
 
     public static void main(String[] args) throws IOException {

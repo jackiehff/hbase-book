@@ -1,5 +1,5 @@
 package client;
-
+/*
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
@@ -56,4 +56,4 @@ public class CRUDExamplePreV1API {
         }
         // ^^ CRUDExamplePreV1API
     }
-}
+}*/

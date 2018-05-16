@@ -19,28 +19,15 @@
         <url>http://github.com/larsgeorge/hbase-book</url>
     </scm>
 
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>cloudera-releases</id>-->
-    <!--<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>-->
-    <!--<releases>-->
-    <!--<enabled>true</enabled>-->
-    <!--</releases>-->
-    <!--<snapshots>-->
-    <!--<enabled>true</enabled>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--</repositories>-->
-
     <properties>
         <jdkLevel>1.8</jdkLevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
-        <hadoop.version>3.0.0</hadoop.version>
-        <hbase.version>1.4.2</hbase.version>
+        <hadoop.version>3.1.0</hadoop.version>
+        <hbase.version>2.0.0</hbase.version>
         <m.version>0.17.0</m.version>
-        <zookeeper.version>3.4.11</zookeeper.version>
+        <zookeeper.version>3.4.12</zookeeper.version>
         <libthrift.version>0.11.0</libthrift.version>
     </properties>
 
@@ -968,7 +955,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.22.Final</version>
+            <version>4.1.25.Final</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -980,7 +967,7 @@
             <artifactId>guava</artifactId>
             <!-- Need to set Guava to 15.0 since Hadoop dependencies break
             with newer version. -->
-            <version>24.0-jre</version>
+            <version>25.0-jre</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

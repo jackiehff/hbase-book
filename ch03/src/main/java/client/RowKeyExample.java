@@ -1,13 +1,14 @@
 package client;
 
-// cc RowKeyExample Example row key usage from existing array
-
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+/**
+ * RowKeyExample Example row key usage from existing array
+ */
 public class RowKeyExample {
 
     public static void main(String[] args) {

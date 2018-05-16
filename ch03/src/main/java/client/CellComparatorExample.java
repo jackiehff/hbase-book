@@ -14,7 +14,6 @@ import java.util.Collections;
 public class CellComparatorExample {
 
     public static void main(String[] args) throws Exception {
-        // vv CellComparatorExample
         Put put1 = new Put(Bytes.toBytes("row-1"));
         put1.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-1"),
                 Bytes.toBytes("val-1"));
@@ -28,7 +27,8 @@ public class CellComparatorExample {
         put4.addColumn(Bytes.toBytes("fam-2"), Bytes.toBytes("qual-2"),
                 Bytes.toBytes("val-2"));
 
-        CellComparator comparator = new CellComparator.RowComparator();
+        // TODO CellComparator comparator = new CellComparator.RowComparator();
+        CellComparator comparator = CellComparator.getInstance();
         ArrayList<Cell> cells = new ArrayList<>();
 
         Put[] puts = {put1, put2, put3, put4};
@@ -48,10 +48,9 @@ public class CellComparatorExample {
         }
 
         System.out.println("Sorting...");
-        Collections.sort(cells, comparator);
+        cells.sort(comparator);
         for (Cell cell : cells) {
             System.out.println("Cell: " + cell);
         }
-        // ^^ CellComparatorExample
     }
 }

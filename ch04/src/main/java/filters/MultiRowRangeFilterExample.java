@@ -34,7 +34,7 @@ public class MultiRowRangeFilterExample {
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
         // vv MultiRowRangeFilterExample
-        List<RowRange> ranges = new ArrayList<RowRange>();
+        List<RowRange> ranges = new ArrayList<>();
         ranges.add(new RowRange(Bytes.toBytes("row-010"), true,
                 Bytes.toBytes("row-020"), false));
         ranges.add(new RowRange(Bytes.toBytes("row-050"), true,

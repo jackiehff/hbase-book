@@ -30,8 +30,8 @@ public class FuzzyRowFilterExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
         // vv FuzzyRowFilterExample
-        List<Pair<byte[], byte[]>> keys = new ArrayList<Pair<byte[], byte[]>>();
-        keys.add(new Pair<byte[], byte[]>(
+        List<Pair<byte[], byte[]>> keys = new ArrayList<>();
+        keys.add(new Pair<>(
                 Bytes.toBytes("row-?5"), new byte[]{0, 0, 0, 0, 1, 0}));
         Filter filter = new FuzzyRowFilter(keys);
 

@@ -19,7 +19,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-// cc ObserverStatisticsExample Use an endpoint to query observer statistics
+/**
+ * ObserverStatisticsExample Use an endpoint to query observer statistics
+ */
 public class ObserverStatisticsExample {
 
     // vv ObserverStatisticsExample

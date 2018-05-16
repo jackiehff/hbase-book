@@ -1,6 +1,5 @@
 package client;
 
-// cc GetListErrorExample Example trying to read an erroneous column family
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import util.HBaseHelper;
 
+/**
+ * GetListErrorExample Example trying to read an erroneous column family
+ */
 public class GetListErrorExample {
 
   public static void main(String[] args) throws IOException {

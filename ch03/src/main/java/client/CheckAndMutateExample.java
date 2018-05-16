@@ -1,6 +1,6 @@
 package client;
 
-// cc CheckAndMutateExample Example using the atomic check-and-mutate operations
+// cc
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -14,6 +14,9 @@ import java.io.IOException;
 
 //import org.apache.hadoop.hbase.filter.BinaryComparator;
 
+/**
+ * CheckAndMutateExample Example using the atomic check-and-mutate operations
+ */
 public class CheckAndMutateExample {
 
     public static void main(String[] args) throws IOException {

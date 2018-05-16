@@ -1,7 +1,5 @@
 package client;
 
-// cc BatchExample Example application using batch operations
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -13,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BatchExample Example application using batch operations
+ */
 public class BatchExample {
 
     private final static byte[] ROW1 = Bytes.toBytes("row1");

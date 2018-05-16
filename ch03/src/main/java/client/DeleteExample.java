@@ -1,7 +1,5 @@
 package client;
 
-// cc DeleteExample Example application deleting data from HBase
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -14,6 +12,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * DeleteExample Example application deleting data from HBase
+ */
 public class DeleteExample {
 
     public static void main(String[] args) throws IOException {

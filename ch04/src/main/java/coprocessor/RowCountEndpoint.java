@@ -14,15 +14,16 @@ import org.apache.hadoop.hbase.coprocessor.CoprocessorService;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
-import org.apache.hadoop.hbase.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.regionserver.InternalScanner;
+import org.apache.hadoop.hbase.shaded.protobuf.ResponseConverter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// cc RowCountEndpoint Example endpoint implementation, adding a row and cell count method.
-// vv RowCountEndpoint
+/**
+ * RowCountEndpoint Example endpoint implementation, adding a row and cell count method.
+ */
 public class RowCountEndpoint extends RowCounterProtos.RowCountService
         implements Coprocessor, CoprocessorService {
 
@@ -90,25 +91,25 @@ public class RowCountEndpoint extends RowCounterProtos.RowCountService
             throws IOException {
         long count = 0;
         Scan scan = new Scan();
-        scan.setMaxVersions(1);
+        scan.readVersions(1);
         if (filter != null) {
             scan.setFilter(filter);
         }
-        try (
-                InternalScanner scanner = env.getRegion().getScanner(scan);
-        ) {
-            List<Cell> results = new ArrayList<Cell>();
-            boolean hasMore = false;
+        try (InternalScanner scanner = env.getRegion().getScanner(scan)) {
+            List<Cell> results = new ArrayList<>();
+            boolean hasMore;
             byte[] lastRow = null;
             do {
                 hasMore = scanner.next(results);
                 for (Cell cell : results) {
                     if (!countCells) {
-                        if (lastRow == null || !CellUtil.matchingRow(cell, lastRow)) {
+                        if (lastRow == null || !CellUtil.matchingRows(cell, lastRow)) {
                             lastRow = CellUtil.cloneRow(cell);
                             count++;
                         }
-                    } else count++;
+                    } else {
+                        count++;
+                    }
                 }
                 results.clear();
             } while (hasMore);
@@ -116,4 +117,3 @@ public class RowCountEndpoint extends RowCounterProtos.RowCountService
         return count;
     }
 }
-// ^^ RowCountEndpoint

@@ -1,48 +1,46 @@
 package coprocessor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
-import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.ServerName;
+import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.coprocessor.BaseMasterObserver;
 import org.apache.hadoop.hbase.coprocessor.MasterCoprocessorEnvironment;
 import org.apache.hadoop.hbase.master.AssignmentListener;
-import org.apache.hadoop.hbase.regionserver.HRegion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Random;
 
-// cc DelayingMasterObserver Special master observer that delays region asignments
-// vv DelayingMasterObserver
-public class DelayingMasterObserver extends BaseMasterObserver
-        implements AssignmentListener {
-    public static final Log LOG = LogFactory.getLog(HRegion.class);
+/**
+ * DelayingMasterObserver Special master observer that delays region asignments
+ */
+public class DelayingMasterObserver extends BaseMasterObserver implements AssignmentListener {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(DelayingMasterObserver.class);
 
     private Random rnd = new Random();
 
     @Override
-    public void regionOpened(HRegionInfo hRegionInfo, ServerName serverName) {
+    public void regionOpened(RegionInfo regionInfo, ServerName serverName) {
         try {
-            if (hRegionInfo.getTable().getQualifierAsString().equals("testtable")) {
+            if (regionInfo.getTable().getQualifierAsString().equals("testtable")) {
                 long delay = rnd.nextInt(3);
-                LOG.info("@@@ Delaying region " +
-                        hRegionInfo.getRegionNameAsString() +
+                LOGGER.info("@@@ Delaying region " + regionInfo.getRegionNameAsString() +
                         " for " + delay + " seconds...");
                 Thread.sleep(delay * 1000);
             }
         } catch (InterruptedException ie) {
-            LOG.error(ie);
+            LOGGER.error(ie.getMessage());
         }
     }
 
     @Override
-    public void regionClosed(HRegionInfo hRegionInfo) {
+    public void regionClosed(RegionInfo hRegionInfo) {
 
     }
 
     @Override
-    public void start(CoprocessorEnvironment ctx) throws IOException {
+    public void start(CoprocessorEnvironment ctx) {
         MasterCoprocessorEnvironment env = (MasterCoprocessorEnvironment) ctx;
         env.getMasterServices().getAssignmentManager().registerListener(this);
     }

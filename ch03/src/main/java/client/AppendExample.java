@@ -1,7 +1,5 @@
 package client;
 
-// cc AppendExample Example application appending data to a column in  HBase
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -14,6 +12,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * AppendExample Example application appending data to a column in  HBase
+ */
 public class AppendExample {
 
     public static void main(String[] args) throws IOException {

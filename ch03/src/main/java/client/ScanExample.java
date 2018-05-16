@@ -1,7 +1,5 @@
 package client;
 
-// cc ScanExample Example using a scanner to access data in a table
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -11,6 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ScanExample Example using a scanner to access data in a table
+ */
 public class ScanExample {
 
     public static void main(String[] args) throws IOException {

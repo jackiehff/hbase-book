@@ -1,7 +1,5 @@
 package client;
 
-// cc CRUDExample Example application using all of the basic access methods (v1.0 and later)
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -11,6 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * CRUDExample Example application using all of the basic access methods (v1.0 and later)
+ */
 public class CRUDExample {
 
     public static void main(String[] args) throws IOException {
@@ -37,8 +38,9 @@ public class CRUDExample {
             Scan scan = new Scan();
             ResultScanner scanner = table.getScanner(scan);
             for (Result result2 : scanner) {
-                while (result2.advance())
+                while (result2.advance()) {
                     System.out.println("Cell: " + result2.current());
+                }
             }
 
             Get get = new Get(Bytes.toBytes("row1"));

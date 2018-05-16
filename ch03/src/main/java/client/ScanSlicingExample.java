@@ -1,7 +1,5 @@
 package client;
 
-// cc ScanSlicingExample Example using offset and limit parameters for scans
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -11,11 +9,13 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ScanSlicingExample Example using offset and limit parameters for scans
+ */
 public class ScanSlicingExample {
 
     private static Table table = null;
 
-    // vv ScanSlicingExample
     private static void scan(int num, int caching, int batch, int offset,
                              int maxResults, int maxResultSize, boolean dump) throws IOException {
         int count = 0;
@@ -30,14 +30,16 @@ public class ScanSlicingExample {
         System.out.println("Scan #" + num + " running...");
         for (Result result : scanner) {
             count++;
-            if (dump) System.out.println("Result [" + count + "]:" + result);
+            if (dump) {
+                System.out.println("Result [" + count + "]:" + result);
+            }
         }
-        scanner.close();
-        ScanMetrics metrics = scan.getScanMetrics();
+        ScanMetrics metrics = scanner.getScanMetrics();
         System.out.println("Caching: " + caching + ", Batch: " + batch +
                 ", Offset: " + offset + ", maxResults: " + maxResults +
                 ", maxSize: " + maxResultSize + ", Results: " + count +
                 ", RPCs: " + metrics.countOfRPCcalls);
+        scanner.close();
     }
 
     public static void main(String[] args) throws IOException {

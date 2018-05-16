@@ -1,7 +1,10 @@
 package util;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.NamespaceDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -28,6 +31,10 @@ public class HBaseHelper implements Closeable {
 
     public static HBaseHelper getHelper(Configuration configuration) throws IOException {
         return new HBaseHelper(configuration);
+    }
+
+    public static HBaseHelper getHelper() throws IOException {
+        return new HBaseHelper(HBaseConfiguration.create());
     }
 
     @Override
@@ -100,9 +107,9 @@ public class HBaseHelper implements Closeable {
     }
 
     public void createTable(TableName table, int maxVersions, byte[][] splitKeys, String... colfams) throws IOException {
-        HTableDescriptor desc = new HTableDescriptor(table);
+        TableDescriptor desc = TableDescriptorBuilder.newBuilder(table).build();
         for (String cf : colfams) {
-            HColumnDescriptor coldef = new HColumnDescriptor(cf);
+            ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor coldef = (ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor) ColumnFamilyDescriptorBuilder.newBuilder(cf.getBytes()).build();
             coldef.setMaxVersions(maxVersions);
             desc.addFamily(coldef);
         }
@@ -318,7 +325,7 @@ public class HBaseHelper implements Closeable {
         List<Get> gets = new ArrayList<>();
         for (String row : rows) {
             Get get = new Get(Bytes.toBytes(row));
-            get.setMaxVersions();
+            get.readAllVersions();
             if (fams != null) {
                 for (String fam : fams) {
                     for (String qual : quals) {
