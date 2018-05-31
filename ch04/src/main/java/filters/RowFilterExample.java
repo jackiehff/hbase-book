@@ -39,7 +39,7 @@ public class RowFilterExample {
     Scan scan = new Scan();
     scan.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"));
 
-    Filter filter1 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, // co RowFilterExample-1-Filter1 Create filter, while specifying the comparison operator and comparator. Here an exact match is needed.
+    Filter filter1 = new RowFilter(CompareOperator.LESS_OR_EQUAL, // co RowFilterExample-1-Filter1 Create filter, while specifying the comparison operator and comparator. Here an exact match is needed.
       new BinaryComparator(Bytes.toBytes("row-22")));
     scan.setFilter(filter1);
     ResultScanner scanner1 = table.getScanner(scan);
@@ -51,7 +51,7 @@ public class RowFilterExample {
     }
     scanner1.close();
 
-    Filter filter2 = new RowFilter(CompareFilter.CompareOp.EQUAL, // co RowFilterExample-2-Filter2 Another filter, this time using a regular expression to match the row keys.
+    Filter filter2 = new RowFilter(CompareOperator.EQUAL, // co RowFilterExample-2-Filter2 Another filter, this time using a regular expression to match the row keys.
       new RegexStringComparator(".*-.5"));
     scan.setFilter(filter2);
     ResultScanner scanner2 = table.getScanner(scan);
@@ -63,7 +63,7 @@ public class RowFilterExample {
     }
     scanner2.close();
 
-    Filter filter3 = new RowFilter(CompareFilter.CompareOp.EQUAL, // co RowFilterExample-3-Filter3 The third filter uses a substring match approach.
+    Filter filter3 = new RowFilter(CompareOperator.EQUAL, // co RowFilterExample-3-Filter3 The third filter uses a substring match approach.
       new SubstringComparator("-5"));
     scan.setFilter(filter3);
     ResultScanner scanner3 = table.getScanner(scan);

@@ -55,7 +55,7 @@ public class ScanConsistencyExample2 {
             e.printStackTrace();
         }
         admin.split(tableName, Bytes.toBytes("row-3")); // co ScanConsistencyExample2-2-Split Split the table and wait until split operation has completed.
-        while (admin.getTableRegions(tableName).size() == 1) {
+        while (admin.getRegions(tableName).size() == 1) {
         }
 
         // ^^ ScanConsistencyExample2

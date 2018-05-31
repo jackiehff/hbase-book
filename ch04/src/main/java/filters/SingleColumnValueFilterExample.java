@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
@@ -38,7 +39,7 @@ public class SingleColumnValueFilterExample {
     SingleColumnValueFilter filter = new SingleColumnValueFilter(
       Bytes.toBytes("colfam1"),
       Bytes.toBytes("col-5"),
-      CompareFilter.CompareOp.NOT_EQUAL,
+      CompareOperator.NOT_EQUAL,
       new SubstringComparator("val-5"));
     filter.setFilterIfMissing(true);
 

@@ -31,7 +31,7 @@ public class LoadWithTableDescriptorExample {
         Admin admin = connection.getAdmin(); // co LoadWithTableDescriptorExample-3-Admin Acquire an administrative API to the cluster and add the table.
         admin.createTable(htd);
 
-        System.out.println(admin.getTableDescriptor(tableName)); // co LoadWithTableDescriptorExample-4-Check Verify if the definition has been applied as expected.
+        System.out.println(admin.getDescriptor(tableName)); // co LoadWithTableDescriptorExample-4-Check Verify if the definition has been applied as expected.
         admin.close();
         connection.close();
     }

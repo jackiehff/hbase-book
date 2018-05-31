@@ -50,12 +50,9 @@ public class UserManager {
         Table table = rm.getTable(UserTable.NAME);
         try {
             Put put = new Put(ADMIN_LOGIN);
-            put.addColumn(UserTable.DATA_FAMILY, UserTable.CREDENTIALS,
-                    ADMIN_PASSWORD);
-            put.addColumn(UserTable.DATA_FAMILY, UserTable.ROLES,
-                    UserTable.ADMIN_ROLES);
-            boolean hasPut = table.checkAndPut(ADMIN_LOGIN,
-                    UserTable.DATA_FAMILY, UserTable.ROLES, null, put);
+            put.addColumn(UserTable.DATA_FAMILY, UserTable.CREDENTIALS, ADMIN_PASSWORD);
+            put.addColumn(UserTable.DATA_FAMILY, UserTable.ROLES, UserTable.ADMIN_ROLES);
+            boolean hasPut = table.checkAndMutate(ADMIN_LOGIN, UserTable.DATA_FAMILY).qualifier(UserTable.ROLES).ifNotExists().thenPut(put);
             if (hasPut) {
                 LOG.info("Admin user initialized.");
             }
@@ -78,8 +75,8 @@ public class UserManager {
             Put put = new Put(HushTable.GLOBAL_ROW_KEY);
             put.addColumn(HushTable.COUNTERS_FAMILY, HushTable.ANONYMOUS_USER_ID,
                     Bytes.toBytes(HushUtil.hushDecode("0")));
-            boolean hasPut = table.checkAndPut(HushTable.GLOBAL_ROW_KEY,
-                    HushTable.COUNTERS_FAMILY, HushTable.SHORT_ID, null, put);
+            boolean hasPut = table.checkAndMutate(HushTable.GLOBAL_ROW_KEY, HushTable.COUNTERS_FAMILY)
+                    .qualifier(HushTable.SHORT_ID).ifNotExists().thenPut(put);
             if (hasPut) {
                 LOG.info("Anonymous User Id counter initialized.");
             }
@@ -230,9 +227,10 @@ public class UserManager {
         Put put = new Put(Bytes.toBytes(username));
         put.addColumn(UserTable.DATA_FAMILY, UserTable.CREDENTIALS,
                 Bytes.toBytes(newPassword));
-        boolean check = table.checkAndPut(Bytes.toBytes(username),
-                UserTable.DATA_FAMILY, UserTable.CREDENTIALS,
-                Bytes.toBytes(oldPassword), put);
+        boolean check = table.checkAndMutate(Bytes.toBytes(username), UserTable.DATA_FAMILY)
+                .qualifier(UserTable.CREDENTIALS)
+                .ifEquals(Bytes.toBytes(oldPassword))
+                .thenPut(put);
         rm.putTable(table);
         return check;
     }

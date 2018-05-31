@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
@@ -36,7 +37,7 @@ public class ValueFilterExample {
     Connection connection = ConnectionFactory.createConnection(conf);
     Table table = connection.getTable(TableName.valueOf("testtable"));
     // vv ValueFilterExample
-    Filter filter = new ValueFilter(CompareFilter.CompareOp.EQUAL, // co ValueFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
+    Filter filter = new ValueFilter(CompareOperator.EQUAL, // co ValueFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
       new SubstringComparator(".4"));
 
     Scan scan = new Scan();

@@ -74,7 +74,7 @@ public class DuplicateRegionObserverExample extends BaseRegionObserver {
 
         Admin admin = connection.getAdmin();
         admin.createTable(htd);
-        System.out.println(admin.getTableDescriptor(tableName));
+        System.out.println(admin.getDescriptor(tableName));
 
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 10, "colfam1");

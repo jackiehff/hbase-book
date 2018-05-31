@@ -34,7 +34,7 @@ public class ModifyTableExample {
 
         admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50); // co ModifyTableExample-1-CreateTable Create the table with the original structure and 50 regions.
 
-        HTableDescriptor htd1 = admin.getTableDescriptor(tableName); // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
+        HTableDescriptor htd1 = admin.getDescriptor(tableName); // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
         HColumnDescriptor coldef2 = new HColumnDescriptor("colfam2");
         htd1
                 .addFamily(coldef2)
@@ -67,7 +67,7 @@ public class ModifyTableExample {
 
         admin.enableTable(tableName);
 
-        HTableDescriptor htd2 = admin.getTableDescriptor(tableName);
+        HTableDescriptor htd2 = admin.getDescriptor(tableName);
         System.out.println("Equals: " + htd1.equals(htd2)); // co ModifyTableExample-6-Verify Check if the table schema matches the new one created locally.
         System.out.println("New schema: " + htd2);
         // ^^ ModifyTableExample

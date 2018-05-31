@@ -18,7 +18,7 @@ public class DependentColumnFilterExample {
     private static Table table = null;
 
     // vv DependentColumnFilterExample
-    private static void filter(boolean drop, CompareFilter.CompareOp operator, ByteArrayComparable comparator)
+    private static void filter(boolean drop, CompareOperator operator, ByteArrayComparable comparator)
             throws IOException {
         Filter filter;
         if (comparator != null) {
@@ -74,15 +74,15 @@ public class DependentColumnFilterExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         table = connection.getTable(TableName.valueOf("testtable"));
         // vv DependentColumnFilterExample
-        filter(true, CompareFilter.CompareOp.NO_OP, null);
-        filter(false, CompareFilter.CompareOp.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.
-        filter(true, CompareFilter.CompareOp.EQUAL,
+        filter(true, CompareOperator.NO_OP, null);
+        filter(false, CompareOperator.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.
+        filter(true, CompareOperator.EQUAL,
                 new BinaryPrefixComparator(Bytes.toBytes("val-5")));
-        filter(false, CompareFilter.CompareOp.EQUAL,
+        filter(false, CompareOperator.EQUAL,
                 new BinaryPrefixComparator(Bytes.toBytes("val-5")));
-        filter(true, CompareFilter.CompareOp.EQUAL,
+        filter(true, CompareOperator.EQUAL,
                 new RegexStringComparator(".*\\.5"));
-        filter(false, CompareFilter.CompareOp.EQUAL,
+        filter(false, CompareOperator.EQUAL,
                 new RegexStringComparator(".*\\.5"));
     }
     // ^^ DependentColumnFilterExample

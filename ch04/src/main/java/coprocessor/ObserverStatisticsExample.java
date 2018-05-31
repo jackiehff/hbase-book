@@ -5,10 +5,10 @@ import coprocessor.generated.ObserverStatisticsProtos.ObserverStatisticsService;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -134,25 +134,21 @@ public class ObserverStatisticsExample {
             System.out.println("Apply single put with mutateRow()...");
             RowMutations mutations = new RowMutations(Bytes.toBytes("row1"));
             put = new Put(Bytes.toBytes("row1"));
-            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"),
-                    Bytes.toBytes("val10"));
-            mutations.add(put);
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"), Bytes.toBytes("val10"));
+            mutations.add((Mutation) put);
             table.mutateRow(mutations);
             printStatistics(true, true);
 
             System.out.println("Apply single column increment...");
             Increment increment = new Increment(Bytes.toBytes("row10"));
-            increment.addColumn(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual11"), 1);
+            increment.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual11"), 1);
             table.increment(increment);
             printStatistics(true, true);
 
             System.out.println("Apply multi column increment...");
             increment = new Increment(Bytes.toBytes("row10"));
-            increment.addColumn(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual12"), 1);
-            increment.addColumn(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual13"), 1);
+            increment.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual12"), 1);
+            increment.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual13"), 1);
             table.increment(increment);
             printStatistics(true, true);
 
@@ -172,21 +168,21 @@ public class ObserverStatisticsExample {
 
             System.out.println("Apply single append...");
             Append append = new Append(Bytes.toBytes("row10"));
-            append.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), Bytes.toBytes("-valnew"));
+            append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), Bytes.toBytes("-valnew"));
             table.append(append);
             printStatistics(true, true);
 
             System.out.println("Apply checkAndPut (failing)...");
             put = new Put(Bytes.toBytes("row10"));
             put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"), Bytes.toBytes("val17"));
-            boolean cap = table.checkAndPut(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), null, put);
+            boolean cap = table.checkAndMutate(Bytes.toBytes("row10"), Bytes.toBytes("colfam1"))
+                    .qualifier(Bytes.toBytes("qual15")).ifNotExists().thenPut(put);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
 
             System.out.println("Apply checkAndPut (succeeding)...");
-            cap = table.checkAndPut(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual16"), null, put);
+            cap = table.checkAndMutate(Bytes.toBytes("row10"), Bytes.toBytes("colfam1"))
+                    .qualifier(Bytes.toBytes("qual16")).ifNotExists().thenPut(put);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
 
@@ -210,21 +206,22 @@ public class ObserverStatisticsExample {
             put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual20"), Bytes.toBytes("val20"));
             delete = new Delete(Bytes.toBytes("row10"));
             delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"));
-            mutations.add(put);
-            mutations.add(delete);
-            cap = table.checkAndMutate(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"),
-                    CompareFilter.CompareOp.GREATER, Bytes.toBytes("val10"), mutations);
+            mutations.add((Mutation) put);
+            mutations.add((Mutation) delete);
+            cap = table.checkAndMutate(Bytes.toBytes("row10"), Bytes.toBytes("colfam1"))
+                    .qualifier(Bytes.toBytes("qual10"))
+                    .ifMatches(CompareOperator.GREATER, Bytes.toBytes("val10"))
+                    .thenMutate(mutations);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
 
             System.out.println("Apply checkAndMutate (succeeding)...");
-            cap = table.checkAndMutate(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"),
-                    CompareFilter.CompareOp.EQUAL, Bytes.toBytes("val10"), mutations);
+            cap = table.checkAndMutate(Bytes.toBytes("row10"), Bytes.toBytes("colfam1"))
+                    .qualifier(Bytes.toBytes("qual10"))
+                    .ifMatches(CompareOperator.EQUAL, Bytes.toBytes("val10"))
+                    .thenMutate(mutations);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
-            // vv ObserverStatisticsExample
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

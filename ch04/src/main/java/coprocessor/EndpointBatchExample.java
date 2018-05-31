@@ -45,7 +45,7 @@ public class EndpointBatchExample {
             e.printStackTrace();
         }
         // wait for the split to be done
-        while (admin.getTableRegions(tableName).size() < 2)
+        while (admin.getRegions(tableName).size() < 2)
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

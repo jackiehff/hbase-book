@@ -35,13 +35,13 @@ public class HushMain {
      * @throws Exception When there is an issue launching the application.
      */
     public static void main(String[] args) throws Exception {
-        Log LOG = LogFactory.getLog(HushMain.class);
+        Log log = LogFactory.getLog(HushMain.class);
 
         // get HBase configuration
-        LOG.info("Initializing HBase");
+        log.info("Initializing HBase");
         Configuration conf = HBaseConfiguration.create();
         // create or update the schema
-        LOG.info("Creating/updating HBase schema");
+        log.info("Creating/updating HBase schema");
         SchemaManager schemaManager = new SchemaManager(conf, "schema.xml");
         schemaManager.process();
 
@@ -57,7 +57,7 @@ public class HushMain {
         try {
             commandLine = new PosixParser().parse(options, args);
         } catch (ParseException e) {
-            LOG.error("Could not parse command line args: ", e);
+            log.error("Could not parse command line args: ", e);
             printUsageAndExit(options, -1);
         }
 
@@ -65,13 +65,13 @@ public class HushMain {
         if (commandLine != null && commandLine.hasOption("port")) {
             String val = commandLine.getOptionValue("port");
             manager.getConfiguration().setInt("hush.port", Integer.parseInt(val));
-            LOG.debug("Port set to: " + val);
+            log.debug("Port set to: " + val);
         }
 
         // get port to bind to
         int port = ResourceManager.getHushPort();
 
-        LOG.info("Web server setup.");
+        log.info("Web server setup.");
 
         // create server and configure basic settings
         Server server = new Server(port);
@@ -86,7 +86,7 @@ public class HushMain {
         server.setHandler(wac);
 
         // configure security
-        LOG.info("Configuring security.");
+        log.info("Configuring security.");
         HBaseLoginService loginService = new HBaseLoginService("HBaseRealm");
         server.addBean(loginService);
         wac.getSecurityHandler().setLoginService(loginService);

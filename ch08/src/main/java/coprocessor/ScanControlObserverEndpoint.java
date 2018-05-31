@@ -9,12 +9,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.*;
 import org.apache.hadoop.hbase.filter.ByteArrayComparable;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
@@ -403,7 +403,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean preCheckAndPut(ObserverContext<RegionCoprocessorEnvironment> c,
                                   byte[] row, byte[] family, byte[] qualifier,
-                                  CompareFilter.CompareOp compareOp, ByteArrayComparable comparator, Put put,
+                                  CompareOperator compareOp, ByteArrayComparable comparator, Put put,
                                   boolean result) throws IOException {
         return false;
     }
@@ -411,7 +411,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean preCheckAndPutAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> c, byte[] row, byte[] family,
-            byte[] qualifier, CompareFilter.CompareOp compareOp,
+            byte[] qualifier, CompareOperator compareOp,
             ByteArrayComparable comparator, Put put, boolean result)
             throws IOException {
         return false;
@@ -420,7 +420,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean postCheckAndPut(
             ObserverContext<RegionCoprocessorEnvironment> c, byte[] row, byte[] family,
-            byte[] qualifier, CompareFilter.CompareOp compareOp,
+            byte[] qualifier, CompareOperator compareOp,
             ByteArrayComparable comparator, Put put, boolean result)
             throws IOException {
         return false;
@@ -429,7 +429,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean preCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> c, byte[] row, byte[] family,
-            byte[] qualifier, CompareFilter.CompareOp compareOp,
+            byte[] qualifier, CompareOperator compareOp,
             ByteArrayComparable comparator, Delete delete, boolean result)
             throws IOException {
         return false;
@@ -438,7 +438,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean preCheckAndDeleteAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> c, byte[] row, byte[] family,
-            byte[] qualifier, CompareFilter.CompareOp compareOp,
+            byte[] qualifier, CompareOperator compareOp,
             ByteArrayComparable comparator, Delete delete, boolean result)
             throws IOException {
         return false;
@@ -447,7 +447,7 @@ public class ScanControlObserverEndpoint extends ScanControlProtos.ScanControlSe
     @Override
     public boolean postCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> c, byte[] row, byte[] family,
-            byte[] qualifier, CompareFilter.CompareOp compareOp,
+            byte[] qualifier, CompareOperator compareOp,
             ByteArrayComparable comparator, Delete delete, boolean result)
             throws IOException {
         return false;

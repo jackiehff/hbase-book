@@ -43,8 +43,8 @@ public class MutateRowExample {
         delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"));
 
         RowMutations mutations = new RowMutations(Bytes.toBytes("row1"));
-        mutations.add(put);
-        mutations.add(delete);
+        mutations.add((Mutation) put);
+        mutations.add((Mutation) delete);
 
         table.mutateRow(mutations);
         // ^^ MutateRowExample

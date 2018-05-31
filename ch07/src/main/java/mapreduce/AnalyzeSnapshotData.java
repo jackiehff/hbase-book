@@ -53,7 +53,7 @@ public class AnalyzeSnapshotData {
     static class AnalyzeMapper extends TableMapper<Text, IntWritable> {
 
         private JSONParser parser = new JSONParser();
-        private IntWritable ONE = new IntWritable(1);
+        private IntWritable one = new IntWritable(1);
 
         /**
          * Maps the input.
@@ -76,7 +76,7 @@ public class AnalyzeSnapshotData {
                     String author = (String) json.get("author");
                     if (context.getConfiguration().get("conf.debug") != null)
                         System.out.println("Author: " + author);
-                    context.write(new Text(author), ONE);
+                    context.write(new Text(author), one);
                     context.getCounter(Counters.VALID).increment(1);
                 }
             } catch (Exception e) {

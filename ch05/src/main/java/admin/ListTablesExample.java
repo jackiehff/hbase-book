@@ -37,14 +37,14 @@ public class ListTablesExample {
             System.out.println(htd);
         }
 
-        HTableDescriptor htd1 = admin.getTableDescriptor(
+        HTableDescriptor htd1 = admin.getDescriptor(
                 TableName.valueOf("testtable1"));
         // ^^ ListTablesExample
         System.out.println("Printing testtable1...");
         // vv ListTablesExample
         System.out.println(htd1);
 
-        HTableDescriptor htd2 = admin.getTableDescriptor(
+        HTableDescriptor htd2 = admin.getDescriptor(
                 TableName.valueOf("testtable10"));
         // ^^ ListTablesExample
         System.out.println("Printing testtable10...");

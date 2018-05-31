@@ -40,7 +40,6 @@ public class CheckAndMutateExample {
         //BinaryComparator bc = new BinaryComparator(Bytes.toBytes("val1"));
         //System.out.println(bc.compareTo(Bytes.toBytes("val2")));
 
-        // vv CheckAndMutateExample
         Put put = new Put(Bytes.toBytes("row1"));
         put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
                 4, Bytes.toBytes("val99"));
@@ -51,25 +50,29 @@ public class CheckAndMutateExample {
         delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"));
 
         RowMutations mutations = new RowMutations(Bytes.toBytes("row1"));
-        mutations.add(put);
-        mutations.add(delete);
+        mutations.add((Mutation) put);
+        mutations.add((Mutation) delete);
 
-        boolean res1 = table.checkAndMutate(Bytes.toBytes("row1"),
-                Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"),
-                CompareOperator.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-1-Check1 Check if the column contains a value that is less than "val1". Here we receive "false" as the value is equal, but not lesser.
+        // Check if the column contains a value that is less than "val1". Here we receive "false" as the value is equal, but not lesser.
+        boolean res1 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
+                .qualifier(Bytes.toBytes("qual1"))
+                .ifMatches(CompareOperator.LESS, Bytes.toBytes("val1"))
+                .thenMutate(mutations);
         System.out.println("Mutate 1 successful: " + res1);
 
         Put put2 = new Put(Bytes.toBytes("row1"));
-        put2.addColumn(Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"), // co CheckAndMutateExample-2-Put1 Update the checked column to have a value greater than what we check for.
+        // Update the checked column to have a value greater than what we check for.
+        put2.addColumn(Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"),
                 4, Bytes.toBytes("val2"));
         table.put(put2);
 
-        boolean res2 = table.checkAndMutate(Bytes.toBytes("row1"),
-                Bytes.toBytes("colfam2"), Bytes.toBytes("qual1"),
-                CompareOperator.LESS, Bytes.toBytes("val1"), mutations); // co CheckAndMutateExample-3-Check2 Now "val1" is less than "val2" (binary comparison) and we expect "true" to be printed on the console.
+        // Now "val1" is less than "val2" (binary comparison) and we expect "true" to be printed on the console.
+        boolean res2 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
+                .qualifier(Bytes.toBytes("qual1"))
+                .ifMatches(CompareOperator.LESS, Bytes.toBytes("val1"))
+                .thenMutate(mutations);
         System.out.println("Mutate 2 successful: " + res2);
 
-        // ^^ CheckAndMutateExample
         System.out.println("After check and mutate calls...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
         table.close();

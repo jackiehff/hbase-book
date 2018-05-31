@@ -35,30 +35,40 @@ public class CheckAndDeleteExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv CheckAndDeleteExample
         Delete delete1 = new Delete(Bytes.toBytes("row1"));
-        delete1.addColumns(Bytes.toBytes("colfam1"), Bytes.toBytes("qual3")); // co CheckAndDeleteExample-1-Delete1 Create a new Delete instance.
+        // Create a new Delete instance.
+        delete1.addColumns(Bytes.toBytes("colfam1"), Bytes.toBytes("qual3"));
 
-        boolean res1 = table.checkAndDelete(Bytes.toBytes("row1"),
-                Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), null, delete1); // co CheckAndDeleteExample-2-CAS1 Check if column does not exist and perform optional delete operation.
-        System.out.println("Delete 1 successful: " + res1); // co CheckAndDeleteExample-3-SOUT1 Print out the result, should be "Delete successful: false".
+        // Check if column does not exist and perform optional delete operation.
+        // boolean res1 = table.checkAndDelete(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), null, delete1);
+        boolean res1 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
+                .qualifier(Bytes.toBytes("qual3")).ifNotExists().thenDelete(delete1);
+        // Print out the result, should be "Delete successful: false".
+        System.out.println("Delete 1 successful: " + res1);
 
         Delete delete2 = new Delete(Bytes.toBytes("row1"));
-        delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3")); // co CheckAndDeleteExample-4-Delete2 Delete checked column manually.
+        // Delete checked column manually.
+        delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"));
         table.delete(delete2);
 
-        boolean res2 = table.checkAndDelete(Bytes.toBytes("row1"),
-                Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), null, delete1); // co CheckAndDeleteExample-5-CAS2 Attempt to delete same cell again.
-        System.out.println("Delete 2 successful: " + res2); // co CheckAndDeleteExample-6-SOUT2 Print out the result, should be "Delete successful: true" since the checked column now is gone.
+        // co CheckAndDeleteExample-5-CAS2 Attempt to delete same cell again.
+        // boolean res2 = table.checkAndDelete(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), null, delete1);
+        boolean res2 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
+                .qualifier(Bytes.toBytes("qual3")).ifNotExists().thenDelete(delete1);
+        // Print out the result, should be "Delete successful: true" since the checked column now is gone.
+        System.out.println("Delete 2 successful: " + res2);
 
         Delete delete3 = new Delete(Bytes.toBytes("row2"));
-        delete3.addFamily(Bytes.toBytes("colfam1")); // co CheckAndDeleteExample-7-Delete3 Create yet another Delete instance, but using a different row.
+        // Create yet another Delete instance, but using a different row.
+        delete3.addFamily(Bytes.toBytes("colfam1"));
 
         try {
-            boolean res4 = table.checkAndDelete(Bytes.toBytes("row1"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), // co CheckAndDeleteExample-8-CAS4 Try to delete while checking a different row.
-                    Bytes.toBytes("val1"), delete3);
-            System.out.println("Delete 3 successful: " + res4); // co CheckAndDeleteExample-9-SOUT4 We will not get here as an exception is thrown beforehand!
+            // co CheckAndDeleteExample-8-CAS4 Try to delete while checking a different row.
+            // boolean res4 = table.checkAndDelete(Bytes.toBytes("row1"), Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"), delete3);
+            boolean res4 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam1"))
+                    .qualifier(Bytes.toBytes("qual1")).ifEquals(Bytes.toBytes("val1")).thenDelete(delete3);
+            // We will not get here as an exception is thrown beforehand!
+            System.out.println("Delete 3 successful: " + res4);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }

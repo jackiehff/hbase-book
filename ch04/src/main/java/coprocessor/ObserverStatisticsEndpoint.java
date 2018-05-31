@@ -14,7 +14,6 @@ import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.*;
 import org.apache.hadoop.hbase.filter.ByteArrayComparable;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
@@ -404,7 +403,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean preCheckAndPut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Put put, boolean b)
             throws IOException {
         addCallCount("preCheckAndPut");
@@ -414,7 +413,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean preCheckAndPutAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Put put, boolean b)
             throws IOException {
         addCallCount("preCheckAndPutAfterRowLock");
@@ -424,7 +423,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean postCheckAndPut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Put put, boolean b)
             throws IOException {
         addCallCount("postCheckAndPut");
@@ -434,7 +433,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean preCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
             throws IOException {
         addCallCount("preCheckAndDelete");
@@ -444,7 +443,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean preCheckAndDeleteAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
             throws IOException {
         addCallCount("preCheckAndDeleteAfterRowLock");
@@ -454,7 +453,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean postCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, CompareFilter.CompareOp compareOp,
+            byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
             ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
             throws IOException {
         addCallCount("postCheckAndDelete");
@@ -611,7 +610,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public void postWALRestore(
             ObserverContext<? extends RegionCoprocessorEnvironment> observerContext,
-            HRegionInfo hRegionInfo, WALKey walKey, WALEdit walEdit)
+            RegionInfo hRegionInfo, WALKey walKey, WALEdit walEdit)
             throws IOException {
         addCallCount("postWALRestore1");
     }
@@ -666,7 +665,7 @@ public class ObserverStatisticsEndpoint
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             FileSystem fileSystem, Path path,
             FSDataInputStreamWrapper fsDataInputStreamWrapper, long l,
-            CacheConfig cacheConfig, Reference reference, HStoreFile. reader)
+            CacheConfig cacheConfig, Reference reference, HStoreFile.reader)
             throws IOException {
         addCallCount("postStoreFileReaderOpen");
         addCallCount("- postStoreFileReaderOpen-" + path.getName());

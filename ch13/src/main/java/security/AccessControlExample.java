@@ -126,8 +126,9 @@ public class AccessControlExample {
         // ^^ AccessControlExample
         System.out.println("Application: Scanning table, value not visible...");
         // vv AccessControlExample
-        app1.scan(tableName, new Scan(Bytes.toBytes("row-1"), // co AccessControlExample-11-ScanColumn Scanning the table does not show the write-only column, and a direct read of the column will return empty.
-                Bytes.toBytes("row-10")));
+
+        // co AccessControlExample-11-ScanColumn Scanning the table does not show the write-only column, and a direct read of the column will return empty.
+        app1.scan(tableName, new Scan().withStartRow(Bytes.toBytes("row-1")).withStopRow(Bytes.toBytes("row-10")));
         // ^^ AccessControlExample
         System.out.println("Application: Attempting to directly access column, " +
                 "will return empty...");
@@ -141,8 +142,7 @@ public class AccessControlExample {
         // ^^ AccessControlExample
         System.out.println("Admin: Grant read to application for new column...");
         // vv AccessControlExample
-        Scan scan = new Scan(Bytes.toBytes("row-1"),
-                Bytes.toBytes("row-10"));
+        Scan scan = new Scan().withStartRow(Bytes.toBytes("row-1")).withStopRow(Bytes.toBytes("row-10"));
         scan.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-acl")); // co AccessControlExample-12-GrantCellLvl Grant read access to the application for just the newly added column and access it subsequently.
         admin.grant(tableName, app1.getShortUserName(), scan,
                 Permission.Action.READ);

@@ -1,21 +1,16 @@
 package com.hbasebook.hush.schema;
 
-import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Durability;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.io.compress.Compression;
 import org.apache.hadoop.hbase.regionserver.BloomType;
+import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 import java.net.URL;
@@ -76,12 +71,11 @@ public class SchemaManager {
     private Admin admin = null;
     private XMLConfiguration config = null;
     private ArrayList<NamespaceDescriptor> namespaces = null;
-    private ArrayList<HTableDescriptor> schemas = null;
+    private ArrayList<TableDescriptor> schemas = null;
     private NamespaceDescriptor[] remoteNamespaces = null;
-    private HTableDescriptor[] remoteTables = null;
+    private List<TableDescriptor> remoteTables = null;
 
-    public SchemaManager(Configuration conf, String schemaName)
-            throws ParseException, ConfigurationException, IOException {
+    public SchemaManager(Configuration conf, String schemaName) throws ConfigurationException, IOException {
         this.conf = conf;
         readConfiguration(schemaName);
     }
@@ -91,14 +85,14 @@ public class SchemaManager {
         URL schemaUrl = Thread.currentThread().getContextClassLoader().
                 getResource(schemaName);
         config = new XMLConfiguration(schemaUrl);
-        namespaces = new ArrayList<NamespaceDescriptor>();
-        schemas = new ArrayList<HTableDescriptor>();
+        namespaces = new ArrayList<>();
+        schemas = new ArrayList<>();
         readNamespaces();
         readTableSchemas();
     }
 
     @SuppressWarnings("deprecation") // because of API usage, temporary
-    private void readNamespaces() throws IOException {
+    private void readNamespaces() {
         int maxNamespaces = config.getMaxIndex("schema.namespace");
         // parse all tables
         for (int n = 0; n <= maxNamespaces; n++) {
@@ -131,17 +125,18 @@ public class SchemaManager {
             String base = "schema.table(" + t + ").";
             TableName name = TableName.valueOf(config.getString(base + KEY_NAMESPACE),
                     config.getString(base + KEY_NAME));
-            HTableDescriptor htd = new HTableDescriptor(name);
+
+            // TableDescriptor td = TableDescriptorBuilder.newBuilder(name).build();
+            TableDescriptorBuilder.ModifyableTableDescriptor htd = new TableDescriptorBuilder.ModifyableTableDescriptor(name);
             if (config.containsKey(base + KEY_DESCRIPTION)) {
                 htd.setValue(KEY_DESCRIPTION, config.getString(base + "description"));
             }
             if (config.containsKey(base + KEY_OWNER)) {
                 // deprecated for 0.95+ in HBASE-6188
-                htd.setOwnerString(config.getString(base + KEY_OWNER));
+                htd.setValue(TableDescriptorBuilder.OWNER_KEY.toString(), config.getString(base + KEY_OWNER));
             }
             if (config.containsKey(base + KEY_SPLIT_POLICY)) {
-                htd.setRegionSplitPolicyClassName(
-                        config.getString(base + KEY_SPLIT_POLICY));
+                htd.setRegionSplitPolicyClassName(config.getString(base + KEY_SPLIT_POLICY));
             }
             if (config.containsKey(base + KEY_MAX_FILE_SIZE)) {
                 htd.setMaxFileSize(config.getLong(base + KEY_MAX_FILE_SIZE));
@@ -150,12 +145,10 @@ public class SchemaManager {
                 htd.setMemStoreFlushSize(config.getLong(base + KEY_MEMSTORE_FLUSH_SIZE));
             }
             if (config.containsKey(base + KEY_DURABILITY)) {
-                htd.setDurability(
-                        Durability.valueOf(config.getString(base + KEY_DURABILITY)));
+                htd.setDurability(Durability.valueOf(config.getString(base + KEY_DURABILITY)));
             }
             if (config.containsKey(base + KEY_COMPACTION_ENABLED)) {
-                htd.setCompactionEnabled(
-                        config.getBoolean(base + KEY_COMPACTION_ENABLED));
+                htd.setCompactionEnabled(config.getBoolean(base + KEY_COMPACTION_ENABLED));
             }
             if (config.containsKey(base + KEY_READ_ONLY)) {
                 htd.setReadOnly(config.getBoolean(base + KEY_READ_ONLY));
@@ -164,9 +157,10 @@ public class SchemaManager {
                 htd.setRegionReplication(config.getInt(base + KEY_REGION_REPLICATION));
             }
             if (config.containsKey(base + KEY_COPROCESSORS)) {
-                StringTokenizer st = new StringTokenizer(
-                        config.getString(base + KEY_COPROCESSORS), ",");
-                while (st.hasMoreTokens()) htd.addCoprocessor(st.nextToken().trim());
+                StringTokenizer st = new StringTokenizer(config.getString(base + KEY_COPROCESSORS), ",");
+                while (st.hasMoreTokens()) {
+                    htd.setCoprocessor(st.nextToken().trim());
+                }
             }
             // read all generic key/value pairs into the table definition
             int idx = 0;
@@ -183,7 +177,8 @@ public class SchemaManager {
             int maxCols = config.getMaxIndex(base + KEY_COLUMN_FAMILY);
             for (int c = 0; c <= maxCols; c++) {
                 String base2 = base + KEY_COLUMN_FAMILY + "(" + c + ").";
-                HColumnDescriptor hcd = new HColumnDescriptor(config.getString(base2 + KEY_NAME));
+                //HColumnDescriptor hcd = new HColumnDescriptor(config.getString(base2 + KEY_NAME));
+                ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor hcd = new ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor(Bytes.toBytes(config.getString(base2 + KEY_NAME)));
                 String val = config.getString(base2 + KEY_MAX_VERSIONS);
                 if (val != null && val.length() > 0) {
                     hcd.setMaxVersions(Integer.parseInt(val));
@@ -228,7 +223,7 @@ public class SchemaManager {
                         break;
                     }
                 }
-                htd.addFamily(hcd);
+                htd.setColumnFamily(hcd);
             }
             schemas.add(htd);
         }
@@ -245,7 +240,7 @@ public class SchemaManager {
         for (final NamespaceDescriptor descriptor : namespaces) {
             createOrChangeNamespace(descriptor);
         }
-        for (final HTableDescriptor schema : schemas) {
+        for (final TableDescriptor schema : schemas) {
             createOrChangeTable(schema);
         }
     }
@@ -271,48 +266,50 @@ public class SchemaManager {
 
     // cc HushSchemaManager Creating or modifying table schemas using the HBase administrative API
     // vv HushSchemaManager
-    private void createOrChangeTable(final HTableDescriptor schema)
+    private void createOrChangeTable(final TableDescriptor schema)
             throws IOException {
-        HTableDescriptor desc = null;
+        TableDescriptor desc = null;
         if (tableExists(schema.getTableName(), false)) {
             desc = getTable(schema.getTableName(), false);
-            LOG.info("Checking table " + desc.getNameAsString() + "...");
+            LOG.info("Checking table " + desc.getTableName().getNameAsString() + "...");
 
-            final List<HColumnDescriptor> modCols =
-                    new ArrayList<HColumnDescriptor>();
-            for (final HColumnDescriptor cd : desc.getFamilies()) {
-                final HColumnDescriptor cd2 = schema.getFamily(cd.getName());
-                if (cd2 != null && !cd.equals(cd2)) { // co HushSchemaManager-1-Diff Compute the differences between the XML based schema and what is currently in HBase.
+            final List<ColumnFamilyDescriptor> modCols = new ArrayList<>();
+            for (final ColumnFamilyDescriptor cd : desc.getColumnFamilies()) {
+                final ColumnFamilyDescriptor cd2 = schema.getColumnFamily(cd.getName());
+                // co HushSchemaManager-1-Diff Compute the differences between the XML based schema and what is currently in HBase.
+                if (cd2 != null && !cd.equals(cd2)) {
                     modCols.add(cd2);
                 }
             }
-            final List<HColumnDescriptor> delCols =
-                    new ArrayList<HColumnDescriptor>(desc.getFamilies());
-            delCols.removeAll(schema.getFamilies());
-            final List<HColumnDescriptor> addCols =
-                    new ArrayList<HColumnDescriptor>(schema.getFamilies());
-            addCols.removeAll(desc.getFamilies());
+            final List<ColumnFamilyDescriptor> delCols = new ArrayList<ColumnFamilyDescriptor>(desc.getColumnFamilies());
+            delCols.removeAll(new ArrayList<>(schema.getColumnFamilies()));
+            final List<ColumnFamilyDescriptor> addCols = new ArrayList<>(schema.getColumnFamilies());
+            addCols.removeAll(new ArrayList<>(desc.getColumnFamilies()));
 
-            if (modCols.size() > 0 || addCols.size() > 0 || delCols.size() > 0 || // co HushSchemaManager-2-Check See if there are any differences in the column and table definitions.
-                    !hasSameProperties(desc, schema)) {
+            // co HushSchemaManager-2-Check See if there are any differences in the column and table definitions.
+            if (modCols.size() > 0 || addCols.size() > 0 || delCols.size() > 0 || !hasSameProperties(desc, schema)) {
                 LOG.info("Disabling table...");
                 admin.disableTable(schema.getTableName());
                 if (modCols.size() > 0 || addCols.size() > 0 || delCols.size() > 0) {
-                    for (final HColumnDescriptor col : modCols) {
+                    for (final ColumnFamilyDescriptor col : modCols) {
                         LOG.info("Found different column -> " + col);
-                        admin.modifyColumn(schema.getTableName(), col); // co HushSchemaManager-3-AlterCol Alter the columns that have changed. The table was properly disabled first.
+                        // co HushSchemaManager-3-AlterCol Alter the columns that have changed. The table was properly disabled first.
+                        admin.modifyColumnFamily(schema.getTableName(), col);
                     }
-                    for (final HColumnDescriptor col : addCols) {
+                    for (final ColumnFamilyDescriptor col : addCols) {
                         LOG.info("Found new column -> " + col);
-                        admin.addColumn(schema.getTableName(), col); // co HushSchemaManager-4-AddCol Add newly defined columns.
+                        // co HushSchemaManager-4-AddCol Add newly defined columns.
+                        admin.addColumnFamily(schema.getTableName(), col);
                     }
-                    for (final HColumnDescriptor col : delCols) {
+                    for (final ColumnFamilyDescriptor col : delCols) {
                         LOG.info("Found removed column -> " + col);
-                        admin.deleteColumn(schema.getTableName(), col.getName()); // co HushSchemaManager-5-DelCol Delete removed columns.
+                        // co HushSchemaManager-5-DelCol Delete removed columns.
+                        admin.deleteColumnFamily(schema.getTableName(), col.getName());
                     }
                 } else if (!hasSameProperties(desc, schema)) {
                     LOG.info("Found different table properties...");
-                    admin.modifyTable(schema.getTableName(), schema); // co HushSchemaManager-6-AlterTable Alter the table itself, if there are any differences found.
+                    // co HushSchemaManager-6-AlterTable Alter the table itself, if there are any differences found.
+                    admin.modifyTable(schema);
                 }
                 LOG.info("Enabling table...");
                 admin.enableTable(schema.getTableName());
@@ -323,23 +320,22 @@ public class SchemaManager {
                 LOG.info("No changes detected!");
             }
         } else {
-            LOG.info("Creating table " + schema.getNameAsString() + "...");
-            admin.createTable(schema); // co HushSchemaManager-7-CreateTable In case the table did not exist yet create it now.
+            LOG.info("Creating table " + schema.getTableName().getNameAsString() + "...");
+            // In case the table did not exist yet create it now.
+            admin.createTable(schema);
             LOG.info("Table created");
         }
     }
-    // ^^ HushSchemaManager
 
-    private boolean hasSameProperties(HTableDescriptor desc1,
-                                      HTableDescriptor desc2) {
+    private boolean hasSameProperties(TableDescriptor desc1,
+                                      TableDescriptor desc2) {
         return //desc1.isDeferredLogFlush() == desc2.isDeferredLogFlush() &&
                 desc1.getMaxFileSize() == desc2.getMaxFileSize() &&
                         desc1.getMemStoreFlushSize() == desc2.getMemStoreFlushSize() &&
                         desc1.isReadOnly() == desc2.isReadOnly();
     }
 
-    private synchronized NamespaceDescriptor getNamespace(String name,
-                                                          final boolean force) throws IOException {
+    private synchronized NamespaceDescriptor getNamespace(String name, final boolean force) throws IOException {
         getNamespaces(force);
         for (NamespaceDescriptor d : remoteNamespaces) {
             if (d.getName().equals(name)) {
@@ -351,7 +347,7 @@ public class SchemaManager {
 
     private boolean namespaceExists(String name, final boolean force)
             throws IOException {
-        return getNamespace(name, force) != null ? true : false;
+        return getNamespace(name, force) != null;
     }
 
     private void getNamespaces(final boolean force) throws IOException {
@@ -360,10 +356,9 @@ public class SchemaManager {
         }
     }
 
-    private synchronized HTableDescriptor getTable(final TableName name,
-                                                   final boolean force) throws IOException {
+    private synchronized TableDescriptor getTable(final TableName name, final boolean force) throws IOException {
         getTables(force);
-        for (final HTableDescriptor d : remoteTables) {
+        for (final TableDescriptor d : remoteTables) {
             if (d.getTableName().equals(name)) {
                 return d;
             }
@@ -371,14 +366,13 @@ public class SchemaManager {
         return null;
     }
 
-    private boolean tableExists(final TableName name, final boolean force)
-            throws IOException {
-        return getTable(name, force) != null ? true : false;
+    private boolean tableExists(final TableName name, final boolean force) throws IOException {
+        return getTable(name, force) != null;
     }
 
     private void getTables(final boolean force) throws IOException {
         if (remoteTables == null || force) {
-            remoteTables = admin.listTables();
+            remoteTables = admin.listTableDescriptors();
         }
     }
 }

@@ -29,7 +29,7 @@ public class FamilyFilterExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
         // vv FamilyFilterExample
-        Filter filter1 = new FamilyFilter(CompareFilter.CompareOp.LESS, // co FamilyFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
+        Filter filter1 = new FamilyFilter(CompareOperator.LESS, // co FamilyFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new BinaryComparator(Bytes.toBytes("colfam3")));
 
         Scan scan = new Scan();
@@ -48,7 +48,7 @@ public class FamilyFilterExample {
         Result result1 = table.get(get1); // co FamilyFilterExample-3-Get Get a row while applying the same filter.
         System.out.println("Result of get(): " + result1);
 
-        Filter filter2 = new FamilyFilter(CompareFilter.CompareOp.EQUAL,
+        Filter filter2 = new FamilyFilter(CompareOperator.EQUAL,
                 new BinaryComparator(Bytes.toBytes("colfam3")));
         Get get2 = new Get(Bytes.toBytes("row-5")); // co FamilyFilterExample-4-Mismatch Create a filter on one column family while trying to retrieve another.
         get2.addFamily(Bytes.toBytes("colfam1"));

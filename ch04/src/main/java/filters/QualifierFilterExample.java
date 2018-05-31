@@ -30,7 +30,7 @@ public class QualifierFilterExample {
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
         // vv QualifierFilterExample
-        Filter filter = new QualifierFilter(CompareFilter.CompareOp.LESS_OR_EQUAL,
+        Filter filter = new QualifierFilter(CompareOperator.LESS_OR_EQUAL,
                 new BinaryComparator(Bytes.toBytes("col-2")));
 
         Scan scan = new Scan();

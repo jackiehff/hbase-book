@@ -31,15 +31,15 @@ public class FilterListExample {
         // vv FilterListExample
         List<Filter> filters = new ArrayList<>();
 
-        Filter filter1 = new RowFilter(CompareFilter.CompareOp.GREATER_OR_EQUAL,
+        Filter filter1 = new RowFilter(CompareOperator.GREATER_OR_EQUAL,
                 new BinaryComparator(Bytes.toBytes("row-03")));
         filters.add(filter1);
 
-        Filter filter2 = new RowFilter(CompareFilter.CompareOp.LESS_OR_EQUAL,
+        Filter filter2 = new RowFilter(CompareOperator.LESS_OR_EQUAL,
                 new BinaryComparator(Bytes.toBytes("row-06")));
         filters.add(filter2);
 
-        Filter filter3 = new QualifierFilter(CompareFilter.CompareOp.EQUAL,
+        Filter filter3 = new QualifierFilter(CompareOperator.EQUAL,
                 new RegexStringComparator("col-0[03]"));
         filters.add(filter3);
 

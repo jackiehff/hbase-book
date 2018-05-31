@@ -40,6 +40,7 @@ public final class FilterProtos {
       return defaultInstance;
     }
 
+    @Override
     public CustomFilter getDefaultInstanceForType() {
       return defaultInstance;
     }
@@ -95,6 +96,7 @@ public final class FilterProtos {
       return filters.generated.FilterProtos.internal_static_CustomFilter_descriptor;
     }
 
+    @Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return filters.generated.FilterProtos.internal_static_CustomFilter_fieldAccessorTable

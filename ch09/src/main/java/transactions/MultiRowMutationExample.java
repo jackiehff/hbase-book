@@ -67,7 +67,7 @@ public class MultiRowMutationExample {
         admin.flush(tableName); // co MultiRowMutationExample-06-Flush Force a flush of the created data.
         Thread.sleep(3 * 1000L);
 
-        List<HRegionInfo> regions = admin.getTableRegions(tableName);
+        List<RegionInfo> regions = admin.getRegions(tableName);
         int numRegions = regions.size();
 
         // ^^ MultiRowMutationExample
@@ -83,7 +83,7 @@ public class MultiRowMutationExample {
         numRegions = regions.size();
         System.out.println("Number of regions: " + numRegions);
         System.out.println("Regions: ");
-        for (HRegionInfo info : regions) { // co MultiRowMutationExample-08-CheckBoundaries The region was split exactly between the two entities, despite the difference in size.
+        for (RegionInfo info : regions) { // co MultiRowMutationExample-08-CheckBoundaries The region was split exactly between the two entities, despite the difference in size.
             System.out.print("  Start Key: " + Bytes.toString(info.getStartKey()));
             System.out.println(", End Key: " + Bytes.toString(info.getEndKey()));
         }
@@ -124,7 +124,7 @@ public class MultiRowMutationExample {
             System.out.println(", Value: " + Bytes.toString(val));
         }
 
-        System.out.println(admin.getTableDescriptor(tableName));
+        System.out.println(admin.getDescriptor(tableName));
         table.close();
         admin.close();
         connection.close();

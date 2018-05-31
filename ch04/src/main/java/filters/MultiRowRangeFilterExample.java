@@ -44,7 +44,7 @@ public class MultiRowRangeFilterExample {
 
         Filter filter = new MultiRowRangeFilter(ranges);
 
-        Scan scan = new Scan(Bytes.toBytes("row-005"), Bytes.toBytes("row-110"));
+        Scan scan = new Scan().withStartRow(Bytes.toBytes("row-005")).withStopRow(Bytes.toBytes("row-110"));
         scan.setFilter(filter);
 
         ResultScanner scanner = table.getScanner(scan);

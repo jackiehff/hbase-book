@@ -4,6 +4,7 @@ package filters;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
@@ -53,11 +54,11 @@ public class ValueNotNullFilterExample {
     // vv ValueNotNullFilterExample
     SingleColumnValueFilter filter = new SingleColumnValueFilter(
       Bytes.toBytes("colfam1"), Bytes.toBytes("col-6"),
-      CompareFilter.CompareOp.NOT_EQUAL, new NullComparator());
+            CompareOperator.NOT_EQUAL, new NullComparator());
     filter.setFilterIfMissing(true);
     SingleColumnValueFilter filter2 = new SingleColumnValueFilter(
       Bytes.toBytes("colfam1"), Bytes.toBytes("col-3"),
-      CompareFilter.CompareOp.NOT_EQUAL, new NullComparator());
+            CompareOperator.NOT_EQUAL, new NullComparator());
     filter2.setFilterIfMissing(true);
 
     FilterList list = new FilterList();

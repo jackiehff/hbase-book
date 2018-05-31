@@ -36,7 +36,7 @@ public class SkipFilterExample {
     Connection connection = ConnectionFactory.createConnection(conf);
     Table table = connection.getTable(TableName.valueOf("testtable"));
     // vv SkipFilterExample
-    Filter filter1 = new ValueFilter(CompareFilter.CompareOp.NOT_EQUAL,
+    Filter filter1 = new ValueFilter(CompareOperator.NOT_EQUAL,
       new BinaryComparator(Bytes.toBytes("val-0")));
 
     Scan scan = new Scan();

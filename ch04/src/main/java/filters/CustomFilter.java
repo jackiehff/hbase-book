@@ -16,7 +16,6 @@ import org.apache.hadoop.hbase.util.ByteStringer;
  * it with every value in each KeyValue checked. Once there is a match
  * the entire row is passed, otherwise filtered out.
  */
-// vv CustomFilter
 public class CustomFilter extends FilterBase {
 
     private byte[] value = null;
@@ -27,46 +26,50 @@ public class CustomFilter extends FilterBase {
     }
 
     public CustomFilter(byte[] value) {
-        this.value = value; // co CustomFilter-1-SetValue Set the value to compare against.
+        // Set the value to compare against.
+        this.value = value;
     }
 
     @Override
     public void reset() {
-        this.filterRow = true; // co CustomFilter-2-Reset Reset filter flag for each new row being tested.
+        // Reset filter flag for each new row being tested.
+        this.filterRow = true;
     }
 
     @Override
-    public ReturnCode filterKeyValue(Cell cell) {
+    public ReturnCode filterCell(Cell cell) {
         if (CellUtil.matchingValue(cell, value)) {
-            filterRow = false; // co CustomFilter-3-Filter When there is a matching value, then let the row pass.
+            // When there is a matching value, then let the row pass.
+            filterRow = false;
         }
-        return ReturnCode.INCLUDE; // co CustomFilter-4-Include Always include, since the final decision is made later.
+        // Always include, since the final decision is made later.
+        return ReturnCode.INCLUDE;
     }
 
     @Override
     public boolean filterRow() {
-        return filterRow; // co CustomFilter-5-FilterRow Here the actual decision is taking place, based on the flag status.
+        // Here the actual decision is taking place, based on the flag status.
+        return filterRow;
     }
 
     @Override
     public byte[] toByteArray() {
-        FilterProtos.CustomFilter.Builder builder =
-                FilterProtos.CustomFilter.newBuilder();
-        if (value != null)
-            builder.setValue(ByteStringer.wrap(value)); // co CustomFilter-6-Write Writes the given value out so it can be sent to the servers.
+        FilterProtos.CustomFilter.Builder builder = FilterProtos.CustomFilter.newBuilder();
+        if (value != null) {
+            // Writes the given value out so it can be sent to the servers.
+            builder.setValue(ByteStringer.wrap(value));
+        }
         return builder.build().toByteArray();
     }
 
-    //@Override
-    public static Filter parseFrom(final byte[] pbBytes)
-            throws DeserializationException {
+    public static Filter parseFrom(final byte[] pbBytes) throws DeserializationException {
         FilterProtos.CustomFilter proto;
         try {
-            proto = FilterProtos.CustomFilter.parseFrom(pbBytes); // co CustomFilter-7-Read Used by the servers to establish the filter instance with the correct values.
+            // Used by the servers to establish the filter instance with the correct values.
+            proto = FilterProtos.CustomFilter.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
         return new CustomFilter(proto.getValue().toByteArray());
     }
 }
-// ^^ CustomFilter

@@ -30,7 +30,7 @@ public class LoadWithTableDescriptorExample2 {
         admin.createTable(htd);
         // ^^ LoadWithTableDescriptorExample2
 
-        System.out.println(admin.getTableDescriptor(tableName));
+        System.out.println(admin.getDescriptor(tableName));
         admin.close();
         connection.close();
     }

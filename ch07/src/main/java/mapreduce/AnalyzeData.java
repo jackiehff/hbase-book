@@ -44,7 +44,7 @@ public class AnalyzeData {
     static class AnalyzeMapper extends TableMapper<Text, IntWritable> { // co AnalyzeData-1-Mapper Extend the supplied TableMapper class, setting your own output key and value types.
 
         private JSONParser parser = new JSONParser();
-        private IntWritable ONE = new IntWritable(1);
+        private IntWritable one = new IntWritable(1);
 
         // ^^ AnalyzeData
 
@@ -72,7 +72,7 @@ public class AnalyzeData {
                     if (context.getConfiguration().get("conf.debug") != null)
                         System.out.println("Author: " + author);
                     // vv AnalyzeData
-                    context.write(new Text(author), ONE);
+                    context.write(new Text(author), one);
                     context.getCounter(Counters.VALID).increment(1);
                 }
             } catch (Exception e) {

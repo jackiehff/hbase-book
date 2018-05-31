@@ -19,29 +19,30 @@ import java.io.IOException;
 public class PutExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create(); // co PutExample-1-CreateConf Create the required configuration.
+        // Create the required configuration.
+        Configuration conf = HBaseConfiguration.create();
 
-        // ^^ PutExample
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
-        // vv PutExample
         Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable")); // co PutExample-2-NewTable Instantiate a new client.
+        // Instantiate a new client.
+        Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        Put put = new Put(Bytes.toBytes("row1")); // co PutExample-3-NewPut Create put with specific row.
+        // Create put with specific row.
+        Put put = new Put(Bytes.toBytes("row1"));
+        // Add a column, whose name is "colfam1:qual1", to the put.
+        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
+        // Add another column, whose name is "colfam1:qual2", to the put.
+        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("val2"));
 
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                Bytes.toBytes("val1")); // co PutExample-4-AddCol1 Add a column, whose name is "colfam1:qual1", to the put.
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"),
-                Bytes.toBytes("val2")); // co PutExample-4-AddCol2 Add another column, whose name is "colfam1:qual2", to the put.
-
-        table.put(put); // co PutExample-5-DoPut Store row with column into the HBase table.
-        table.close(); // co PutExample-6-DoPut Close table and connection instances to free resources.
+        // Store row with column into the HBase table.
+        table.put(put);
+        // Close table and connection instances to free resources.
+        table.close();
         connection.close();
-        // ^^ PutExample
+
         helper.close();
-        // vv PutExample
     }
 }
 // ^^ PutExample

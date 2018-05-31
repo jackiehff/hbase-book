@@ -2,7 +2,6 @@ package coprocessor;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
@@ -28,8 +27,7 @@ public class EndpointProxyExample {
                 new String[]{"colfam1", "colfam2"}, new String[]{"qual1", "qual1"},
                 new long[]{1, 2}, new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        helper.dump("testtable",
-                new String[]{"row1", "row2", "row3", "row4", "row5"}, null, null);
+        helper.dump("testtable", new String[]{"row1", "row2", "row3", "row4", "row5"}, null, null);
         Admin admin = connection.getAdmin();
         try {
             admin.split(tableName, Bytes.toBytes("row3"));
@@ -38,14 +36,14 @@ public class EndpointProxyExample {
         }
         Table table = connection.getTable(tableName);
         // wait for the split to be done
-        while (admin.getTableRegions(tableName).size() < 2)
+        while (admin.getRegions(tableName).size() < 2)
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
         try {
             //vv EndpointProxyExample
-            HRegionInfo hri = admin.getTableRegions(tableName).get(0);
+            RegionInfo hri = admin.getRegions(tableName).get(0);
             Scan scan = new Scan().withStartRow(hri.getStartKey()).withStopRow(hri.getEndKey()).setMaxVersions();
             ResultScanner scanner = table.getScanner(scan);
             for (Result result : scanner) {
