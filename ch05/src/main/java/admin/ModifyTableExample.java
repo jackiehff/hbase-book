@@ -8,13 +8,16 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc ModifyTableExample Example modifying the structure of an existing table
+/**
+ * ModifyTableExample Example modifying the structure of an existing table
+ */
 public class ModifyTableExample {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -32,30 +35,33 @@ public class ModifyTableExample {
                 .addFamily(coldef1)
                 .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table");
 
-        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50); // co ModifyTableExample-1-CreateTable Create the table with the original structure and 50 regions.
-
-        HTableDescriptor htd1 = admin.getDescriptor(tableName); // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
+        // co ModifyTableExample-1-CreateTable Create the table with the original structure and 50 regions.
+        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50);
+        // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
+        TableDescriptor htd1 = admin.getDescriptor(tableName);
         HColumnDescriptor coldef2 = new HColumnDescriptor("colfam2");
-        htd1
-                .addFamily(coldef2)
+        htd1.addFamily(coldef2)
                 .setMaxFileSize(1024 * 1024 * 1024L)
                 .setValue("Description",
                         "Chapter 5 - ModifyTableExample: Modified Table");
 
         admin.disableTable(tableName);
-        admin.modifyTable(tableName, htd1); // co ModifyTableExample-3-ChangeTable Disable and modify the table.
+        // co ModifyTableExample-3-ChangeTable Disable and modify the table.
+        admin.modifyTable(tableName, htd1);
 
-        Pair<Integer, Integer> status = new Pair<Integer, Integer>() {{ // co ModifyTableExample-4-Pair Create a status number pair to start the loop.
+        // co ModifyTableExample-4-Pair Create a status number pair to start the loop.
+        Pair<Integer, Integer> status = new Pair<Integer, Integer>() {{
             setFirst(50);
             setSecond(50);
         }};
         for (int i = 0; status.getFirst() != 0 && i < 500; i++) {
-            status = admin.getAlterStatus(desc.getTableName()); // co ModifyTableExample-5-Loop Loop over status until all regions are updated, or 500 seconds have been exceeded.
+            // co ModifyTableExample-5-Loop Loop over status until all regions are updated, or 500 seconds have been exceeded.
+            status = admin.getAlterStatus(desc.getTableName());
             if (status.getSecond() != 0) {
                 int pending = status.getSecond() - status.getFirst();
                 System.out.println(pending + " of " + status.getSecond()
                         + " regions updated.");
-                Thread.sleep(1 * 1000l);
+                Thread.sleep(1 * 1000L);
             } else {
                 System.out.println("All regions updated.");
                 break;
@@ -67,8 +73,9 @@ public class ModifyTableExample {
 
         admin.enableTable(tableName);
 
-        HTableDescriptor htd2 = admin.getDescriptor(tableName);
-        System.out.println("Equals: " + htd1.equals(htd2)); // co ModifyTableExample-6-Verify Check if the table schema matches the new one created locally.
+        TableDescriptor htd2 = admin.getDescriptor(tableName);
+        // co ModifyTableExample-6-Verify Check if the table schema matches the new one created locally.
+        System.out.println("Equals: " + htd1.equals(htd2));
         System.out.println("New schema: " + htd2);
         // ^^ ModifyTableExample
     }

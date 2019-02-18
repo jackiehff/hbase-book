@@ -9,7 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc LoadWithTableDescriptorExample2 Load a coprocessor using the table descriptor using provided method
+/**
+ * LoadWithTableDescriptorExample2 Load a coprocessor using the table descriptor using provided method
+ */
 public class LoadWithTableDescriptorExample2 {
 
     public static void main(String[] args) throws IOException {
@@ -19,16 +21,14 @@ public class LoadWithTableDescriptorExample2 {
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
-        // vv LoadWithTableDescriptorExample2
-        HTableDescriptor htd = new HTableDescriptor(tableName); // co LoadWithTableDescriptorExample2-1-Create Use fluent interface to create and configure the instance.
+        // co LoadWithTableDescriptorExample2-1-Create Use fluent interface to create and configure the instance.
+        HTableDescriptor htd = new HTableDescriptor(tableName);
         htd.addFamily(new HColumnDescriptor("colfam1"));
-        /*[*/
-        htd.addCoprocessor(RegionObserverExample.class.getCanonicalName(),
-                null, Coprocessor.PRIORITY_USER, null);/*]*/ // co LoadWithTableDescriptorExample2-2-AddCP Use the provided method to add the coprocessor.
+        // co LoadWithTableDescriptorExample2-2-AddCP Use the provided method to add the coprocessor.
+        htd.addCoprocessor(RegionObserverExample.class.getCanonicalName(), null, Coprocessor.PRIORITY_USER, null);
 
         Admin admin = connection.getAdmin();
         admin.createTable(htd);
-        // ^^ LoadWithTableDescriptorExample2
 
         System.out.println(admin.getDescriptor(tableName));
         admin.close();

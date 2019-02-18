@@ -24,7 +24,8 @@ public class CheckAndPutExample {
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
+        // Connection connection = ConnectionFactory.createConnection(conf);
+        Connection connection = helper.getConnection();
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
         // Create a new Put instance.

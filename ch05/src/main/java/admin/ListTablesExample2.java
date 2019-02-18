@@ -2,20 +2,24 @@ package admin;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
 
-// cc ListTablesExample2 Example listing the existing tables with patterns
+/**
+ * ListTablesExample2 Example listing the existing tables with patterns
+ */
 public class ListTablesExample2 {
 
-    private static void print(HTableDescriptor[] descriptors) {
-        for (HTableDescriptor htd : descriptors) {
+    private static void print(List<TableDescriptor> descriptors) {
+        for (TableDescriptor htd : descriptors) {
             System.out.println(htd.getTableName());
         }
         System.out.println();
@@ -39,43 +43,42 @@ public class ListTablesExample2 {
 
         System.out.println("List: .*");
         // vv ListTablesExample2
-        HTableDescriptor[] htds = admin.listTables(".*");
+        List<TableDescriptor> htds = admin.listTableDescriptors(Pattern.compile(".*"));
         // ^^ ListTablesExample2
         print(htds);
         System.out.println("List: .*, including system tables");
         // vv ListTablesExample2
-        htds = admin.listTables(".*", true);
+        htds = admin.listTableDescriptors(Pattern.compile(".*"), true);
         // ^^ ListTablesExample2
         print(htds);
 
         System.out.println("List: hbase:.*, including system tables");
         // vv ListTablesExample2
-        htds = admin.listTables("hbase:.*", true);
+        htds = admin.listTableDescriptors(Pattern.compile("hbase:.*"), true);
         // ^^ ListTablesExample2
         print(htds);
 
         System.out.println("List: def.*:.*, including system tables");
         // vv ListTablesExample2
-        htds = admin.listTables("def.*:.*", true);
+        htds = admin.listTableDescriptors(Pattern.compile("def.*:.*"), true);
         // ^^ ListTablesExample2
         print(htds);
 
         System.out.println("List: test.*");
         // vv ListTablesExample2
-        htds = admin.listTables("test.*");
+        htds = admin.listTableDescriptors(Pattern.compile("test.*"));
         // ^^ ListTablesExample2
         print(htds);
 
         System.out.println("List: .*2, using Pattern");
         // vv ListTablesExample2
-        Pattern pattern = Pattern.compile(".*2");
-        htds = admin.listTables(pattern);
+        htds = admin.listTableDescriptors(Pattern.compile(".*2"));
         // ^^ ListTablesExample2
         print(htds);
 
         System.out.println("List by Namespace: testspace1");
         // vv ListTablesExample2
-        htds = admin.listTableDescriptorsByNamespace("testspace1");
+        htds = admin.listTableDescriptorsByNamespace(Bytes.toBytes("testspace1"));
         // ^^ ListTablesExample2
         print(htds);
     }

@@ -107,11 +107,12 @@ public class HBaseHelper implements Closeable {
     }
 
     public void createTable(TableName table, int maxVersions, byte[][] splitKeys, String... colfams) throws IOException {
-        TableDescriptor desc = TableDescriptorBuilder.newBuilder(table).build();
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(table).build();
+        TableDescriptorBuilder.ModifyableTableDescriptor desc = (TableDescriptorBuilder.ModifyableTableDescriptor) TableDescriptorBuilder.copy(tableDescriptor);
         for (String cf : colfams) {
             ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor coldef = (ColumnFamilyDescriptorBuilder.ModifyableColumnFamilyDescriptor) ColumnFamilyDescriptorBuilder.newBuilder(cf.getBytes()).build();
             coldef.setMaxVersions(maxVersions);
-            desc.addFamily(coldef);
+            desc.setColumnFamily(coldef);
         }
         if (splitKeys != null) {
             admin.createTable(desc, splitKeys);

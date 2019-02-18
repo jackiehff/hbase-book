@@ -44,7 +44,9 @@ public final class ScanControlProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized != -1){
+        return isInitialized == 1;
+      }
       
       memoizedIsInitialized = 1;
       return true;
@@ -59,7 +61,9 @@ public final class ScanControlProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
     
       size = 0;
       size += getUnknownFields().getSerializedSize();
@@ -260,7 +264,9 @@ public final class ScanControlProtos {
       }
       
       public Builder mergeFrom(coprocessor.generated.ScanControlProtos.ScanControlRequest other) {
-        if (other == coprocessor.generated.ScanControlProtos.ScanControlRequest.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.ScanControlProtos.ScanControlRequest.getDefaultInstance()) {
+          return this;
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -344,7 +350,9 @@ public final class ScanControlProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized != -1) {
+        return isInitialized == 1;
+      }
       
       memoizedIsInitialized = 1;
       return true;
@@ -359,7 +367,9 @@ public final class ScanControlProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
     
       size = 0;
       size += getUnknownFields().getSerializedSize();
@@ -560,7 +570,9 @@ public final class ScanControlProtos {
       }
       
       public Builder mergeFrom(coprocessor.generated.ScanControlProtos.ScanControlResponse other) {
-        if (other == coprocessor.generated.ScanControlProtos.ScanControlResponse.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.ScanControlProtos.ScanControlResponse.getDefaultInstance()) {
+          return this;
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }

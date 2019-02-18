@@ -76,7 +76,9 @@ public class BulkImportJobExample {
             Arrays.sort(samples, comparator);
             Path dst = new Path(TotalOrderPartitioner.getPartitionFile(conf));
             FileSystem fs = dst.getFileSystem(conf);
-            if (fs.exists(dst)) fs.delete(dst, false);
+            if (fs.exists(dst)) {
+                fs.delete(dst, false);
+            }
             SequenceFile.Writer writer = SequenceFile.createWriter(fs, conf, dst, job.getMapOutputKeyClass(), NullWritable.class);
             NullWritable nullValue = NullWritable.get();
             float stepSize = samples.length / (float) numPartitions;
@@ -140,6 +142,7 @@ public class BulkImportJobExample {
                 this.maxSplitsSampled = maxSplitsSampled;
             }
 
+            @Override
             public Object[] getSample(InputFormat inf, Job job) throws IOException, InterruptedException {
                 long counter = 0;
                 List<InputSplit> splits = inf.getSplits(job);
@@ -171,9 +174,10 @@ public class BulkImportJobExample {
                     while (reader.nextKeyValue()) {
                         if (r.nextDouble() <= freq) {
                             if (samples.size() < numSamples) {
-                                if (counter % 1000 == 0)
+                                if (counter % 1000 == 0) {
                                     LOG.info(String.format("Fill: Collected %d samples from %d splits", counter, i));
-                                counter++;
+                                }
+                                    counter++;
                                 samples.add(ReflectionUtils.copy(job.getConfiguration(), reader.getCurrentKey(), null));
                             } else {
                                 // When exceeding the maximum number of samples, replace a
@@ -184,9 +188,11 @@ public class BulkImportJobExample {
                                 if (ind != numSamples) {
                                     samples.set(ind, ReflectionUtils.copy(job.getConfiguration(),
                                             reader.getCurrentKey(), null));
-                                    if (counter % 1000 == 0)
+                                    if (counter % 1000 == 0) {
                                         LOG.info(String.format("Replace Random: Collected %d samples from %d splits", counter, i));
-                                    counter++;
+
+                                    }
+                                        counter++;
                                 }
                                 freq *= (numSamples - 1) / (double) numSamples;
                             }
@@ -447,6 +453,8 @@ public class BulkImportJobExample {
             System.exit(-1);
         }
         Job job = createSubmittableJob(conf, args);
-        if (job != null) System.exit(job.waitForCompletion(true) ? 0 : 1);
+        if (job != null) {
+            System.exit(job.waitForCompletion(true) ? 0 : 1);
+        }
     }
 }

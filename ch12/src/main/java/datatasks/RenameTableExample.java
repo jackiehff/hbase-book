@@ -32,7 +32,6 @@ public class RenameTableExample {
         }
     }
 
-    // ^^ RenameTableExample
     private static void printFirstValue(Table table) throws IOException {
         System.out.println("Table: " + table.getName());
         Scan scan = new Scan();
@@ -48,7 +47,6 @@ public class RenameTableExample {
         }
     }
 
-    // vv RenameTableExample
     public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
         // ^^ RenameTableExample
@@ -62,13 +60,16 @@ public class RenameTableExample {
         Admin admin = connection.getAdmin();
         TableName name = TableName.valueOf("testtable");
 
-        Table table = connection.getTable(name); // co RenameTableExample-07-Test1 Check the content of the original table. The helper method (see full source code) prints the first value of the first row.
+        // co RenameTableExample-07-Test1 Check the content of the original table. The helper method (see full source code) prints the first value of the first row.
+        Table table = connection.getTable(name);
         printFirstValue(table);
 
         TableName rename = TableName.valueOf("newtesttable");
-        renameTable(admin, name, rename); // co RenameTableExample-08-Rename Rename the table calling the above method.
+        // co RenameTableExample-08-Rename Rename the table calling the above method.
+        renameTable(admin, name, rename);
 
-        Table newTable = connection.getTable(rename); // co RenameTableExample-09-Test2 Perform another check on the new table to see if we get the same first value of the first row back.
+        // co RenameTableExample-09-Test2 Perform another check on the new table to see if we get the same first value of the first row back.
+        Table newTable = connection.getTable(rename);
         printFirstValue(newTable);
 
         table.close();

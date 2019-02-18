@@ -107,8 +107,12 @@ public final class RowCounterProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -123,7 +127,9 @@ public final class RowCounterProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       size += getUnknownFields().getSerializedSize();
@@ -311,7 +317,9 @@ public final class RowCounterProtos {
       }
 
       public Builder mergeFrom(coprocessor.generated.RowCounterProtos.CountRequest other) {
-        if (other == coprocessor.generated.RowCounterProtos.CountRequest.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.RowCounterProtos.CountRequest.getDefaultInstance()) {
+          return this;
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -480,8 +488,12 @@ public final class RowCounterProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       if (!hasCount()) {
         memoizedIsInitialized = 0;
@@ -503,7 +515,9 @@ public final class RowCounterProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -714,7 +728,9 @@ public final class RowCounterProtos {
       }
 
       public Builder mergeFrom(coprocessor.generated.RowCounterProtos.CountResponse other) {
-        if (other == coprocessor.generated.RowCounterProtos.CountResponse.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.RowCounterProtos.CountResponse.getDefaultInstance()) {
+          return this;
+        }
         if (other.hasCount()) {
           setCount(other.getCount());
         }

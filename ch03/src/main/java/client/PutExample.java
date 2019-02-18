@@ -12,7 +12,6 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-
 /**
  * PutExample Example application inserting data into HBase
  */
@@ -45,4 +44,3 @@ public class PutExample {
         helper.close();
     }
 }
-// ^^ PutExample

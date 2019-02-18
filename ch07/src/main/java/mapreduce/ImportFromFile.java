@@ -159,7 +159,9 @@ public class ImportFromFile {
         CommandLine cmd = parseArgs(otherArgs);
         // ^^ ImportFromFile
         // check debug flag and other options
-        if (cmd.hasOption("d")) conf.set("conf.debug", "true");
+        if (cmd.hasOption("d")) {
+            conf.set("conf.debug", "true");
+        }
         // get details
         // vv ImportFromFile
         String table = cmd.getOptionValue("t");

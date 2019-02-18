@@ -24,10 +24,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
-        <hadoop.version>3.1.0</hadoop.version>
-        <hbase.version>2.0.0</hbase.version>
+        <hadoop.version>3.2.0</hadoop.version>
+        <hbase.version>2.1.2</hbase.version>
         <m.version>0.17.0</m.version>
-        <zookeeper.version>3.4.12</zookeeper.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
         <libthrift.version>0.11.0</libthrift.version>
     </properties>
 
@@ -36,7 +36,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>${jdkLevel}</source>
                     <target>${jdkLevel}</target>
@@ -967,7 +967,7 @@
             <artifactId>guava</artifactId>
             <!-- Need to set Guava to 15.0 since Hadoop dependencies break
             with newer version. -->
-            <version>25.0-jre</version>
+            <version>27.0.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

@@ -9,7 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc DeleteTimestampExample Example application deleting with explicit timestamps
+/**
+ * DeleteTimestampExample Example application deleting with explicit timestamps
+ */
 public class DeleteTimestampExample {
 
     private final static byte[] ROW1 = Bytes.toBytes("row1");
@@ -29,8 +31,8 @@ public class DeleteTimestampExample {
         Table table = connection.getTable(tableName);
         Admin admin = connection.getAdmin();
 
-        // vv DeleteTimestampExample
-        for (int count = 1; count <= 6; count++) { // co DeleteTimestampExample-1-Put Store the same column six times.
+        // co DeleteTimestampExample-1-Put Store the same column six times.
+        for (int count = 1; count <= 6; count++) {
             Put put = new Put(ROW1);
             put.addColumn(COLFAM1, QUAL1, count, Bytes.toBytes("val-" + count)); // co DeleteTimestampExample-2-Add The version is set to a specific value, using the loop variable.
             table.put(put);
@@ -44,7 +46,8 @@ public class DeleteTimestampExample {
 //    Thread.sleep(3000);
         // vv DeleteTimestampExample
 
-        Delete delete = new Delete(ROW1); // co DeleteTimestampExample-3-Delete Delete the newest two versions.
+        // co DeleteTimestampExample-3-Delete Delete the newest two versions.
+        Delete delete = new Delete(ROW1);
         delete.addColumn(COLFAM1, QUAL1, 5);
         delete.addColumn(COLFAM1, QUAL1, 6);
         table.delete(delete);

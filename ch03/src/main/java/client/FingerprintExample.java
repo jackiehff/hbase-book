@@ -11,7 +11,6 @@ import java.net.InetAddress;
 public class FingerprintExample {
 
     public static void main(String[] args) throws Exception {
-        // vv FingerprintExample
         Put put = new Put(Bytes.toBytes("testrow"));
         put.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-1"), Bytes.toBytes("val-1"));
         put.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-2"), Bytes.toBytes("val-2"));
@@ -28,6 +27,5 @@ public class FingerprintExample {
         System.out.println("Put.toMap: " + put.toMap());
         System.out.println("Put.toJSON: " + put.toJSON());
         System.out.println("Put.toString: " + put.toString());
-        // ^^ FingerprintExample
     }
 }

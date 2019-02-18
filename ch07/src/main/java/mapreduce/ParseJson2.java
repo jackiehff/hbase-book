@@ -170,7 +170,9 @@ public class ParseJson2 {
                 new GenericOptionsParser(conf, args).getRemainingArgs();
         CommandLine cmd = parseArgs(otherArgs);
         // check debug flag and other options
-        if (cmd.hasOption("d")) conf.set("conf.debug", "true");
+        if (cmd.hasOption("d")) {
+            conf.set("conf.debug", "true");
+        }
         // get details
         String input = cmd.getOptionValue("i");
         String output = cmd.getOptionValue("o");

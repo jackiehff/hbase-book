@@ -2,7 +2,6 @@ package coprocessor;
 
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
-import com.google.protobuf.Service;
 import coprocessor.generated.RowCounterProtos;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
@@ -10,7 +9,6 @@ import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.coprocessor.CoprocessorException;
-import org.apache.hadoop.hbase.coprocessor.CoprocessorService;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
@@ -24,8 +22,7 @@ import java.util.List;
 /**
  * RowCountEndpoint Example endpoint implementation, adding a row and cell count method.
  */
-public class RowCountEndpoint extends RowCounterProtos.RowCountService
-        implements Coprocessor, CoprocessorService {
+public class RowCountEndpoint extends RowCounterProtos.RowCountService implements Coprocessor {
 
     private RegionCoprocessorEnvironment env;
 
@@ -39,13 +36,8 @@ public class RowCountEndpoint extends RowCounterProtos.RowCountService
     }
 
     @Override
-    public void stop(CoprocessorEnvironment env) throws IOException {
+    public void stop(CoprocessorEnvironment env) {
         // nothing to do when coprocessor is shutting down
-    }
-
-    @Override
-    public Service getService() {
-        return this;
     }
 
     @Override

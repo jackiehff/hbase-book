@@ -11,7 +11,9 @@ import util.HBaseHelper;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-// cc ListTablesExample3 Example listing the existing tables with patterns
+/**
+ * ListTablesExample3 Example listing the existing tables with patterns
+ */
 public class ListTablesExample3 {
 
     private static void print(TableName[] tableNames) {
@@ -39,37 +41,36 @@ public class ListTablesExample3 {
 
         System.out.println("List: .*");
         // vv ListTablesExample3
-        TableName[] names = admin.listTableNames(".*");
+        TableName[] names = admin.listTableNames(Pattern.compile(".*"));
         // ^^ ListTablesExample3
         print(names);
         System.out.println("List: .*, including system tables");
         // vv ListTablesExample3
-        names = admin.listTableNames(".*", true);
+        names = admin.listTableNames(Pattern.compile(".*"), true);
         // ^^ ListTablesExample3
         print(names);
 
         System.out.println("List: hbase:.*, including system tables");
         // vv ListTablesExample3
-        names = admin.listTableNames("hbase:.*", true);
+        names = admin.listTableNames(Pattern.compile("hbase:.*"), true);
         // ^^ ListTablesExample3
         print(names);
 
         System.out.println("List: def.*:.*, including system tables");
         // vv ListTablesExample3
-        names = admin.listTableNames("def.*:.*", true);
+        names = admin.listTableNames(Pattern.compile("def.*:.*"), true);
         // ^^ ListTablesExample3
         print(names);
 
         System.out.println("List: test.*");
         // vv ListTablesExample3
-        names = admin.listTableNames("test.*");
+        names = admin.listTableNames(Pattern.compile("test.*"));
         // ^^ ListTablesExample3
         print(names);
 
         System.out.println("List: .*2, using Pattern");
         // vv ListTablesExample3
-        Pattern pattern = Pattern.compile(".*2");
-        names = admin.listTableNames(pattern);
+        names = admin.listTableNames(Pattern.compile(".*2"));
         // ^^ ListTablesExample3
         print(names);
 

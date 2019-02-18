@@ -28,35 +28,36 @@ public class PutWriteBufferExample2 {
         Table table = connection.getTable(name);
         BufferedMutator mutator = connection.getBufferedMutator(name);
 
-        // vv PutWriteBufferExample2
-        List<Mutation> mutations = new ArrayList<>(); // co PutWriteBufferExample2-1-DoPut Create a list to hold all mutations.
+        // co PutWriteBufferExample2-1-DoPut Create a list to hold all mutations.
+        List<Mutation> mutations = new ArrayList<>();
 
         Put put1 = new Put(Bytes.toBytes("row1"));
-        put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                Bytes.toBytes("val1"));
-        mutations.add(put1); // co PutWriteBufferExample2-2-DoPut Add Put instance to list of mutations.
+        put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
+        // co PutWriteBufferExample2-2-DoPut Add Put instance to list of mutations.
+        mutations.add(put1);
 
         Put put2 = new Put(Bytes.toBytes("row2"));
-        put2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                Bytes.toBytes("val2"));
+        put2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val2"));
         mutations.add(put2);
 
         Put put3 = new Put(Bytes.toBytes("row3"));
-        put3.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                Bytes.toBytes("val3"));
+        put3.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val3"));
         mutations.add(put3);
 
-        mutator.mutate(mutations); // co PutWriteBufferExample2-3-DoPut Store some rows with columns into HBase.
+        // co PutWriteBufferExample2-3-DoPut Store some rows with columns into HBase.
+        mutator.mutate(mutations);
 
         Get get = new Get(Bytes.toBytes("row1"));
         Result res1 = table.get(get);
-        System.out.println("Result: " + res1); // co PutWriteBufferExample2-4-Get1 Try to load previously stored row, this will print "Result: keyvalues=NONE".
-
-        mutator.flush(); // co PutWriteBufferExample2-5-Flush Force a flush, this causes an RPC to occur.
+        // co PutWriteBufferExample2-4-Get1 Try to load previously stored row, this will print "Result: keyvalues=NONE".
+        System.out.println("Result: " + res1);
+        // co PutWriteBufferExample2-5-Flush Force a flush, this causes an RPC to occur.
+        mutator.flush();
 
         Result res2 = table.get(get);
-        System.out.println("Result: " + res2); // co PutWriteBufferExample2-6-Get2 Now the row is persisted and can be loaded.
-        // ^^ PutWriteBufferExample2
+        // co PutWriteBufferExample2-6-Get2 Now the row is persisted and can be loaded.
+        System.out.println("Result: " + res2);
+
         mutator.close();
         table.close();
         connection.close();

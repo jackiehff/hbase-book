@@ -1,23 +1,17 @@
 package client;
 
-import java.io.IOException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-
 import util.HBaseHelper;
 
-// cc ScanConsistencyExample1 Checks the scans behavior during concurrent modifications
+import java.io.IOException;
+
+/**
+ * ScanConsistencyExample1 Checks the scans behavior during concurrent modifications
+ */
 public class ScanConsistencyExample1 {
 
     public static void main(String[] args) throws IOException {
@@ -41,7 +35,8 @@ public class ScanConsistencyExample1 {
 
         // vv ScanConsistencyExample1
         Scan scan = new Scan();
-        scan.setCaching(1); // co ScanConsistencyExample1-1-ConfScan Configure scan to iterate over each row separately.
+        // co ScanConsistencyExample1-1-ConfScan Configure scan to iterate over each row separately.
+        scan.setCaching(1);
         ResultScanner scanner = table.getScanner(scan);
 
         // ^^ ScanConsistencyExample1
@@ -54,26 +49,24 @@ public class ScanConsistencyExample1 {
         System.out.println("Applying mutations...");
         // vv ScanConsistencyExample1
         Put put = new Put(Bytes.toBytes("row-3"));
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"),
-                Bytes.toBytes("val-999"));
-        table.put(put); // co ScanConsistencyExample1-2-Put Update a later row with a new value.
+        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"), Bytes.toBytes("val-999"));
+        // co ScanConsistencyExample1-2-Put Update a later row with a new value.
+        table.put(put);
 
         Delete delete = new Delete(Bytes.toBytes("row-4"));
-        table.delete(delete); // co ScanConsistencyExample1-3-Delete Remove an entire row, that is located at the end of the scan.
+        // co ScanConsistencyExample1-3-Delete Remove an entire row, that is located at the end of the scan.
+        table.delete(delete);
 
-        // ^^ ScanConsistencyExample1
         System.out.println("Resuming original scan...");
-        // vv ScanConsistencyExample1
         for (Result result2 : scanner) {
-            helper.dumpResult(result2); // co ScanConsistencyExample1-4-Scan Scan the rest of the table to see if the mutations are visible.
+            // co ScanConsistencyExample1-4-Scan Scan the rest of the table to see if the mutations are visible.
+            helper.dumpResult(result2);
         }
         scanner.close();
 
-        // ^^ ScanConsistencyExample1
         System.out.println("Print table under new scanner...");
-        // vv ScanConsistencyExample1
-        helper.dump("testtable"); // co ScanConsistencyExample1-5-Dump Print the entire table again, with a new scanner instance.
-        // ^^ ScanConsistencyExample1
+        // co ScanConsistencyExample1-5-Dump Print the entire table again, with a new scanner instance.
+        helper.dump("testtable");
         table.close();
         connection.close();
         helper.close();

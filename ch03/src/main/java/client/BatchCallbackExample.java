@@ -25,9 +25,9 @@ public class BatchCallbackExample {
     private final static byte[] QUAL2 = Bytes.toBytes("qual2");
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        // Configuration conf = HBaseConfiguration.create();
+        // HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         helper.put("testtable",
@@ -39,41 +39,49 @@ public class BatchCallbackExample {
         System.out.println("Before batch call...");
         helper.dump("testtable", new String[]{"row1", "row2"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
+        // Connection connection = ConnectionFactory.createConnection(conf);
+        Connection connection = helper.getConnection();
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv BatchCallbackExample
-        List<Row> batch = new ArrayList<>(); // co BatchCallbackExample-1-CreateList Create a list to hold all values.
+        // co BatchCallbackExample-1-CreateList Create a list to hold all values.
+        List<Row> batch = new ArrayList<>();
 
         Put put = new Put(ROW2);
-        put.addColumn(COLFAM2, QUAL1, 4, Bytes.toBytes("val5")); // co BatchCallbackExample-2-AddPut Add a Put instance.
+        // co BatchCallbackExample-2-AddPut Add a Put instance.
+        put.addColumn(COLFAM2, QUAL1, 4, Bytes.toBytes("val5"));
         batch.add(put);
 
         Get get1 = new Get(ROW1);
-        get1.addColumn(COLFAM1, QUAL1); // co BatchCallbackExample-3-AddGet Add a Get instance for a different row.
+        // co BatchCallbackExample-3-AddGet Add a Get instance for a different row.
+        get1.addColumn(COLFAM1, QUAL1);
         batch.add(get1);
 
         Delete delete = new Delete(ROW1);
-        delete.addColumns(COLFAM1, QUAL2); // co BatchCallbackExample-4-AddDelete Add a Delete instance.
+        // co BatchCallbackExample-4-AddDelete Add a Delete instance.
+        delete.addColumns(COLFAM1, QUAL2);
         batch.add(delete);
 
         Get get2 = new Get(ROW2);
-        get2.addFamily(Bytes.toBytes("BOGUS")); // co BatchCallbackExample-5-AddBogus Add a Get instance that will fail.
+        // co BatchCallbackExample-5-AddBogus Add a Get instance that will fail.
+        get2.addFamily(Bytes.toBytes("BOGUS"));
         batch.add(get2);
 
-        Object[] results = new Object[batch.size()]; // co BatchCallbackExample-6-CreateResult Create result array.
+        // co BatchCallbackExample-6-CreateResult Create result array.
+        Object[] results = new Object[batch.size()];
         try {
             table.batchCallback(batch, results, (Batch.Callback<Result>) (region, row, result) -> System.out.println("Received callback for row[" +
                     Bytes.toString(row) + "] -> " + result));
         } catch (Exception e) {
-            System.err.println("Error: " + e); // co BatchCallbackExample-7-Print Print error that was caught.
+            // co BatchCallbackExample-7-Print Print error that was caught.
+            System.err.println("Error: " + e);
         }
 
         for (int i = 0; i < results.length; i++) {
-            System.out.println("Result[" + i + "]: type = " + // co BatchCallbackExample-8-Dump Print all results and class types.
+            // co BatchCallbackExample-8-Dump Print all results and class types.
+            System.out.println("Result[" + i + "]: type = " +
                     results[i].getClass().getSimpleName() + "; " + results[i]);
         }
-        // ^^ BatchCallbackExample
+
         table.close();
         connection.close();
         System.out.println("After batch call...");

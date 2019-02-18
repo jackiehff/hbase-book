@@ -43,7 +43,6 @@ public class ScanSlicingExample {
     }
 
     public static void main(String[] args) throws IOException {
-        // ^^ ScanSlicingExample
         Configuration conf = HBaseConfiguration.create();
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);
@@ -54,20 +53,15 @@ public class ScanSlicingExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv ScanSlicingExample
-        /*...*/
         scan(1, 11, 0, 0, 2, -1, true);
         scan(2, 11, 0, 4, 2, -1, true);
         scan(3, 5, 0, 0, 2, -1, false);
         scan(4, 11, 2, 0, 5, -1, true);
         scan(5, 11, -1, -1, -1, 1, false);
         scan(6, 11, -1, -1, -1, 10000, false);
-        /*...*/
-        // ^^ ScanSlicingExample
+
         table.close();
         connection.close();
         helper.close();
-        // vv ScanSlicingExample
     }
-    // ^^ ScanSlicingExample
 }

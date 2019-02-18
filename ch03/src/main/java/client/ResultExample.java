@@ -30,7 +30,6 @@ public class ResultExample {
                 Bytes.toBytes("val2"));
         table.put(put);
 
-        // vv ResultExample
         Get get = new Get(Bytes.toBytes("row1"));
         Result result1 = table.get(get);
         System.out.println(result1);
@@ -41,7 +40,6 @@ public class ResultExample {
         result2.copyFrom(result1);
         System.out.println(result2);
 
-        // ^^ ResultExample
         table.close();
         connection.close();
         helper.close();

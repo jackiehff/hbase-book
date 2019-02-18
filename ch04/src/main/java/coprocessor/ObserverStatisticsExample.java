@@ -24,13 +24,11 @@ import java.util.Map;
  */
 public class ObserverStatisticsExample {
 
-    // vv ObserverStatisticsExample
     private static Table table = null;
 
     private static void printStatistics(boolean print, boolean clear)
             throws Throwable {
-        final StatisticsRequest request = StatisticsRequest
-                .newBuilder().setClear(clear).build();
+        final StatisticsRequest request = StatisticsRequest.newBuilder().setClear(clear).build();
         Map<byte[], Map<String, Integer>> results = table.coprocessorService(
                 ObserverStatisticsService.class,
                 null, null,
@@ -72,13 +70,10 @@ public class ObserverStatisticsExample {
         helper.dump("testtable",
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        // vv ObserverStatisticsExample
         try {
             TableName tableName = TableName.valueOf("testtable");
             table = connection.getTable(tableName);
-            // ^^ ObserverStatisticsExample
             printStatistics(false, true);
-            // vv ObserverStatisticsExample
 
             System.out.println("Apply single put...");
             Put put = new Put(Bytes.toBytes("row10"));
@@ -92,8 +87,6 @@ public class ObserverStatisticsExample {
             get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual10"));
             table.get(get);
             printStatistics(true, true);
-            /*...*/
-            // ^^ ObserverStatisticsExample
 
             System.out.println("Send batch with put and get...");
             List<Row> batch = new ArrayList<Row>();

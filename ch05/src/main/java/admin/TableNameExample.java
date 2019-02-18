@@ -2,30 +2,27 @@ package admin;
 
 import org.apache.hadoop.hbase.TableName;
 
-import java.io.IOException;
-
-// cc TableNameExample Example how to create a TableName in code
+/**
+ * TableNameExample Example how to create a TableName in code
+ */
 public class TableNameExample {
 
-    // vv TableNameExample
     private static void print(String tablename) {
         print(null, tablename);
     }
 
     private static void print(String namespace, String tablename) {
-        System.out.print("Given Namespace: " + namespace +
-                ", Tablename: " + tablename + " -> ");
+        System.out.print("Given Namespace: " + namespace + ", Tablename: " + tablename + " -> ");
         try {
             System.out.println(namespace != null ?
                     TableName.valueOf(namespace, tablename) :
                     TableName.valueOf(tablename));
         } catch (Exception e) {
-            System.out.println(e.getClass().getSimpleName() +
-                    ": " + e.getMessage());
+            System.out.println(e.getClass().getSimpleName() + ": " + e.getMessage());
         }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         print("testtable");
         print("testspace:testtable");
         print("testspace", "testtable");
@@ -41,5 +38,4 @@ public class TableNameExample {
         print("te_st-space", "te_st-table");
         print("tEsTsPaCe", "te_st-table@dev");
     }
-    // ^^ TableNameExample
 }

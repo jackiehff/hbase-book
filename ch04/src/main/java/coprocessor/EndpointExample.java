@@ -15,15 +15,15 @@ import util.HBaseHelper;
 import java.io.IOException;
 import java.util.Map;
 
-// cc EndpointExample Example using the custom row-count endpoint
-// vv EndpointExample
+/**
+ * EndpointExample Example using the custom row-count endpoint
+ */
 public class EndpointExample {
 
     public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
         TableName tableName = TableName.valueOf("testtable");
         Connection connection = ConnectionFactory.createConnection(conf);
-        // ^^ EndpointExample
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
@@ -44,11 +44,12 @@ public class EndpointExample {
             e.printStackTrace();
         }
         // wait for the split to be done
-        while (admin.getRegions(tableName).size() < 2)
+        while (admin.getRegions(tableName).size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
+        }
         //vv EndpointExample
         Table table = connection.getTable(tableName);
         try {
@@ -61,14 +62,16 @@ public class EndpointExample {
                     counter -> {
                         BlockingRpcCallback<RowCounterProtos.CountResponse> rpcCallback =
                                 new BlockingRpcCallback<>();
-                        counter.getRowCount(null, request, rpcCallback); // co EndpointExample-4-Call The call() method is executing the endpoint functions.
+                        // co EndpointExample-4-Call The call() method is executing the endpoint functions.
+                        counter.getRowCount(null, request, rpcCallback);
                         RowCounterProtos.CountResponse response = rpcCallback.get();
                         return response.hasCount() ? response.getCount() : 0;
                     }
             );
 
             long total = 0;
-            for (Map.Entry<byte[], Long> entry : results.entrySet()) { // co EndpointExample-5-Print Iterate over the returned map, containing the result for each region separately.
+            // co EndpointExample-5-Print Iterate over the returned map, containing the result for each region separately.
+            for (Map.Entry<byte[], Long> entry : results.entrySet()) {
                 total += entry.getValue();
                 System.out.println("Region: " + Bytes.toString(entry.getKey()) +
                         ", Count: " + entry.getValue());

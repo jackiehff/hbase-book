@@ -10,10 +10,12 @@ import org.apache.hadoop.hbase.client.ConnectionFactory;
 
 import java.io.IOException;
 
-// cc NamespaceExample Example using the administrative API to create etc. a namespace
+/**
+ * NamespaceExample Example using the administrative API to create etc. a namespace
+ */
 public class NamespaceExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         // vv NamespaceExample
         Configuration conf = HBaseConfiguration.create();
         Connection connection = ConnectionFactory.createConnection(conf);

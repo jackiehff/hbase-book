@@ -74,8 +74,9 @@ public class AnalyzeSnapshotData {
                             cell.getValueOffset(), cell.getValueLength());
                     JSONObject json = (JSONObject) parser.parse(value);
                     String author = (String) json.get("author");
-                    if (context.getConfiguration().get("conf.debug") != null)
+                    if (context.getConfiguration().get("conf.debug") != null) {
                         System.out.println("Author: " + author);
+                    }
                     context.write(new Text(author), one);
                     context.getCounter(Counters.VALID).increment(1);
                 }
@@ -135,8 +136,9 @@ public class AnalyzeSnapshotData {
                               Context context) throws IOException, InterruptedException {
             int count = 0;
             for (IntWritable one : values) count++;
-            if (context.getConfiguration().get("conf.debug") != null)
+            if (context.getConfiguration().get("conf.debug") != null) {
                 System.out.println("Author: " + key.toString() + ", Count: " + count);
+            }
             context.write(key, new IntWritable(count));
         }
     }
@@ -202,7 +204,9 @@ public class AnalyzeSnapshotData {
         String[] otherArgs =
                 new GenericOptionsParser(conf, args).getRemainingArgs();
         CommandLine cmd = parseArgs(otherArgs);
-        if (cmd.hasOption("d")) conf.set("conf.debug", "true");
+        if (cmd.hasOption("d")) {
+            conf.set("conf.debug", "true");
+        }
         String table = cmd.getOptionValue("t");
         long time = System.currentTimeMillis();
         String tmpName = "snapshot-" + table + "-" + time; // co AnalyzeSnapshotData-1-TmpName Compute a name for the snapshot and restore directory, if not specified otherwise.

@@ -87,14 +87,14 @@ public class LookupService {
      */
     byte databaseType = DatabaseInfo.COUNTRY_EDITION;
 
-    int databaseSegments[];
+    int[] databaseSegments;
     int recordLength;
 
     String licenseKey;
     int dnsService = 0;
     int dboptions;
-    byte dbbuffer[];
-    byte index_cache[];
+    byte[] dbbuffer;
+    byte[] index_cache;
     long mtime;
     int last_netmask;
     private final static int US_OFFSET = 1;
@@ -206,8 +206,9 @@ public class LookupService {
     /* init the hashmap once at startup time */
     static {
         int i;
-        if (countryCode.length != countryName.length)
+        if (countryCode.length != countryName.length) {
             throw new AssertionError("countryCode.length!=countryName.length");
+        }
 
         // distributed service only
         for (i = 0; i < countryCode.length; i++) {
@@ -215,8 +216,6 @@ public class LookupService {
             hashmapcountryNametoindex.put(countryName[i], Integer.valueOf(i));
         }
     }
-
-    ;
 
 
     /**
@@ -708,7 +707,7 @@ public class LookupService {
         int seek_region = 0;
         if (databaseType == DatabaseInfo.REGION_EDITION_REV0) {
             seek_region = seekCountry(ipnum) - STATE_BEGIN_REV0;
-            char ch[] = new char[2];
+            char[] ch = new char[2];
             if (seek_region >= 1000) {
                 record.countryCode = "US";
                 record.countryName = "United States";
@@ -722,7 +721,7 @@ public class LookupService {
             }
         } else if (databaseType == DatabaseInfo.REGION_EDITION_REV1) {
             seek_region = seekCountry(ipnum) - STATE_BEGIN_REV1;
-            char ch[] = new char[2];
+            char[] ch = new char[2];
             if (seek_region < US_OFFSET) {
                 record.countryCode = "";
                 record.countryName = "";
@@ -750,7 +749,7 @@ public class LookupService {
 
     public synchronized Location getLocation(long ipnum) {
         int record_pointer;
-        byte record_buf[] = new byte[FULL_RECORD_LENGTH];
+        byte[] record_buf = new byte[FULL_RECORD_LENGTH];
         int record_buf_offset = 0;
         Location record = new Location();
         int str_length = 0;
@@ -779,8 +778,9 @@ public class LookupService {
             record_buf_offset++;
 
             // get region
-            while (record_buf[record_buf_offset + str_length] != '\0')
+            while (record_buf[record_buf_offset + str_length] != '\0') {
                 str_length++;
+            }
             if (str_length > 0) {
                 record.region = new String(record_buf, record_buf_offset, str_length);
             }
@@ -788,8 +788,9 @@ public class LookupService {
             str_length = 0;
 
             // get city
-            while (record_buf[record_buf_offset + str_length] != '\0')
+            while (record_buf[record_buf_offset + str_length] != '\0') {
                 str_length++;
+            }
             if (str_length > 0) {
                 record.city = new String(record_buf, record_buf_offset, str_length, "ISO-8859-1");
             }
@@ -797,22 +798,25 @@ public class LookupService {
             str_length = 0;
 
             // get postal code
-            while (record_buf[record_buf_offset + str_length] != '\0')
+            while (record_buf[record_buf_offset + str_length] != '\0') {
                 str_length++;
+            }
             if (str_length > 0) {
                 record.postalCode = new String(record_buf, record_buf_offset, str_length);
             }
             record_buf_offset += str_length + 1;
 
             // get latitude
-            for (j = 0; j < 3; j++)
+            for (j = 0; j < 3; j++) {
                 latitude += (unsignedByteToInt(record_buf[record_buf_offset + j]) << (j * 8));
+            }
             record.latitude = (float) latitude / 10000 - 180;
             record_buf_offset += 3;
 
             // get longitude
-            for (j = 0; j < 3; j++)
+            for (j = 0; j < 3; j++) {
                 longitude += (unsignedByteToInt(record_buf[record_buf_offset + j]) << (j * 8));
+            }
             record.longitude = (float) longitude / 10000 - 180;
 
             record.dma_code = record.metro_code = 0;
@@ -822,8 +826,9 @@ public class LookupService {
                 int metroarea_combo = 0;
                 if (record.countryCode == "US") {
                     record_buf_offset += 3;
-                    for (j = 0; j < 3; j++)
+                    for (j = 0; j < 3; j++) {
                         metroarea_combo += (unsignedByteToInt(record_buf[record_buf_offset + j]) << (j * 8));
+                    }
                     record.metro_code = record.dma_code = metroarea_combo / 1000;
                     record.area_code = metroarea_combo % 1000;
                 }

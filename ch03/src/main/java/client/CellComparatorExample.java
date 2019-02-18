@@ -1,7 +1,5 @@
 package client;
 
-// cc CellComparatorExample Shows how to use the cell scanner
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellComparator;
 import org.apache.hadoop.hbase.CellScanner;
@@ -11,23 +9,21 @@ import org.apache.hadoop.hbase.util.Bytes;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * CellComparatorExample Shows how to use the cell scanner
+ */
 public class CellComparatorExample {
 
     public static void main(String[] args) throws Exception {
         Put put1 = new Put(Bytes.toBytes("row-1"));
-        put1.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-1"),
-                Bytes.toBytes("val-1"));
+        put1.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-1"), Bytes.toBytes("val-1"));
         Put put2 = new Put(Bytes.toBytes("row-2"));
-        put2.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-2"),
-                Bytes.toBytes("val-2"));
+        put2.addColumn(Bytes.toBytes("fam-1"), Bytes.toBytes("qual-2"), Bytes.toBytes("val-2"));
         Put put3 = new Put(Bytes.toBytes("row-3"));
-        put3.addColumn(Bytes.toBytes("fam-2"), Bytes.toBytes("qual-3"),
-                Bytes.toBytes("val-3"));
+        put3.addColumn(Bytes.toBytes("fam-2"), Bytes.toBytes("qual-3"), Bytes.toBytes("val-3"));
         Put put4 = new Put(Bytes.toBytes("row-1"));
-        put4.addColumn(Bytes.toBytes("fam-2"), Bytes.toBytes("qual-2"),
-                Bytes.toBytes("val-2"));
+        put4.addColumn(Bytes.toBytes("fam-2"), Bytes.toBytes("qual-2"), Bytes.toBytes("val-2"));
 
-        // TODO CellComparator comparator = new CellComparator.RowComparator();
         CellComparator comparator = CellComparator.getInstance();
         ArrayList<Cell> cells = new ArrayList<>();
 

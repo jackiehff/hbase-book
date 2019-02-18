@@ -16,7 +16,6 @@ public class ScanCacheBatchExample {
 
     private static Table table = null;
 
-    // vv ScanCacheBatchExample
     private static void scan(int caching, int batch, boolean small)
             throws IOException {
         int count = 0;
@@ -27,7 +26,8 @@ public class ScanCacheBatchExample {
                 .setScanMetricsEnabled(true);
         ResultScanner scanner = table.getScanner(scan);
         for (Result result : scanner) {
-            count++; // co ScanCacheBatchExample-2-Count Count the number of Results available.
+            // co ScanCacheBatchExample-2-Count Count the number of Results available.
+            count++;
         }
         ScanMetrics metrics = scanner.getScanMetrics();
         System.out.println("Caching: " + caching + ", Batch: " + batch +
@@ -38,7 +38,6 @@ public class ScanCacheBatchExample {
     }
 
     public static void main(String[] args) throws IOException {
-        // ^^ ScanCacheBatchExample
         Configuration conf = HBaseConfiguration.create();
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);
@@ -49,26 +48,22 @@ public class ScanCacheBatchExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv ScanCacheBatchExample
-        /*...*/
         scan(1, 1, false);
         scan(1, 0, false);
         scan(1, 0, true);
         scan(200, 1, false);
         scan(200, 0, false);
         scan(200, 0, true);
-        scan(2000, 100, false); // co ScanCacheBatchExample-3-Test Test various combinations.
+        // co ScanCacheBatchExample-3-Test Test various combinations.
+        scan(2000, 100, false);
         scan(2, 100, false);
         scan(2, 10, false);
         scan(5, 100, false);
         scan(5, 20, false);
         scan(10, 10, false);
-        /*...*/
-        // ^^ ScanCacheBatchExample
+
         table.close();
         connection.close();
         helper.close();
-        // vv ScanCacheBatchExample
     }
-    // ^^ ScanCacheBatchExample
 }

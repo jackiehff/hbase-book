@@ -141,8 +141,12 @@ public final class FilterProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       if (!hasValue()) {
         memoizedIsInitialized = 0;
@@ -164,7 +168,9 @@ public final class FilterProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -374,7 +380,9 @@ public final class FilterProtos {
       }
 
       public Builder mergeFrom(filters.generated.FilterProtos.CustomFilter other) {
-        if (other == filters.generated.FilterProtos.CustomFilter.getDefaultInstance()) return this;
+        if (other == filters.generated.FilterProtos.CustomFilter.getDefaultInstance()) {
+          return this;
+        }
         if (other.hasValue()) {
           setValue(other.getValue());
         }

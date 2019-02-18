@@ -138,7 +138,9 @@ public class ImportFromFile2 {
                 new GenericOptionsParser(conf, args).getRemainingArgs();
         CommandLine cmd = parseArgs(otherArgs);
         // check debug flag and other options
-        if (cmd.hasOption("d")) conf.set("conf.debug", "true");
+        if (cmd.hasOption("d")) {
+            conf.set("conf.debug", "true");
+        }
         // get details
         String table = cmd.getOptionValue("t");
         String input = cmd.getOptionValue("i");

@@ -7,7 +7,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.client.TableDescriptor;
-import org.apache.hadoop.hbase.coprocessor.BaseMasterObserver;
 import org.apache.hadoop.hbase.coprocessor.MasterCoprocessorEnvironment;
 import org.apache.hadoop.hbase.coprocessor.MasterObserver;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
@@ -19,9 +18,8 @@ import java.io.IOException;
 /**
  * MasterObserverExample Example master observer that creates a separate directory on the file system when a table is created.
  */
-public class MasterObserverExample extends BaseMasterObserver {
+public class MasterObserverExample implements MasterObserver {
     public static final Log LOG = LogFactory.getLog(MasterObserverExample.class);
-    // vv MasterObserverExample
 
     @Override
     public void postCreateTable(
@@ -29,14 +27,17 @@ public class MasterObserverExample extends BaseMasterObserver {
             TableDescriptor desc, RegionInfo[] regions)
             throws IOException {
         LOG.debug("Got postCreateTable callback");
-        TableName tableName = desc.getTableName(); // co MasterObserverExample-1-GetName Get the new table's name from the table descriptor.
+        // co MasterObserverExample-1-GetName Get the new table's name from the table descriptor.
+        TableName tableName = desc.getTableName();
 
         LOG.debug("Created table: " + tableName + ", region count: " + regions.length);
-        MasterServices services = ctx.getEnvironment().getMasterServices();
-        MasterFileSystem masterFileSystem = services.getMasterFileSystem(); // co MasterObserverExample-2-Services Get the available services and retrieve a reference to the actual file system.
+        MasterServices services = ctx.getEnvironment().getServices();
+        // co MasterObserverExample-2-Services Get the available services and retrieve a reference to the actual file system.
+        MasterFileSystem masterFileSystem = services.getMasterFileSystem();
         FileSystem fileSystem = masterFileSystem.getFileSystem();
 
-        Path blobPath = new Path(tableName.getQualifierAsString() + "-blobs"); // co MasterObserverExample-3-Path Create a new directory that will store binary data from the client application.
+        // co MasterObserverExample-3-Path Create a new directory that will store binary data from the client application.
+        Path blobPath = new Path(tableName.getQualifierAsString() + "-blobs");
         fileSystem.mkdirs(blobPath);
 
         LOG.debug("Created " + blobPath + ": " + fileSystem.exists(blobPath));

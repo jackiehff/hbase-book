@@ -10,9 +10,7 @@ import java.util.Iterator;
 public class InvalidReducerOverride {
 
     static class InvalidOverrideReduce extends Reducer<Writable, Writable, Writable, Writable> {
-        //@Override
-        protected void reduce(Writable key, Iterator values, Context context)
-                throws IOException, InterruptedException {
+        protected void reduce(Writable key, Iterator values, Context context) throws IOException, InterruptedException {
             context.write(key, new Text());
         }
     }

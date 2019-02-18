@@ -13,7 +13,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc TableOperationsExample Example using the various calls to disable, enable, and check that status of a table
+/**
+ * TableOperationsExample Example using the various calls to disable, enable, and check that status of a table
+ */
 public class TableOperationsExample {
 
     public static void main(String[] args) throws IOException {
@@ -28,8 +30,7 @@ public class TableOperationsExample {
 
         TableName tableName = TableName.valueOf("testtable");
         HTableDescriptor desc = new HTableDescriptor(tableName);
-        HColumnDescriptor coldef = new HColumnDescriptor(
-                Bytes.toBytes("colfam1"));
+        HColumnDescriptor coldef = new HColumnDescriptor(Bytes.toBytes("colfam1"));
         desc.addFamily(coldef);
         // ^^ TableOperationsExample
         System.out.println("Creating table...");

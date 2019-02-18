@@ -1,5 +1,7 @@
 package com.hbasebook.hush.model;
 
+import java.util.Objects;
+
 /**
  * Helper to sort counters by key or value.
  *
@@ -10,7 +12,7 @@ public class Counter<K extends Comparable<K>, V extends Comparable<V>>
         implements Comparable<Counter<K, V>> {
 
     public enum Sort {
-        KeyAsc, KeyDesc, ValueAsc, ValueDesc;
+        KeyAsc, KeyDesc, ValueAsc, ValueDesc
     }
 
     private K key;
@@ -63,5 +65,20 @@ public class Counter<K extends Comparable<K>, V extends Comparable<V>>
             default:
                 return key.compareTo(other.key);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Counter<?, ?> counter = (Counter<?, ?>) o;
+        return Objects.equals(key, counter.key) &&
+                Objects.equals(value, counter.value);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(key, value);
     }
 }

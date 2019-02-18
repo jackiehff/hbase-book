@@ -45,30 +45,28 @@ public class EndpointBatchExample {
             e.printStackTrace();
         }
         // wait for the split to be done
-        while (admin.getRegions(tableName).size() < 2)
+        while (admin.getRegions(tableName).size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
+        }
+
         Table table = connection.getTable(tableName);
         try {
-            //vv EndpointBatchExample
             final CountRequest request = CountRequest.getDefaultInstance();
-            Map<byte[], CountResponse> results = /*[*/table.batchCoprocessorService(
+            Map<byte[], CountResponse> results = table.batchCoprocessorService(
                     RowCountService.getDescriptor().findMethodByName("getRowCount"),
                     request, HConstants.EMPTY_START_ROW, HConstants.EMPTY_END_ROW,
-                    CountResponse.getDefaultInstance());/*]*/
+                    CountResponse.getDefaultInstance());
 
             long total = 0;
-            for (Map.Entry<byte[], /*[*/CountResponse/*]*/> entry : results.entrySet()) {
-                /*[*/
-                CountResponse response = entry.getValue();/*]*/
-                total += /*[*/response.hasCount() ? response.getCount() : 0;/*]*/
-                System.out.println("Region: " + Bytes.toString(entry.getKey()) +
-                        ", Count: " + entry.getValue());
+            for (Map.Entry<byte[], CountResponse> entry : results.entrySet()) {
+                CountResponse response = entry.getValue();
+                total += response.hasCount() ? response.getCount() : 0;
+                System.out.println("Region: " + Bytes.toString(entry.getKey()) + ", Count: " + entry.getValue());
             }
             System.out.println("Total Count: " + total);
-            // ^^ EndpointBatchExample
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

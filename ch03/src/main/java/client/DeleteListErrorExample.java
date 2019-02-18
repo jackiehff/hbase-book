@@ -52,7 +52,7 @@ public class DeleteListErrorExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        List<Delete> deletes = new ArrayList<Delete>();
+        List<Delete> deletes = new ArrayList<>();
 
         Delete delete1 = new Delete(Bytes.toBytes("row1"));
         delete1.setTimestamp(4);
@@ -68,24 +68,28 @@ public class DeleteListErrorExample {
         delete3.addFamily(Bytes.toBytes("colfam2"), 3);
         deletes.add(delete3);
 
-        // vv DeleteListErrorExample
         Delete delete4 = new Delete(Bytes.toBytes("row2"));
-        /*[*/
-        delete4.addColumn(Bytes.toBytes("BOGUS"),/*]*/ Bytes.toBytes("qual1")); // co DeleteListErrorExample-1-DelColNoTS Add bogus column family to trigger an error.
+
+        // co DeleteListErrorExample-1-DelColNoTS Add bogus column family to trigger an error.
+        delete4.addColumn(Bytes.toBytes("BOGUS"), Bytes.toBytes("qual1"));
         deletes.add(delete4);
 
         try {
-            table.delete(deletes); // co DeleteListErrorExample-2-DoDel Delete the data from multiple rows the HBase table.
+            // co DeleteListErrorExample-2-DoDel Delete the data from multiple rows the HBase table.
+            table.delete(deletes);
         } catch (Exception e) {
-            System.err.println("Error: " + e); // co DeleteListErrorExample-3-Catch Guard against remote exceptions.
+            // co DeleteListErrorExample-3-Catch Guard against remote exceptions.
+            System.err.println("Error: " + e);
         }
         table.close();
 
-        System.out.println("Deletes length: " + deletes.size()); // co DeleteListErrorExample-4-CheckSize Check the length of the list after the call.
+        // co DeleteListErrorExample-4-CheckSize Check the length of the list after the call.
+        System.out.println("Deletes length: " + deletes.size());
         for (Delete delete : deletes) {
-            System.out.println(delete); // co DeleteListErrorExample-5-Dump Print out failed delete for debugging purposes.
+            // co DeleteListErrorExample-5-Dump Print out failed delete for debugging purposes.
+            System.out.println(delete);
         }
-        // ^^ DeleteListErrorExample
+
         table.close();
         connection.close();
         System.out.println("After delete call...");

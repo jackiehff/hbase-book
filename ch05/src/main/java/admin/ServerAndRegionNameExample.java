@@ -2,19 +2,18 @@ package admin;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.RegionLocator;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc ServerAndRegionNameExample Shows the use of server and region names
+/**
+ * ServerAndRegionNameExample Shows the use of server and region names
+ */
 public class ServerAndRegionNameExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
@@ -35,7 +34,7 @@ public class ServerAndRegionNameExample {
 
         RegionLocator locator = connection.getRegionLocator(tableName);
         HRegionLocation location = locator.getRegionLocation(Bytes.toBytes("Foo"));
-        HRegionInfo info = location.getRegionInfo();
+        RegionInfo info = location.getRegion();
         System.out.println("Region Name: " + info.getRegionNameAsString());
         System.out.println("Server Name: " + location.getServerName());
         // ^^ ServerAndRegionNameExample

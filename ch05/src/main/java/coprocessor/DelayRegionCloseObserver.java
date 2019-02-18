@@ -4,30 +4,30 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hbase.coprocessor.BaseRegionObserver;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
+import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
 import org.apache.hadoop.hbase.regionserver.HRegion;
-import org.apache.hadoop.hbase.regionserver.StoreFile;
+import org.apache.hadoop.hbase.regionserver.StoreFileReader;
 
-import java.io.IOException;
 import java.util.Random;
 
-// cc DelayRegionCloseObserver Special test observer creating delays
-public class DelayRegionCloseObserver extends BaseRegionObserver {
+/**
+ * DelayRegionCloseObserver Special test observer creating delays
+ */
+public class DelayRegionCloseObserver implements RegionObserver {
     public static final Log LOG = LogFactory.getLog(HRegion.class);
 
-    // vv DelayRegionCloseObserver
     private Random rnd = new Random();
 
     @Override
-    public StoreFile.Reader preStoreFileReaderOpen(
+    public StoreFileReader preStoreFileReaderOpen(
             ObserverContext<RegionCoprocessorEnvironment> ctx, FileSystem fs, Path p,
             FSDataInputStreamWrapper in, long size, CacheConfig cacheConf, Reference r,
-            StoreFile.Reader reader) throws IOException {
+            StoreFileReader reader) {
         try {
             long delay = rnd.nextInt(3);
             LOG.info("@@@ Delaying region " +
@@ -39,5 +39,4 @@ public class DelayRegionCloseObserver extends BaseRegionObserver {
         }
         return reader;
     }
-    // ^^ DelayRegionCloseObserver
 }

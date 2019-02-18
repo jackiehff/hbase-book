@@ -31,8 +31,8 @@ public class GetFluentExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv GetFluentExample
-        Get get = new Get(Bytes.toBytes("row1")) // co GetFluentExample-1-Create Create a new get using the fluent interface.
+        // co GetFluentExample-1-Create Create a new get using the fluent interface.
+        Get get = new Get(Bytes.toBytes("row1"))
                 .setId("GetFluentExample")
                 .readAllVersions()
                 .setTimestamp(1)
@@ -41,7 +41,7 @@ public class GetFluentExample {
 
         Result result = table.get(get);
         System.out.println("Result: " + result);
-        // ^^ GetFluentExample
+
         table.close();
         connection.close();
         helper.close();

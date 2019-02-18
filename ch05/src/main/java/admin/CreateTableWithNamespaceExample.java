@@ -10,7 +10,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc CreateTableWithNamespaceExample Example using the administrative API to create a table with a custom namespace
+/**
+ * CreateTableWithNamespaceExample Example using the administrative API to create a table with a custom namespace
+ */
 public class CreateTableWithNamespaceExample {
 
     public static void main(String[] args) throws IOException {
@@ -20,21 +22,16 @@ public class CreateTableWithNamespaceExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Admin admin = connection.getAdmin();
 
-        // vv CreateTableWithNamespaceExample
-        /*[*/
-        NamespaceDescriptor namespace =
-                NamespaceDescriptor.create("testspace").build();
-        admin.createNamespace(namespace);/*]*/
+        NamespaceDescriptor namespace = NamespaceDescriptor.create("testspace").build();
+        admin.createNamespace(namespace);
 
         TableName tableName = TableName.valueOf("testspace", "testtable");
         HTableDescriptor desc = new HTableDescriptor(tableName);
 
-        HColumnDescriptor coldef = new HColumnDescriptor(
-                Bytes.toBytes("colfam1"));
+        HColumnDescriptor coldef = new HColumnDescriptor(Bytes.toBytes("colfam1"));
         desc.addFamily(coldef);
 
         admin.createTable(desc);
-        // ^^ CreateTableWithNamespaceExample
 
         boolean avail = admin.isTableAvailable(tableName);
         System.out.println("Table available: " + avail);

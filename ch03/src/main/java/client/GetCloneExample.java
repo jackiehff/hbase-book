@@ -24,15 +24,13 @@ public class GetCloneExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv GetCloneExample
         Get get1 = new Get(Bytes.toBytes("row1"));
         get1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
 
         Get get2 = new Get(get1);
         Result result = table.get(get2);
-
         System.out.println("Result : " + result);
-        // ^^ GetCloneExample
+
         table.close();
         connection.close();
         helper.close();

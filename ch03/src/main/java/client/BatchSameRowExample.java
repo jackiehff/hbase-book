@@ -20,7 +20,7 @@ public class BatchSameRowExample {
     private final static byte[] COLFAM1 = Bytes.toBytes("colfam1");
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);
@@ -33,7 +33,6 @@ public class BatchSameRowExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv BatchSameRowExample
         List<Row> batch = new ArrayList<>();
 
         Put put = new Put(ROW1);
@@ -45,7 +44,8 @@ public class BatchSameRowExample {
         batch.add(get1);
 
         Delete delete = new Delete(ROW1);
-        delete.addColumns(COLFAM1, QUAL1, 3L); // co BatchSameRowExample-1-AddDelete Delete the row that was just put above.
+        // co BatchSameRowExample-1-AddDelete Delete the row that was just put above.
+        delete.addColumns(COLFAM1, QUAL1, 3L);
         batch.add(delete);
 
         Get get2 = new Get(ROW1);
@@ -58,7 +58,6 @@ public class BatchSameRowExample {
         } catch (Exception e) {
             System.err.println("Error: " + e);
         }
-        // ^^ BatchSameRowExample
 
         for (int i = 0; i < results.length; i++) {
             System.out.println("Result[" + i + "]: type = " +

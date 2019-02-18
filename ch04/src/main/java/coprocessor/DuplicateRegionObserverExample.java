@@ -5,9 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.coprocessor.BaseRegionObserver;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
+import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.regionserver.HRegion;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -16,24 +16,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// cc DuplicateRegionObserverExample Example of attempting to load the same observer multiple times
-// vv DuplicateRegionObserverExample
-public class DuplicateRegionObserverExample extends BaseRegionObserver {
+/**
+ * DuplicateRegionObserverExample Example of attempting to load the same observer multiple times
+ */
+public class DuplicateRegionObserverExample implements RegionObserver {
+
     public static final Log LOG = LogFactory.getLog(HRegion.class);
 
     public static final byte[] FIXED_COLUMN = Bytes.toBytes("@@@GET_COUNTER@@@");
     private static AtomicInteger counter = new AtomicInteger(0);
 
     @Override
-    public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e,
-                         Get get, List<Cell> results) {
+    public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results) {
         int count = counter.incrementAndGet();
         LOG.info("Current preGet count: " + count + " [" + this + "]");
     }
 
     @Override
-    public void postGetOp(ObserverContext<RegionCoprocessorEnvironment> e,
-                          Get get, List<Cell> results) throws IOException {
+    public void postGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results) throws IOException {
         Put put = new Put(get.getRow());
         put.addColumn(get.getRow(), FIXED_COLUMN, Bytes.toBytes(counter.get()));
         CellScanner scanner = put.cellScanner();

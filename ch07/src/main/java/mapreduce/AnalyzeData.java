@@ -69,8 +69,9 @@ public class AnalyzeData {
                     JSONObject json = (JSONObject) parser.parse(value);
                     String author = (String) json.get("author"); // co AnalyzeData-2-Parse Parse the JSON data, extract the author and count the occurrence.
                     // ^^ AnalyzeData
-                    if (context.getConfiguration().get("conf.debug") != null)
+                    if (context.getConfiguration().get("conf.debug") != null) {
                         System.out.println("Author: " + author);
+                    }
                     // vv AnalyzeData
                     context.write(new Text(author), one);
                     context.getCounter(Counters.VALID).increment(1);
@@ -139,10 +140,14 @@ public class AnalyzeData {
         protected void reduce(Text key, Iterable<IntWritable> values,
                               Context context) throws IOException, InterruptedException {
             int count = 0;
-            for (IntWritable one : values) count++; // co AnalyzeData-4-Count Count the occurrences and emit sum.
+            for (IntWritable one : values) {
+                count++; // co AnalyzeData-4-Count Count the occurrences and emit sum.
+            }
             // ^^ AnalyzeData
-            if (context.getConfiguration().get("conf.debug") != null)
+            if (context.getConfiguration().get("conf.debug") != null){
                 System.out.println("Author: " + key.toString() + ", Count: " + count);
+
+            }
             // vv AnalyzeData
             context.write(key, new IntWritable(count));
         }
@@ -207,7 +212,9 @@ public class AnalyzeData {
                 new GenericOptionsParser(conf, args).getRemainingArgs();
         CommandLine cmd = parseArgs(otherArgs);
         // check debug flag and other options
-        if (cmd.hasOption("d")) conf.set("conf.debug", "true");
+        if (cmd.hasOption("d")){
+            conf.set("conf.debug", "true");
+        }
         // get details
         String table = cmd.getOptionValue("t");
         String column = cmd.getOptionValue("c");

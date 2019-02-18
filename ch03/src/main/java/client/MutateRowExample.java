@@ -32,7 +32,6 @@ public class MutateRowExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv MutateRowExample
         Put put = new Put(Bytes.toBytes("row1"));
         put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
                 4, Bytes.toBytes("val99"));
@@ -47,7 +46,7 @@ public class MutateRowExample {
         mutations.add((Mutation) delete);
 
         table.mutateRow(mutations);
-        // ^^ MutateRowExample
+
         table.close();
         connection.close();
         System.out.println("After mutate call...");

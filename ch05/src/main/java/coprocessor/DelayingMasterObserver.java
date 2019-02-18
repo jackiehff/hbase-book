@@ -1,5 +1,6 @@
 package coprocessor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.ServerName;
 import org.apache.hadoop.hbase.client.RegionInfo;
@@ -23,7 +24,7 @@ public class DelayingMasterObserver extends BaseMasterObserver implements Assign
     @Override
     public void regionOpened(RegionInfo regionInfo, ServerName serverName) {
         try {
-            if (regionInfo.getTable().getQualifierAsString().equals("testtable")) {
+            if (StringUtils.equals("testtable", regionInfo.getTable().getQualifierAsString())) {
                 long delay = rnd.nextInt(3);
                 LOGGER.info("@@@ Delaying region " + regionInfo.getRegionNameAsString() +
                         " for " + delay + " seconds...");

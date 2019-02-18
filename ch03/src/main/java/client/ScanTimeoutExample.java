@@ -26,37 +26,34 @@ public class ScanTimeoutExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv ScanTimeoutExample
         Scan scan = new Scan();
         ResultScanner scanner = table.getScanner(scan);
 
-        int scannerTimeout = (int) conf.getLong(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, -1); // co ScanTimeoutExample-1-GetConf Get currently configured lease timeout.
-        // ^^ ScanTimeoutExample
+        // co ScanTimeoutExample-1-GetConf Get currently configured lease timeout.
+        int scannerTimeout = (int) conf.getLong(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, -1);
         System.out.println("Current (local) lease period: " + scannerTimeout + "ms");
         System.out.println("Sleeping now for " + (scannerTimeout + 5000) + "ms...");
-        // vv ScanTimeoutExample
         try {
-            Thread.sleep(scannerTimeout + 5000); // co ScanTimeoutExample-2-Sleep Sleep a little longer than the lease allows.
+            // co ScanTimeoutExample-2-Sleep Sleep a little longer than the lease allows.
+            Thread.sleep(scannerTimeout + 5000);
         } catch (InterruptedException e) {
             // ignore
         }
-        // ^^ ScanTimeoutExample
         System.out.println("Attempting to iterate over scanner...");
-        // vv ScanTimeoutExample
         while (true) {
             try {
                 Result result = scanner.next();
                 if (result == null) {
                     break;
                 }
-                System.out.println(result); // co ScanTimeoutExample-3-Dump Print row content.
+                // co ScanTimeoutExample-3-Dump Print row content.
+                System.out.println(result);
             } catch (Exception e) {
                 e.printStackTrace();
                 break;
             }
         }
         scanner.close();
-        // ^^ ScanTimeoutExample
         table.close();
         connection.close();
         helper.close();

@@ -9,7 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc ScanConsistencyExample2 Checks the scans behavior during concurrent modifications
+/**
+ * ScanConsistencyExample2 Checks the scans behavior during concurrent modifications
+ */
 public class ScanConsistencyExample2 {
 
     public static void main(String[] args) throws IOException {
@@ -48,13 +50,15 @@ public class ScanConsistencyExample2 {
         System.out.println("Flushing and splitting table...");
         // vv ScanConsistencyExample2
         Admin admin = connection.getAdmin();
-        admin.flush(tableName); // co ScanConsistencyExample2-1-Flush Flush table and wait a little while for the operation to complete.
+        // co ScanConsistencyExample2-1-Flush Flush table and wait a little while for the operation to complete.
+        admin.flush(tableName);
         try {
             Thread.currentThread().sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        admin.split(tableName, Bytes.toBytes("row-3")); // co ScanConsistencyExample2-2-Split Split the table and wait until split operation has completed.
+        // co ScanConsistencyExample2-2-Split Split the table and wait until split operation has completed.
+        admin.split(tableName, Bytes.toBytes("row-3"));
         while (admin.getRegions(tableName).size() == 1) {
         }
 

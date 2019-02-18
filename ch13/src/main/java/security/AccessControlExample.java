@@ -13,14 +13,16 @@ import util.HBaseHelper;
 import java.security.PrivilegedExceptionAction;
 import java.util.List;
 
-// cc AccessControlExample Example using the API to handle ACLs
+/**
+ * AccessControlExample Example using the API to handle ACLs
+ */
 public class AccessControlExample {
 
     private static TableName tableName;
 
     public static void main(String[] args) throws Throwable {
-        // vv AccessControlExample
-        final AuthenticatedUser superuser = new AuthenticatedUser( // co AccessControlExample-01-LoginUsers Login the three user roles: superuser, global admin, and application user.
+        // Login the three user roles: superuser, global admin, and application user.
+        final AuthenticatedUser superuser = new AuthenticatedUser(
                 "hbase/master-1.hbase.book@HBASE.BOOK", "/tmp/hbase.keytab",
                 "Superuser");
         AuthenticatedUser admin = new AuthenticatedUser(
@@ -49,19 +51,22 @@ public class AccessControlExample {
         // vv AccessControlExample
         // co AccessControlExample-02-DoAsSuperuser Run the next commands as the superuser.
         superuser.doAs((PrivilegedExceptionAction<Void>) () -> {
-            Connection connection = superuser.getConnection(); // co AccessControlExample-03-GetConn Get dedicated connection for authenticated user.
+            // co AccessControlExample-03-GetConn Get dedicated connection for authenticated user.
+            Connection connection = superuser.getConnection();
             Admin admin1 = connection.getAdmin();
             Table table = connection.getTable(tableName);
 
-            List<SecurityCapability> sc = admin1.getSecurityCapabilities(); // co AccessControlExample-04-ListCaps List the security capabilities as reported from the Master.
+            // co AccessControlExample-04-ListCaps List the security capabilities as reported from the Master.
+            List<SecurityCapability> sc = admin1.getSecurityCapabilities();
             System.out.println("Superuser: Available security capabilities:");
             for (SecurityCapability cap : sc) {
                 System.out.println("  " + cap);
             }
 
             System.out.println("Superuser: Report AccessController features...");
+            // co AccessControlExample-05-PrintAccCtlOpts Report the features enabled regarding access control.
             System.out.println("  Access Controller Running: " +
-                    AccessControlClient.isAccessControllerRunning(connection)); // co AccessControlExample-05-PrintAccCtlOpts Report the features enabled regarding access control.
+                    AccessControlClient.isAccessControllerRunning(connection));
             System.out.println("  Authorization Enabled: " +
                     AccessControlClient.isAuthorizationEnabled(connection));
             System.out.println("  Cell Authorization Enabled: " +
@@ -69,7 +74,8 @@ public class AccessControlExample {
 
             List<UserPermission> ups = null;
             try {
-                ups = AccessControlClient.getUserPermissions(connection, ".*"); // co AccessControlExample-06-PrintPerms Print the current permissions for all tables.
+                // co AccessControlExample-06-PrintPerms Print the current permissions for all tables.
+                ups = AccessControlClient.getUserPermissions(connection, ".*");
                 System.out.println("Superuser: User permissions:");
                 for (UserPermission perm : ups) {
                     System.out.println("  " + perm);

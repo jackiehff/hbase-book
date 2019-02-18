@@ -160,7 +160,9 @@ public class ResourceManager {
             try {
                 table.close();
             } catch (Throwable t) {
-                if (!quiet) throw t;
+                if (!quiet) {
+                    throw t;
+                }
             }
         }
     }

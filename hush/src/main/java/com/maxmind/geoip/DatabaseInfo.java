@@ -20,6 +20,8 @@
 
 package com.maxmind.geoip;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,7 +73,7 @@ public class DatabaseInfo {
     }
 
     public int getType() {
-        if (info == null || info.equals("")) {
+        if (StringUtils.isBlank(info)) {
             return COUNTRY_EDITION;
         } else {
             // Get the type code from the database info string and then

@@ -121,7 +121,9 @@ public class Counters {
         List<ShortUrlStatistics> stats = new ArrayList<ShortUrlStatistics>();
         for (ShortUrl surl : rm.getUrlManager().getShortUrlsByUser(username)) {
             ShortUrlStatistics stat = getDailyStatistics(surl, 30, 110.0);
-            if (stat != null) stats.add(stat);
+            if (stat != null) {
+                stats.add(stat);
+            }
         }
         return stats;
     }
@@ -199,7 +201,7 @@ public class Counters {
                     maxValue = Math.max(maxValue, clickCount);
                     try {
                         clicks.add(
-                                new Counter<Date, Double>(ColumnQualifier.DAY.parseDate(kp[0]),
+                                new Counter<>(ColumnQualifier.DAY.parseDate(kp[0]),
                                         new Double(clickCount), Counter.Sort.KeyDesc));
                     } catch (ParseException e) {
                         throw new IOException(e);
@@ -209,13 +211,15 @@ public class Counters {
                     Counter<String, Long> countryCount = clicksByCountry.get(kp[2]);
                     if (countryCount == null) {
                         countryCount =
-                                new Counter<String, Long>(kp[2], Math.round(clickCount),
+                                new Counter<>(kp[2], Math.round(clickCount),
                                         Counter.Sort.ValueDesc);
                     } else {
                         countryCount.setValue(new Long(
                                 Math.round(clickCount) + countryCount.getValue().longValue()));
                     }
                     clicksByCountry.put(kp[2], countryCount);
+                default:
+                    break;
             }
         }
         // optionally normalize the data
@@ -229,7 +233,7 @@ public class Counters {
                 TimeFrame.DAY);
         statistics.addCounters("clicks", clicks);
         statistics.addCounters("clicksbycountry",
-                new TreeSet<Counter<String, Long>>(clicksByCountry.values()));
+                new TreeSet<>(clicksByCountry.values()));
         return statistics;
     }
 

@@ -81,8 +81,9 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
 
     @Override
     public void close() throws Exception {
-        if (connection != null)
+        if (connection != null) {
             connection.close();
+        }
         connection = null;
     }
     /*...*/
@@ -294,7 +295,9 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
                     System.out.println(name + ": Starting scan...");
                     int rows = 0;
                     for (Result result : resultScanner) {
-                        if (result.isEmpty()) continue;
+                        if (result.isEmpty()) {
+                            continue;
+                        }
                         for (Cell cell : result.listCells()) {
                             System.out.println("  " + cell + " -> " +
                                     Bytes.toString(cell.getValueArray(), cell.getValueOffset(),

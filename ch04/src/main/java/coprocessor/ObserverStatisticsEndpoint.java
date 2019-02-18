@@ -1,42 +1,40 @@
 package coprocessor;
 
-import com.google.common.collect.ImmutableList;
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
-import com.google.protobuf.Service;
 import coprocessor.generated.ObserverStatisticsProtos;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
-import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.coprocessor.*;
+import org.apache.hadoop.hbase.coprocessor.CoprocessorException;
+import org.apache.hadoop.hbase.coprocessor.ObserverContext;
+import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
+import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.filter.ByteArrayComparable;
 import org.apache.hadoop.hbase.io.FSDataInputStreamWrapper;
 import org.apache.hadoop.hbase.io.Reference;
 import org.apache.hadoop.hbase.io.hfile.CacheConfig;
 import org.apache.hadoop.hbase.regionserver.*;
+import org.apache.hadoop.hbase.regionserver.compactions.CompactionLifeCycleTracker;
 import org.apache.hadoop.hbase.regionserver.compactions.CompactionRequest;
 import org.apache.hadoop.hbase.regionserver.querymatcher.DeleteTracker;
 import org.apache.hadoop.hbase.shaded.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.util.Pair;
 import org.apache.hadoop.hbase.wal.WALEdit;
-import org.apache.hadoop.hbase.wal.WALKey;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableSet;
 
-// cc ObserverStatisticsEndpoint Observer collecting invocation statistics.
-// vv ObserverStatisticsEndpoint
-@SuppressWarnings("deprecation") // because of API usage
-public class ObserverStatisticsEndpoint
-        extends ObserverStatisticsProtos.ObserverStatisticsService
-        implements Coprocessor, CoprocessorService, RegionObserver {
+/**
+ * ObserverStatisticsEndpoint Observer collecting invocation statistics.
+ */
+public class ObserverStatisticsEndpoint extends ObserverStatisticsProtos.ObserverStatisticsService implements Coprocessor, RegionObserver {
 
     private RegionCoprocessorEnvironment env;
     private Map<String, Integer> stats = new LinkedHashMap<>();
@@ -52,20 +50,10 @@ public class ObserverStatisticsEndpoint
         }
     }
 
-    /*...*/
-    // ^^ ObserverStatisticsEndpoint
     @Override
     public void stop(CoprocessorEnvironment env) {
         // nothing to do when coprocessor is shutting down
     }
-
-    @Override
-    public Service getService() {
-        return this;
-    }
-
-    // vv ObserverStatisticsEndpoint
-    // Endpoint methods
 
     @Override
     public void getStatistics(RpcController controller,
@@ -104,13 +92,14 @@ public class ObserverStatisticsEndpoint
     private void addCallCount(String call) {
         synchronized (stats) {
             Integer count = stats.get(call);
-            if (count == null) count = new Integer(1);
-            else count = new Integer(count + 1);
+            if (count == null) {
+                count = new Integer(1);
+            } else {
+                count = new Integer(count + 1);
+            }
             stats.put(call, count);
         }
     }
-
-    // All Observer callbacks follow here
 
     @Override
     public void preOpen(ObserverContext<RegionCoprocessorEnvironment> observerContext) {
@@ -122,9 +111,7 @@ public class ObserverStatisticsEndpoint
         addCallCount("postOpen");
     }
 
-    /*...*/
-    // ^^ ObserverStatisticsEndpoint
-    @Override
+    /*@Override
     public void postLogReplay(ObserverContext<RegionCoprocessorEnvironment> observerContext) {
         addCallCount("postLogReplay");
     }
@@ -211,7 +198,7 @@ public class ObserverStatisticsEndpoint
     }
 
     @Override
-    public InternalScanner preCompactScannerOpen(ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store, List<? extends KeyValueScanner> list, ScanType scanType, long l, InternalScanner internalScanner, CompactionRequest compactionRequest, long l1) throws IOException {
+    public InternalScanner preCompactScannerOpen(ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store, List<? extends KeyValueScanner> list, ScanType scanType, long l, InternalScanner internalScanner, CompactionRequest compactionRequest, long l1) {
         return null;
     }
 
@@ -220,15 +207,14 @@ public class ObserverStatisticsEndpoint
                                                  List<? extends KeyValueScanner> list, ScanType scanType, long l, InternalScanner internalScanner) {
         addCallCount("preCompactScannerOpen2");
         return internalScanner;
-    }
+    }*/
 
     @Override
-    public void postCompact(ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store,
-                            StoreFile storeFile, CompactionRequest compactionRequest) {
+    public void postCompact(ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store, StoreFile storeFile, CompactionLifeCycleTracker tracker, CompactionRequest compactionRequest) {
         addCallCount("postCompact1");
     }
 
-    @Override
+    /*@Override
     public void postCompact(ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store, StoreFile storeFile) {
         addCallCount("postCompact2");
     }
@@ -271,7 +257,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public void postCompleteSplit(ObserverContext<RegionCoprocessorEnvironment> observerContext) {
         addCallCount("postCompleteSplit");
-    }
+    }*/
 
     @Override
     public void preClose(ObserverContext<RegionCoprocessorEnvironment> observerContext, boolean b) {
@@ -283,7 +269,7 @@ public class ObserverStatisticsEndpoint
         addCallCount("postClose");
     }
 
-    @Override
+    /*@Override
     public void preGetClosestRowBefore(ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
                                        byte[] bytes1, Result result) {
         addCallCount("preGetClosestRowBefore");
@@ -293,26 +279,26 @@ public class ObserverStatisticsEndpoint
     public void postGetClosestRowBefore(ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
                                         byte[] bytes1, Result result) {
         addCallCount("postGetClosestRowBefore");
-    }
+    }*/
 
     @Override
     public void preGetOp(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Get get,
-            List<Cell> list) throws IOException {
+            List<Cell> list) {
         addCallCount("preGetOp");
     }
 
     @Override
     public void postGetOp(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Get get,
-            List<Cell> list) throws IOException {
+            List<Cell> list) {
         addCallCount("postGetOp");
     }
 
     @Override
     public boolean preExists(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Get get,
-            boolean b) throws IOException {
+            boolean b) {
         addCallCount("preExists");
         return b;
     }
@@ -320,7 +306,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean postExists(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Get get,
-            boolean b) throws IOException {
+            boolean b) {
         addCallCount("postExists");
         return b;
     }
@@ -328,58 +314,56 @@ public class ObserverStatisticsEndpoint
     @Override
     public void prePut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Put put,
-            WALEdit walEdit, Durability durability) throws IOException {
+            WALEdit walEdit, Durability durability) {
         addCallCount("prePut");
     }
 
     @Override
     public void postPut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Put put,
-            WALEdit walEdit, Durability durability) throws IOException {
+            WALEdit walEdit, Durability durability) {
         addCallCount("postPut");
     }
 
     @Override
     public void preDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Delete delete, WALEdit walEdit, Durability durability) throws IOException {
+            Delete delete, WALEdit walEdit, Durability durability) {
         addCallCount("preDelete");
     }
 
-    @Override
+    /*@Override
     public void prePrepareTimeStampForDeleteVersion(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             Mutation mutation, Cell cell, byte[] bytes, Get get) throws IOException {
         addCallCount("prePrepareTimeStampForDeleteVersion");
-    }
+    }*/
 
     @Override
     public void postDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Delete delete, WALEdit walEdit, Durability durability) throws IOException {
+            Delete delete, WALEdit walEdit, Durability durability) {
         addCallCount("postDelete");
     }
 
     @Override
     public void preBatchMutate(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            MiniBatchOperationInProgress<Mutation> miniBatchOperationInProgress)
-            throws IOException {
+            MiniBatchOperationInProgress<Mutation> miniBatchOperationInProgress) {
         addCallCount("preBatchMutate");
     }
 
     @Override
     public void postBatchMutate(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            MiniBatchOperationInProgress<Mutation> miniBatchOperationInProgress)
-            throws IOException {
+            MiniBatchOperationInProgress<Mutation> miniBatchOperationInProgress) {
         addCallCount("postBatchMutate");
     }
 
     @Override
     public void postStartRegionOperation(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            HRegion.Operation operation) throws IOException {
+            HRegion.Operation operation) {
         addCallCount("postStartRegionOperation");
         addCallCount("- postStartRegionOperation-" + operation);
     }
@@ -387,7 +371,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public void postCloseRegionOperation(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            HRegion.Operation operation) throws IOException {
+            HRegion.Operation operation) {
         addCallCount("postCloseRegionOperation");
         addCallCount("- postCloseRegionOperation-" + operation);
     }
@@ -396,7 +380,7 @@ public class ObserverStatisticsEndpoint
     public void postBatchMutateIndispensably(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             MiniBatchOperationInProgress<Mutation> miniBatchOperationInProgress,
-            boolean b) throws IOException {
+            boolean b) {
         addCallCount("postBatchMutateIndispensably");
     }
 
@@ -404,8 +388,7 @@ public class ObserverStatisticsEndpoint
     public boolean preCheckAndPut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Put put, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Put put, boolean b) {
         addCallCount("preCheckAndPut");
         return b;
     }
@@ -414,8 +397,7 @@ public class ObserverStatisticsEndpoint
     public boolean preCheckAndPutAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Put put, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Put put, boolean b) {
         addCallCount("preCheckAndPutAfterRowLock");
         return b;
     }
@@ -424,8 +406,7 @@ public class ObserverStatisticsEndpoint
     public boolean postCheckAndPut(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Put put, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Put put, boolean b) {
         addCallCount("postCheckAndPut");
         return b;
     }
@@ -434,8 +415,7 @@ public class ObserverStatisticsEndpoint
     public boolean preCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Delete delete, boolean b) {
         addCallCount("preCheckAndDelete");
         return b;
     }
@@ -444,8 +424,7 @@ public class ObserverStatisticsEndpoint
     public boolean preCheckAndDeleteAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Delete delete, boolean b) {
         addCallCount("preCheckAndDeleteAfterRowLock");
         return b;
     }
@@ -454,16 +433,15 @@ public class ObserverStatisticsEndpoint
     public boolean postCheckAndDelete(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
             byte[] bytes1, byte[] bytes2, CompareOperator compareOp,
-            ByteArrayComparable byteArrayComparable, Delete delete, boolean b)
-            throws IOException {
+            ByteArrayComparable byteArrayComparable, Delete delete, boolean b) {
         addCallCount("postCheckAndDelete");
         return b;
     }
 
-    @Override
+    /*@Override
     public long preIncrementColumnValue(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, long l, boolean b) throws IOException {
+            byte[] bytes1, byte[] bytes2, long l, boolean b) {
         addCallCount("preIncrementColumnValue");
         return l;
     }
@@ -471,16 +449,15 @@ public class ObserverStatisticsEndpoint
     @Override
     public long postIncrementColumnValue(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes,
-            byte[] bytes1, byte[] bytes2, long l, boolean b, long l1)
-            throws IOException {
+            byte[] bytes1, byte[] bytes2, long l, boolean b, long l1) {
         addCallCount("postIncrementColumnValue");
         return l;
-    }
+    }*/
 
     @Override
     public Result preAppend(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Append append) throws IOException {
+            Append append) {
         addCallCount("preAppend");
         return null;
     }
@@ -488,7 +465,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public Result preAppendAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Append append) throws IOException {
+            Append append) {
         addCallCount("preAppendAfterRowLock");
         return null;
     }
@@ -496,7 +473,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public Result postAppend(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Append append, Result result) throws IOException {
+            Append append, Result result) {
         addCallCount("postAppend");
         return result;
     }
@@ -504,7 +481,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public Result preIncrement(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Increment increment) throws IOException {
+            Increment increment) {
         addCallCount("preIncrement");
         return null;
     }
@@ -512,7 +489,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public Result preIncrementAfterRowLock(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Increment increment) throws IOException {
+            Increment increment) {
         addCallCount("preIncrementAfterRowLock");
         return null;
     }
@@ -520,15 +497,15 @@ public class ObserverStatisticsEndpoint
     @Override
     public Result postIncrement(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            Increment increment, Result result) throws IOException {
+            Increment increment, Result result) {
         addCallCount("postIncrement");
         return result;
     }
 
-    @Override
+    /*@Override
     public RegionScanner preScannerOpen(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Scan scan,
-            RegionScanner regionScanner) throws IOException {
+            RegionScanner regionScanner) {
         addCallCount("preScannerOpen");
         return regionScanner;
     }
@@ -537,15 +514,15 @@ public class ObserverStatisticsEndpoint
     public KeyValueScanner preStoreScannerOpen(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Store store,
             Scan scan, NavigableSet<byte[]> navigableSet,
-            KeyValueScanner keyValueScanner) throws IOException {
+            KeyValueScanner keyValueScanner) {
         addCallCount("preStoreScannerOpen");
         return keyValueScanner;
-    }
+    }*/
 
     @Override
     public RegionScanner postScannerOpen(
             ObserverContext<RegionCoprocessorEnvironment> observerContext, Scan scan,
-            RegionScanner regionScanner) throws IOException {
+            RegionScanner regionScanner) {
         addCallCount("postScannerOpen");
         return regionScanner;
     }
@@ -553,8 +530,7 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean preScannerNext(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            InternalScanner internalScanner, List<Result> list, int i, boolean b)
-            throws IOException {
+            InternalScanner internalScanner, List<Result> list, int i, boolean b) {
         addCallCount("preScannerNext");
         return b;
     }
@@ -562,121 +538,102 @@ public class ObserverStatisticsEndpoint
     @Override
     public boolean postScannerNext(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            InternalScanner internalScanner, List<Result> list, int i, boolean b)
-            throws IOException {
+            InternalScanner internalScanner, List<Result> list, int i, boolean b) {
         addCallCount("postScannerNext");
         return b;
     }
 
-    @Override
+    /*@Override
     public boolean postScannerFilterRow(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            InternalScanner internalScanner, byte[] bytes, int i, short i1, boolean b)
-            throws IOException {
+            InternalScanner internalScanner, byte[] bytes, int i, short i1, boolean b) {
         addCallCount("postScannerFilterRow");
         return b;
-    }
+    }*/
 
     @Override
     public void preScannerClose(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            InternalScanner internalScanner) throws IOException {
+            InternalScanner internalScanner) {
         addCallCount("preScannerClose");
     }
 
     @Override
     public void postScannerClose(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            InternalScanner internalScanner) throws IOException {
+            InternalScanner internalScanner) {
         addCallCount("postScannerClose");
     }
 
-    @Override
+    /*@Override
     public void preWALRestore(
             ObserverContext<? extends RegionCoprocessorEnvironment> observerContext,
-            HRegionInfo hRegionInfo, WALKey walKey, WALEdit walEdit)
-            throws IOException {
+            RegionInfo regionInfo, WALKey walKey, WALEdit walEdit) {
         addCallCount("preWALRestore1");
     }
 
     @Override
     public void preWALRestore(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit)
-            throws IOException {
+            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit) {
         addCallCount("preWALRestore2");
     }
 
     @Override
     public void postWALRestore(
             ObserverContext<? extends RegionCoprocessorEnvironment> observerContext,
-            RegionInfo hRegionInfo, WALKey walKey, WALEdit walEdit)
-            throws IOException {
+            RegionInfo hRegionInfo, WALKey walKey, WALEdit walEdit) {
         addCallCount("postWALRestore1");
     }
 
     @Override
     public void postWALRestore(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit)
-            throws IOException {
+            RegionInfo hRegionInfo, WALKey hLogKey, WALEdit walEdit) {
         addCallCount("postWALRestore2");
-    }
+    }*/
 
     @Override
     public void preBulkLoadHFile(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            List<Pair<byte[], String>> list) throws IOException {
+            List<Pair<byte[], String>> list) {
         addCallCount("preBulkLoadHFile");
     }
 
-    @Override
-    public void preCommitStoreFile(ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes, List<Pair<Path, Path>> list) throws IOException {
-
-    }
-
-    @Override
-    public void postCommitStoreFile(ObserverContext<RegionCoprocessorEnvironment> observerContext, byte[] bytes, Path path, Path path1) throws IOException {
-
-    }
-
-    @Override
+    /*@Override
     public boolean postBulkLoadHFile(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            List<Pair<byte[], String>> list, boolean b) throws IOException {
+            List<Pair<byte[], String>> list, boolean b) {
         addCallCount("postBulkLoadHFile");
         return b;
-    }
+    }*/
 
     @Override
-    public StoreFile.Reader preStoreFileReaderOpen(
+    public StoreFileReader preStoreFileReaderOpen(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             FileSystem fileSystem, Path path,
             FSDataInputStreamWrapper fsDataInputStreamWrapper, long l,
-            CacheConfig cacheConfig, Reference reference, StoreFile.Reader reader)
-            throws IOException {
+            CacheConfig cacheConfig, Reference reference, StoreFileReader reader) {
         addCallCount("preStoreFileReaderOpen");
         addCallCount("- preStoreFileReaderOpen-" + path.getName());
         return reader;
     }
 
-    @Override
-    public StoreFile.Reader postStoreFileReaderOpen(
+    /*@Override
+    public StoreFileReader postStoreFileReaderOpen(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
             FileSystem fileSystem, Path path,
             FSDataInputStreamWrapper fsDataInputStreamWrapper, long l,
-            CacheConfig cacheConfig, Reference reference, HStoreFile.reader)
-            throws IOException {
+            CacheConfig cacheConfig, Reference reference, HStoreFile.reader) {
         addCallCount("postStoreFileReaderOpen");
         addCallCount("- postStoreFileReaderOpen-" + path.getName());
         return reader;
-    }
+    }*/
 
     @Override
     public Cell postMutationBeforeWAL(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            MutationType mutationType, Mutation mutation, Cell cell, Cell cell1)
-            throws IOException {
+            MutationType mutationType, Mutation mutation, Cell cell, Cell cell1) {
         addCallCount("postMutationBeforeWAL");
         addCallCount("- postMutationBeforeWAL-" + mutationType);
         return cell1;
@@ -685,10 +642,8 @@ public class ObserverStatisticsEndpoint
     @Override
     public DeleteTracker postInstantiateDeleteTracker(
             ObserverContext<RegionCoprocessorEnvironment> observerContext,
-            DeleteTracker deleteTracker) throws IOException {
+            DeleteTracker deleteTracker) {
         addCallCount("postInstantiateDeleteTracker");
         return deleteTracker;
     }
-    // vv ObserverStatisticsEndpoint
 }
-// ^^ ObserverStatisticsEndpoint

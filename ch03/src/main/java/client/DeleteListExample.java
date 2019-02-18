@@ -49,25 +49,31 @@ public class DeleteListExample {
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
 
-        // vv DeleteListExample
-        List<Delete> deletes = new ArrayList<>(); // co DeleteListExample-1-CreateList Create a list that holds the Delete instances.
+        // co DeleteListExample-1-CreateList Create a list that holds the Delete instances.
+        List<Delete> deletes = new ArrayList<>();
 
         Delete delete1 = new Delete(Bytes.toBytes("row1"));
-        delete1.setTimestamp(4); // co DeleteListExample-2-SetTS Set timestamp for row deletes.
+        // co DeleteListExample-2-SetTS Set timestamp for row deletes.
+        delete1.setTimestamp(4);
         deletes.add(delete1);
 
         Delete delete2 = new Delete(Bytes.toBytes("row2"));
-        delete2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1")); // co DeleteListExample-3-DelColNoTS Delete the latest version only in one column.
-        delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), 5); // co DeleteListExample-4-DelColsTS Delete the given and all older versions in another column.
+        // co DeleteListExample-3-DelColNoTS Delete the latest version only in one column.
+        delete2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
+        // co DeleteListExample-4-DelColsTS Delete the given and all older versions in another column.
+        delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), 5);
         deletes.add(delete2);
 
         Delete delete3 = new Delete(Bytes.toBytes("row3"));
-        delete3.addFamily(Bytes.toBytes("colfam1")); // co DeleteListExample-5-AddCol Delete entire family, all columns and versions.
-        delete3.addFamily(Bytes.toBytes("colfam2"), 3); // co DeleteListExample-6-AddCol Delete the given and all older versions in the entire column family, i.e., from all columns therein.
+        // co DeleteListExample-5-AddCol Delete entire family, all columns and versions.
+        delete3.addFamily(Bytes.toBytes("colfam1"));
+        // co DeleteListExample-6-AddCol Delete the given and all older versions in the entire column family, i.e., from all columns therein.
+        delete3.addFamily(Bytes.toBytes("colfam2"), 3);
         deletes.add(delete3);
 
-        table.delete(deletes); // co DeleteListExample-7-DoDel Delete the data from multiple rows the HBase table.
-        // ^^ DeleteListExample
+        // co DeleteListExample-7-DoDel Delete the data from multiple rows the HBase table.
+        table.delete(deletes);
+
         table.close();
         connection.close();
         System.out.println("After delete call...");

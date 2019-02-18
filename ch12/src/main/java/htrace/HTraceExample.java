@@ -98,7 +98,7 @@ public class HTraceExample {
             Scan scan = new Scan();
             scan.setCaching(1); // co HTraceExample-7-OneRow The scan performs a separate RPC call for each row it retrieves, creating a span for every row.
             ResultScanner scanner = table.getScanner(scan);
-            while (scanner.next() != null) ;
+            while (scanner.next() != null){}
             scanner.close();
         } finally {
             ts2.close();

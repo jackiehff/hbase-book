@@ -103,13 +103,13 @@ public class MissingRegionExample {
         admin.unassign(location.getRegion().getRegionName(), false); // co MissingRegionExample-6-Close Close the region containing the row the reading thread is retrieving. Note that unassign() does not work here because the master would automatically reopen the region when the thread is calling the get() method.
 
         int count = 0;
-        while (locator.getAllRegionLocations().size() >= 3 && count++ < 10) // co MissingRegionExample-7-Check Use the number of online regions to confirm the close.
+        while (locator.getAllRegionLocations().size() >= 3 && count++ < 10) { // co MissingRegionExample-7-Check Use the number of online regions to confirm the close.
             try {
                 System.out.println("\nWaiting for region to be offline in main()...");
                 Thread.sleep(500);
             } catch (InterruptedException e) {
             }
-
+        }
         try {
             System.out.println("\nSleeping 10secs in main()...");
             Thread.sleep(10000); // co MissingRegionExample-8-Sleep3 Sleep for another period of time to make the thread wait.

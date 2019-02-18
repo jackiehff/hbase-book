@@ -1,7 +1,5 @@
 package client;
 
-// cc IncrementMultipleExample Example incrementing multiple counters in one row
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -14,6 +12,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.NavigableMap;
 
+/**
+ * IncrementMultipleExample Example incrementing multiple counters in one row
+ */
 public class IncrementMultipleExample {
 
     public static void main(String[] args) throws IOException {
@@ -25,11 +26,11 @@ public class IncrementMultipleExample {
 
         Connection connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(TableName.valueOf("testtable"));
-        // vv IncrementMultipleExample
         Increment increment1 = new Increment(Bytes.toBytes("20150101"));
 
         increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("clicks"), 1);
-        increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1); // co IncrementMultipleExample-1-Incr1 Increment the counters with various values.
+        // co IncrementMultipleExample-1-Incr1 Increment the counters with various values.
+        increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);
         increment1.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("clicks"), 10);
         increment1.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("hits"), 10);
         // ^^ IncrementMultipleExample
@@ -43,31 +44,29 @@ public class IncrementMultipleExample {
                 System.out.println(" - value: " + longcols.get(column));
             }
         }
-        // vv IncrementMultipleExample
 
-        Result result1 = table.increment(increment1); // co IncrementMultipleExample-2-Incr2 Call the actual increment method with the above counter updates and receive the results.
-
+        // co IncrementMultipleExample-2-Incr2 Call the actual increment method with the above counter updates and receive the results.
+        Result result1 = table.increment(increment1);
         for (Cell cell : result1.rawCells()) {
-            System.out.println("Cell: " + cell +
-                    " Value: " + Bytes.toLong(cell.getValueArray(), cell.getValueOffset(),
-                    cell.getValueLength())); // co IncrementMultipleExample-3-Dump1 Print the cell and returned counter value.
+            // co IncrementMultipleExample-3-Dump1 Print the cell and returned counter value.
+            System.out.println("Cell: " + cell + " Value: " + Bytes.toLong(cell.getValueArray(), cell.getValueOffset(),
+                    cell.getValueLength()));
         }
 
         Increment increment2 = new Increment(Bytes.toBytes("20150101"));
 
         increment2.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("clicks"), 5);
-        increment2.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1); // co IncrementMultipleExample-4-Incr3 Use positive, negative, and zero increment values to achieve the wanted counter changes.
+        // co IncrementMultipleExample-4-Incr3 Use positive, negative, and zero increment values to achieve the wanted counter changes.
+        increment2.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);
         increment2.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("clicks"), 0);
         increment2.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("hits"), -5);
 
         Result result2 = table.increment(increment2);
 
         for (Cell cell : result2.rawCells()) {
-            System.out.println("Cell: " + cell +
-                    " Value: " + Bytes.toLong(cell.getValueArray(),
-                    cell.getValueOffset(), cell.getValueLength()));
+            System.out.println("Cell: " + cell + " Value: " + Bytes.toLong(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength()));
         }
-        // ^^ IncrementMultipleExample
+
         table.close();
         connection.close();
         helper.close();

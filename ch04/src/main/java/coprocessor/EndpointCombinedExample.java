@@ -44,16 +44,17 @@ public class EndpointCombinedExample {
         Table table = connection.getTable(name);
         // wait for the split to be done
         RegionLocator locator = connection.getRegionLocator(name);
-        while (locator.getAllRegionLocations().size() < 2)
+        while (locator.getAllRegionLocations().size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
+        }
+
         try {
-            //vv EndpointCombinedExample
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();
-            Map<byte[], /*[*/Pair<Long, Long>/*]*/> results = table.coprocessorService(
+            Map<byte[], Pair<Long, Long>> results = table.coprocessorService(
                     RowCounterProtos.RowCountService.class,
                     null, null,
                     counter -> {
@@ -77,20 +78,15 @@ public class EndpointCombinedExample {
                     }
             );
 
-            /*[*/
             long totalRows = 0;
-            long totalKeyValues = 0;/*]*/
-            for (Map.Entry<byte[], /*[*/Pair<Long, Long>/*]*/> entry : results.entrySet()) {
-                /*[*/
+            long totalKeyValues = 0;
+            for (Map.Entry<byte[], Pair<Long, Long>> entry : results.entrySet()) {
                 totalRows += entry.getValue().getFirst();
                 totalKeyValues += entry.getValue().getSecond();
-                System.out.println("Region: " + Bytes.toString(entry.getKey()) +
-                        ", Count: " + entry.getValue());/*]*/
+                System.out.println("Region: " + Bytes.toString(entry.getKey()) + ", Count: " + entry.getValue());
             }
-            /*[*/
             System.out.println("Total Row Count: " + totalRows);
-            System.out.println("Total Cell Count: " + totalKeyValues);/*]*/
-            // ^^ EndpointCombinedExample
+            System.out.println("Total Cell Count: " + totalKeyValues);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

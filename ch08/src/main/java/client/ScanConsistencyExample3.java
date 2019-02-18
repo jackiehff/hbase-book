@@ -9,7 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
-// cc ScanConsistencyExample3 Checks the scans behavior across regions and concurrent changes
+/**
+ * ScanConsistencyExample3 Checks the scans behavior across regions and concurrent changes
+ */
 public class ScanConsistencyExample3 {
 
     public static void main(String[] args) throws IOException {
@@ -49,8 +51,7 @@ public class ScanConsistencyExample3 {
         System.out.println("Applying mutations...");
         // vv ScanConsistencyExample3
         Put put = new Put(Bytes.toBytes("row-7"));
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"),
-                Bytes.toBytes("val-999"));
+        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"), Bytes.toBytes("val-999"));
         table.put(put);
 
         Delete delete = new Delete(Bytes.toBytes("row-8"));

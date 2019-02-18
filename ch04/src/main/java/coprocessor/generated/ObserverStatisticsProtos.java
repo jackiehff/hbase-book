@@ -202,8 +202,12 @@ public final class ObserverStatisticsProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -224,7 +228,9 @@ public final class ObserverStatisticsProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -453,7 +459,9 @@ public final class ObserverStatisticsProtos {
       }
 
       public Builder mergeFrom(coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair other) {
-        if (other == coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair.getDefaultInstance()){
+          return this;
+        }
         if (other.hasName()) {
           bitField0_ |= 0x00000001;
           name_ = other.name_;
@@ -739,8 +747,12 @@ public final class ObserverStatisticsProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0){
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -758,7 +770,9 @@ public final class ObserverStatisticsProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -969,7 +983,9 @@ public final class ObserverStatisticsProtos {
       }
 
       public Builder mergeFrom(coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest other) {
-        if (other == coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest.getDefaultInstance()){
+          return this;
+        }
         if (other.hasClear()) {
           setClear(other.getClear());
         }
@@ -1214,8 +1230,12 @@ public final class ObserverStatisticsProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized == 1) {
+        return true;
+      }
+      if (isInitialized == 0) {
+        return false;
+      }
 
       memoizedIsInitialized = 1;
       return true;
@@ -1233,7 +1253,9 @@ public final class ObserverStatisticsProtos {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       for (int i = 0; i < attribute_.size(); i++) {
@@ -1448,7 +1470,9 @@ public final class ObserverStatisticsProtos {
       }
 
       public Builder mergeFrom(coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse other) {
-        if (other == coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse.getDefaultInstance()) return this;
+        if (other == coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse.getDefaultInstance()) {
+          return this;
+        }
         if (attributeBuilder_ == null) {
           if (!other.attribute_.isEmpty()) {
             if (attribute_.isEmpty()) {

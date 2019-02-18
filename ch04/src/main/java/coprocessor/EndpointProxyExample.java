@@ -12,7 +12,9 @@ import java.io.IOException;
 
 import static coprocessor.generated.RowCounterProtos.*;
 
-// cc EndpointProxyExample Example using the proxy call of HTable to invoke an endpoint on a single region
+/**
+ * EndpointProxyExample Example using the proxy call of HTable to invoke an endpoint on a single region
+ */
 public class EndpointProxyExample {
 
     public static void main(String[] args) throws IOException {
@@ -36,11 +38,13 @@ public class EndpointProxyExample {
         }
         Table table = connection.getTable(tableName);
         // wait for the split to be done
-        while (admin.getRegions(tableName).size() < 2)
+        while (admin.getRegions(tableName).size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
+        }
+
         try {
             //vv EndpointProxyExample
             RegionInfo hri = admin.getRegions(tableName).get(0);
@@ -61,7 +65,6 @@ public class EndpointProxyExample {
             response = service.getRowCount(null, request);
             long rowsInRegion = response.hasCount() ? response.getCount() : -1;
             System.out.println("Region Row Count: " + rowsInRegion);
-            // ^^ EndpointProxyExample
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.coprocessor.BaseRegionServerObserver;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
+import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.coprocessor.RegionServerCoprocessorEnvironment;
 import org.apache.hadoop.hbase.regionserver.Region;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 /**
  * RegionServerObserverExample Example region server observer that ...
  */
-public class RegionServerObserverExample extends BaseRegionServerObserver {
+public class RegionServerObserverExample extends RegionObserver {
     public static final Log LOG = LogFactory.getLog(Region.class);
 
     @Override
