@@ -30,6 +30,7 @@ public class HBaseHelper implements Closeable {
     }
 
     public static HBaseHelper getHelper(Configuration configuration) throws IOException {
+        configuration.set("hbase.zookeeper.quorum", "localhost");
         return new HBaseHelper(configuration);
     }
 
@@ -119,6 +120,14 @@ public class HBaseHelper implements Closeable {
         } else {
             admin.createTable(desc);
         }
+    }
+
+    public Table getTable(String table) throws IOException {
+        return getTable(TableName.valueOf(table));
+    }
+
+    public Table getTable(TableName table) throws IOException {
+        return connection.getTable(table);
     }
 
     public void disableTable(String table) throws IOException {

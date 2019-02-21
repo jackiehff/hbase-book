@@ -1,10 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -19,14 +14,10 @@ public class PutExample {
 
     public static void main(String[] args) throws IOException {
         // Create the required configuration.
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        // Instantiate a new client.
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         // Create put with specific row.
         Put put = new Put(Bytes.toBytes("row1"));
@@ -37,9 +28,9 @@ public class PutExample {
 
         // Store row with column into the HBase table.
         table.put(put);
+
         // Close table and connection instances to free resources.
         table.close();
-        connection.close();
 
         helper.close();
     }

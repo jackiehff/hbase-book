@@ -1,11 +1,6 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Append;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -18,8 +13,6 @@ import java.io.IOException;
 public class AppendExample {
 
     public static void main(String[] args) throws IOException {
-        //Configuration conf = HBaseConfiguration.create();
-        //HBaseHelper helper = HBaseHelper.getHelper(conf);
         HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 100, "colfam1", "colfam2");
@@ -32,19 +25,15 @@ public class AppendExample {
         System.out.println("Before append call...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
 
-        // Connection connection = ConnectionFactory.createConnection(conf);
-        Connection connection = helper.getConnection();
-        Table table = connection.getTable(TableName.valueOf("testtable"));
-
+        Table table = helper.getTable("testtable");
         Append append = new Append(Bytes.toBytes("row1"));
         append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("newvalue"));
         append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("anothervalue"));
-
         table.append(append);
+
         System.out.println("After append call...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
         table.close();
-        connection.close();
         helper.close();
     }
 }
