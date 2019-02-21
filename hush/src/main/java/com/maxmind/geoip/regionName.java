@@ -29,7 +29,7 @@ public class regionName {
         if (region_code2 == -1) {
             return null;
         }
-        if (country_code.equals("CA") == true) {
+        if (country_code.equals("CA")) {
             switch (region_code2) {
                 case 849:
                     name = "Alberta";
@@ -70,9 +70,11 @@ public class regionName {
                 case 1899:
                     name = "Yukon Territory";
                     break;
+                    default:
+                        break;
             }
         }
-        if (country_code.equals("US") == true) {
+        if (country_code.equals("US")) {
             switch (region_code2) {
                 case 848:
                     name = "Armed Forces Americas";
@@ -262,7 +264,7 @@ public class regionName {
                     break;
             }
         }
-        if (country_code.equals("AD") == true) {
+        if (country_code.equals("AD")) {
             switch (region_code2) {
                 case 2:
                     name = "Canillo";
@@ -287,7 +289,7 @@ public class regionName {
                     break;
             }
         }
-        if (country_code.equals("AE") == true) {
+        if (country_code.equals("AE")) {
             switch (region_code2) {
                 case 1:
                     name = "Abu Dhabi";
@@ -312,7 +314,7 @@ public class regionName {
                     break;
             }
         }
-        if (country_code.equals("AF") == true) {
+        if (country_code.equals("AF")) {
             switch (region_code2) {
                 case 1:
                     name = "Badakhshan";
@@ -430,7 +432,7 @@ public class regionName {
                     break;
             }
         }
-        if (country_code.equals("AG") == true) {
+        if (country_code.equals("AG")) {
             switch (region_code2) {
                 case 1:
                     name = "Barbuda";
