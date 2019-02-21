@@ -25,7 +25,8 @@
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
         <hadoop.version>3.2.0</hadoop.version>
-        <hbase.version>2.1.2</hbase.version>
+        <!--<hbase.version>2.1.2</hbase.version>-->
+        <hbase.version>3.0.0-SNAPSHOT</hbase.version>
         <m.version>0.17.0</m.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <libthrift.version>0.11.0</libthrift.version>

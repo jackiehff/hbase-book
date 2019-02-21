@@ -44,7 +44,7 @@
         <jetty.version>9.2.6.v20141205</jetty.version>
 
         <hadoop.version>3.2.0</hadoop.version>
-        <hbase.version>2.1.2</hbase.version>
+        <hbase.version>3.0.0-SNAPSHOT</hbase.version>
     </properties>
 
     <build>
