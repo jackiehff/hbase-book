@@ -1,9 +1,8 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -17,11 +16,9 @@ import java.util.List;
 public class PutListErrorExample3 {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
         try (
-                HBaseHelper helper = HBaseHelper.getHelper(conf);
-                Connection connection = ConnectionFactory.createConnection(conf);
-                Table table = connection.getTable(TableName.valueOf("testtable"))
+                HBaseHelper helper = HBaseHelper.getHelper();
+                Table table = helper.getTable("testtable")
         ) {
             helper.dropTable("testtable");
             helper.createTable("testtable", "colfam1");

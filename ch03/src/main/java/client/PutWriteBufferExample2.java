@@ -1,7 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -17,14 +15,12 @@ import java.util.List;
 public class PutWriteBufferExample2 {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
 
         TableName name = TableName.valueOf("testtable");
-        Connection connection = ConnectionFactory.createConnection(conf);
+        Connection connection = helper.getConnection();
         Table table = connection.getTable(name);
         BufferedMutator mutator = connection.getBufferedMutator(name);
 

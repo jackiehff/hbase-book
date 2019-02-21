@@ -1,11 +1,10 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -19,15 +18,12 @@ import java.util.List;
 public class GetListExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         if (!helper.existsTable("testtable")) {
             helper.createTable("testtable", "colfam1");
         }
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         byte[] cf1 = Bytes.toBytes("colfam1");
         byte[] qf1 = Bytes.toBytes("qual1");
@@ -89,7 +85,6 @@ public class GetListExample {
         }
 
         table.close();
-        connection.close();
         helper.close();
     }
 }

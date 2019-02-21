@@ -1,10 +1,11 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CellScanner;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -14,14 +15,11 @@ import util.HBaseHelper;
 public class GetMaxResultsRowOffsetExample2 {
 
     public static void main(String[] args) throws Exception {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 3, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable(TableName.valueOf("testtable"));
 
         // co GetMaxResultsRowOffsetExample2-1-Loop Insert three versions of each column.
         for (int version = 1; version <= 3; version++) {
@@ -66,7 +64,6 @@ public class GetMaxResultsRowOffsetExample2 {
         }
 
         table.close();
-        connection.close();
         helper.close();
     }
 }

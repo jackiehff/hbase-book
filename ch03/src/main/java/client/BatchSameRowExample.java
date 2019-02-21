@@ -1,8 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -21,17 +18,14 @@ public class BatchSameRowExample {
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         helper.put("testtable", "row1", "colfam1", "qual1", 1L, "val1");
         System.out.println("Before batch call...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         List<Row> batch = new ArrayList<>();
 
@@ -64,7 +58,6 @@ public class BatchSameRowExample {
                     results[i].getClass().getSimpleName() + "; " + results[i]);
         }
         table.close();
-        connection.close();
         System.out.println("After batch call...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
         helper.close();

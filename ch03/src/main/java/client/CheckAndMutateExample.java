@@ -1,10 +1,7 @@
 package client;
 
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -17,9 +14,7 @@ import java.io.IOException;
 public class CheckAndMutateExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 100, "colfam1", "colfam2");
         helper.put("testtable",
@@ -31,8 +26,7 @@ public class CheckAndMutateExample {
         System.out.println("Before check and mutate calls...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         //BinaryComparator bc = new BinaryComparator(Bytes.toBytes("val1"));
         //System.out.println(bc.compareTo(Bytes.toBytes("val2")));
@@ -73,7 +67,6 @@ public class CheckAndMutateExample {
         System.out.println("After check and mutate calls...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
         table.close();
-        connection.close();
         helper.close();
     }
 }

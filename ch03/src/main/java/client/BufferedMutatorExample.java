@@ -2,10 +2,11 @@ package client;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.BufferedMutator;
+import org.apache.hadoop.hbase.client.BufferedMutatorParams;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -31,8 +32,7 @@ public class BufferedMutatorExample {
     private static final byte[] FAMILY = Bytes.toBytes("colfam1");
 
     public static void main(String[] args) throws Exception {
-        Configuration configuration = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(configuration);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
 
@@ -51,7 +51,7 @@ public class BufferedMutatorExample {
 
         try (
                 // co BufferedMutatorExample-05-Allocate Allocate the shared resources using the Java 7 try-with-resource pattern.
-                Connection conn = ConnectionFactory.createConnection(configuration);
+                Connection conn = helper.getConnection();
                 BufferedMutator mutator = conn.getBufferedMutator(params)
         ) {
             // co BufferedMutatorExample-06-Pool Create a worker pool to update the shared mutator in parallel.

@@ -1,9 +1,8 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -16,17 +15,14 @@ public class GetTryWithResourcesExample {
 
     public static void main(String[] args) throws IOException {
         // co GetTryWithResourcesExample-1-CreateConf Create the configuration.
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         if (!helper.existsTable("testtable")) {
             helper.createTable("testtable", "colfam1");
         }
 
         try (
-                Connection connection = ConnectionFactory.createConnection(conf);
                 // co GetTryWithResourcesExample-2-NewTable Instantiate a new table reference in "try" block.
-                Table table = connection.getTable(TableName.valueOf("testtable"))
+                Table table = helper.getTable("testtable")
         ) {
             Get get = new Get(Bytes.toBytes("row1"));
             get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));

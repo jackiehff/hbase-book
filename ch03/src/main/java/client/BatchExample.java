@@ -1,8 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -24,9 +21,7 @@ public class BatchExample {
     private final static byte[] QUAL2 = Bytes.toBytes("qual2");
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         helper.put("testtable",
@@ -38,8 +33,7 @@ public class BatchExample {
         System.out.println("Before batch call...");
         helper.dump("testtable", new String[]{"row1", "row2"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         // co BatchExample-1-CreateList Create a list to hold all values.
         List<Row> batch = new ArrayList<>();
@@ -80,7 +74,6 @@ public class BatchExample {
         }
 
         table.close();
-        connection.close();
         System.out.println("After batch call...");
         helper.dump("testtable", new String[]{"row1", "row2"}, null, null);
         helper.close();

@@ -1,10 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -23,9 +18,7 @@ public class DeleteListErrorExample {
 
     public static void main(String[] args) throws IOException {
         Logger.getLogger("org.apache.zookeeper").setLevel(Level.OFF);
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 100, "colfam1", "colfam2");
         helper.put("testtable",
@@ -49,8 +42,7 @@ public class DeleteListErrorExample {
         System.out.println("Before delete call...");
         helper.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         List<Delete> deletes = new ArrayList<>();
 
@@ -91,7 +83,6 @@ public class DeleteListErrorExample {
         }
 
         table.close();
-        connection.close();
         System.out.println("After delete call...");
         helper.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
         helper.close();

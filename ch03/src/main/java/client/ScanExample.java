@@ -1,9 +1,10 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -15,17 +16,14 @@ import java.io.IOException;
 public class ScanExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
         // Tip: Remove comment below to enable padding, adjust start and stop row, as well as columns below to match. See scan #5 comments.
         helper.fillTable("testtable", 1, 100, 100, /* 3, false, */ "colfam1", "colfam2");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable(TableName.valueOf("testtable"));
 
         System.out.println("Scanning table #1...");
         // co ScanExample-1-NewScan Create empty Scan instance.
@@ -89,7 +87,6 @@ public class ScanExample {
         scanner5.close();
 
         table.close();
-        connection.close();
         helper.close();
     }
 }

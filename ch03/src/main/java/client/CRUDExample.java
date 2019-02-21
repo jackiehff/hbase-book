@@ -1,8 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -15,14 +12,12 @@ import java.io.IOException;
 public class CRUDExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
 
         try (
-                Connection connection = ConnectionFactory.createConnection(conf);
-                Table table = connection.getTable(TableName.valueOf("testtable"))
+                Table table = helper.getTable("testtable")
         ) {
             // Put操作
             Put put = new Put(Bytes.toBytes("row1"));

@@ -1,10 +1,6 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -18,15 +14,11 @@ import java.io.IOException;
 public class CheckAndPutExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
 
-        // Connection connection = ConnectionFactory.createConnection(conf);
-        Connection connection = helper.getConnection();
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable(TableName.valueOf("testtable"));
 
         // Create a new Put instance.
         Put put1 = new Put(Bytes.toBytes("row1"));
@@ -71,7 +63,6 @@ public class CheckAndPutExample {
         // We will not get here as an exception is thrown beforehand!
         System.out.println("Put 3 applied: " + res4);
         table.close();
-        connection.close();
         helper.close();
     }
 }
