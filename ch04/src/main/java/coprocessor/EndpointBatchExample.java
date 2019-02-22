@@ -3,13 +3,9 @@ package coprocessor;
 import coprocessor.generated.RowCounterProtos.CountRequest;
 import coprocessor.generated.RowCounterProtos.CountResponse;
 import coprocessor.generated.RowCounterProtos.RowCountService;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -21,11 +17,8 @@ import java.util.Map;
 public class EndpointBatchExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
         TableName tableName = TableName.valueOf("testtable");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        // ^^ EndpointBatchExample
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         helper.put("testtable",
@@ -38,7 +31,7 @@ public class EndpointBatchExample {
         helper.dump("testtable",
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         try {
             admin.split(tableName, Bytes.toBytes("row3"));
         } catch (IOException e) {
@@ -52,7 +45,7 @@ public class EndpointBatchExample {
             }
         }
 
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable(tableName);
         try {
             final CountRequest request = CountRequest.getDefaultInstance();
             Map<byte[], CountResponse> results = table.batchCoprocessorService(

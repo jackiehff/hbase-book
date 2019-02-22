@@ -2,11 +2,11 @@ package filters;
 
 // cc KeyOnlyFilterExample Only returns the first found cell from each row
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -40,17 +40,14 @@ public class KeyOnlyFilterExample {
     }
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTableRandom("testtable", /* row */ 1, 5, 0,
                 /* col */ 1, 30, 0,  /* val */ 0, 10000, 0, true, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        table = connection.getTable(TableName.valueOf("testtable"));
+        table = helper.getTable("testtable");
         System.out.println("Scan #1");
         // vv KeyOnlyFilterExample
         Filter filter1 = new KeyOnlyFilter();
@@ -60,6 +57,5 @@ public class KeyOnlyFilterExample {
         // vv KeyOnlyFilterExample
         Filter filter2 = new KeyOnlyFilter(true);
         scan(filter2);
-        // ^^ KeyOnlyFilterExample
     }
 }

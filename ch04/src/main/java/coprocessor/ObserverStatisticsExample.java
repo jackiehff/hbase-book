@@ -4,9 +4,7 @@ import coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair;
 import coprocessor.generated.ObserverStatisticsProtos.ObserverStatisticsService;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsResponse;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
@@ -56,10 +54,7 @@ public class ObserverStatisticsExample {
     }
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        Connection connection = ConnectionFactory.createConnection(conf);
-        // vv ObserverStatisticsExample
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 3, "colfam1", "colfam2");
         helper.put("testtable",
@@ -72,7 +67,7 @@ public class ObserverStatisticsExample {
                 null, null);
         try {
             TableName tableName = TableName.valueOf("testtable");
-            table = connection.getTable(tableName);
+            table = helper.getTable(tableName);
             printStatistics(false, true);
 
             System.out.println("Apply single put...");
@@ -219,5 +214,4 @@ public class ObserverStatisticsExample {
             throwable.printStackTrace();
         }
     }
-    // ^^ ObserverStatisticsExample
 }

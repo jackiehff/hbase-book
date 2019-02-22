@@ -2,12 +2,12 @@ package filters;
 
 // cc FilterListExample Example of using a filter list to combine single purpose filters
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -19,16 +19,13 @@ import java.util.List;
 public class FilterListExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 5, 2, true, false, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv FilterListExample
         List<Filter> filters = new ArrayList<>();
 

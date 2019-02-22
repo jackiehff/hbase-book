@@ -1,19 +1,17 @@
 package coprocessor;
 
 import coprocessor.generated.RowCounterProtos;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Table;
-import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcUtils;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
 import java.io.IOException;
 import java.util.Map;
+
+//import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 
 /**
  * EndpointExample Example using the custom row-count endpoint
@@ -21,10 +19,8 @@ import java.util.Map;
 public class EndpointExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
         TableName tableName = TableName.valueOf("testtable");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         helper.put("testtable",
@@ -37,7 +33,7 @@ public class EndpointExample {
         helper.dump("testtable",
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         try {
             admin.split(tableName, Bytes.toBytes("row3"));
         } catch (IOException e) {
@@ -51,7 +47,7 @@ public class EndpointExample {
             }
         }
         //vv EndpointExample
-        Table table = connection.getTable(tableName);
+        Table table = helper.getConnection().getTable(tableName);
         try {
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();
@@ -60,8 +56,8 @@ public class EndpointExample {
                     RowCounterProtos.RowCountService.class, // co EndpointExample-1-ClassName Define the protocol interface being invoked.
                     null, null, // co EndpointExample-2-Rows Set start and end row key to "null" to count all rows.
                     counter -> {
-                        BlockingRpcCallback<RowCounterProtos.CountResponse> rpcCallback =
-                                new BlockingRpcCallback<>();
+                        CoprocessorRpcUtils.BlockingRpcCallback<RowCounterProtos.CountResponse> rpcCallback =
+                                new CoprocessorRpcUtils.BlockingRpcCallback<>();
                         // co EndpointExample-4-Call The call() method is executing the endpoint functions.
                         counter.getRowCount(null, request, rpcCallback);
                         RowCounterProtos.CountResponse response = rpcCallback.get();
@@ -80,6 +76,8 @@ public class EndpointExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+        table.close();
+        helper.close();
     }
 }
-// ^^ EndpointExample

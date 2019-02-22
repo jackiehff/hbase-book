@@ -28,17 +28,14 @@ public class VisibilityLabelExample {
     // vv VisibilityLabelExample
     private static void addLabels(final AuthenticatedUser user,
                                   final String... labels) {
-        user.doAs(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                try {
-                    VisibilityClient.addLabels(user.getConnection(), labels); // co VisibilityLabelExample-01-Helper Helper method to execute the method in the context of the authenticated user.
-                } catch (Throwable throwable) {
-                    System.out.println("addLabels() failed with: " +
-                            throwable.getMessage().split("\n")[0]);
-                }
-                return null;
+        user.doAs((PrivilegedAction<Void>) () -> {
+            try {
+                VisibilityClient.addLabels(user.getConnection(), labels); // co VisibilityLabelExample-01-Helper Helper method to execute the method in the context of the authenticated user.
+            } catch (Throwable throwable) {
+                System.out.println("addLabels() failed with: " +
+                        throwable.getMessage().split("\n")[0]);
             }
+            return null;
         });
     }
     /*...*/

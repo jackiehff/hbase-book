@@ -19,19 +19,16 @@ import java.util.Set;
 public class FirstKeyValueMatchingQualifiersFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTableRandom("testtable", /* row */ 1, 50, 0,
                 /* col */ 1, 10, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv FirstKeyValueMatchingQualifiersFilterExample
-        Set<byte[]> quals = new HashSet<byte[]>();
+        Set<byte[]> quals = new HashSet<>();
         quals.add(Bytes.toBytes("col-2"));
         quals.add(Bytes.toBytes("col-4"));
         quals.add(Bytes.toBytes("col-6"));
@@ -55,6 +52,5 @@ public class FirstKeyValueMatchingQualifiersFilterExample {
         }
         System.out.println("Total num of rows: " + rowCount);
         scanner.close();
-        // ^^ FirstKeyValueMatchingQualifiersFilterExample
     }
 }

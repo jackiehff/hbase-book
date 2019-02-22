@@ -2,10 +2,10 @@ package filters;
 
 // cc InclusiveStopFilterExample Example using a filter to include a stop row
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.InclusiveStopFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -16,16 +16,13 @@ import java.io.IOException;
 public class InclusiveStopFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 100, 1, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv InclusiveStopFilterExample
         Filter filter = new InclusiveStopFilter(Bytes.toBytes("row-5"));
 

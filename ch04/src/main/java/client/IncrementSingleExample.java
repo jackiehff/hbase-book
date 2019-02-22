@@ -17,13 +17,10 @@ import java.io.IOException;
 public class IncrementSingleExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "daily");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         // co IncrementSingleExample-1-Incr1 Increase counter by one.
         long cnt1 = table.incrementColumnValue(Bytes.toBytes("20110101"), Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);
@@ -34,5 +31,8 @@ public class IncrementSingleExample {
         // co IncrementSingleExample-4-Decr1 Decrease counter by one.
         long cnt3 = table.incrementColumnValue(Bytes.toBytes("20110101"), Bytes.toBytes("daily"), Bytes.toBytes("hits"), -1);
         System.out.println("cnt1: " + cnt1 + ", cnt2: " + cnt2 + ", current: " + current + ", cnt3: " + cnt3);
+
+        table.close();
+        helper.close();
     }
 }

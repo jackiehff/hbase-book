@@ -15,9 +15,7 @@ import java.io.IOException;
 public class LoadWithTableDescriptorExample2 {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        Connection connection = ConnectionFactory.createConnection(conf);
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
@@ -27,11 +25,11 @@ public class LoadWithTableDescriptorExample2 {
         // co LoadWithTableDescriptorExample2-2-AddCP Use the provided method to add the coprocessor.
         htd.addCoprocessor(RegionObserverExample.class.getCanonicalName(), null, Coprocessor.PRIORITY_USER, null);
 
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         admin.createTable(htd);
 
         System.out.println(admin.getDescriptor(tableName));
         admin.close();
-        connection.close();
+        helper.close();
     }
 }

@@ -1,11 +1,8 @@
 package filters;
 
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
@@ -21,16 +18,13 @@ import java.io.IOException;
 public class ValueFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv ValueFilterExample
         Filter filter = new ValueFilter(CompareOperator.EQUAL, // co ValueFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new SubstringComparator(".4"));
@@ -61,5 +55,8 @@ public class ValueFilterExample {
                     Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                             cell.getValueLength()));
         }
+
+        table.close();
+        helper.close();
     }
 }

@@ -1,10 +1,10 @@
 package filters;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.MultiRowRangeFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -20,9 +20,7 @@ import static org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
 public class MultiRowRangeFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
 //    if (!helper.existsTable("testtable")) {
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
@@ -30,8 +28,7 @@ public class MultiRowRangeFilterExample {
         helper.fillTable("testtable", 1, 100, 10, 3, false, "colfam1");
 //    }
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
 
         // vv MultiRowRangeFilterExample
         List<RowRange> ranges = new ArrayList<>();
@@ -64,5 +61,8 @@ public class MultiRowRangeFilterExample {
         System.out.println("Number of rows: " + numRows);
         // vv MultiRowRangeFilterExample
         scanner.close();
+
+        table.close();
+        helper.close();
     }
 }

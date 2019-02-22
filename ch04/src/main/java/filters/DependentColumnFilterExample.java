@@ -2,10 +2,8 @@ package filters;
 
 // cc DependentColumnFilterExample Example using a filter to include only specific column families
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
@@ -63,17 +61,13 @@ public class DependentColumnFilterExample {
     }
 
     public static void main(String[] args) throws IOException {
-        // ^^ DependentColumnFilterExample
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 10, true, "colfam1", "colfam2");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        table = connection.getTable(TableName.valueOf("testtable"));
+        table = helper.getTable(TableName.valueOf("testtable"));
         // vv DependentColumnFilterExample
         filter(true, CompareOperator.NO_OP, null);
         filter(false, CompareOperator.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.

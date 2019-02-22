@@ -2,10 +2,10 @@ package filters;
 
 // cc FuzzyRowFilterExample Example filtering by column prefix
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FuzzyRowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -19,16 +19,13 @@ import java.util.List;
 public class FuzzyRowFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 20, 10, 2, true, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv FuzzyRowFilterExample
         List<Pair<byte[], byte[]>> keys = new ArrayList<>();
         keys.add(new Pair<>(
@@ -46,6 +43,5 @@ public class FuzzyRowFilterExample {
             System.out.println(result);
         }
         scanner.close();
-        // ^^ FuzzyRowFilterExample
     }
 }

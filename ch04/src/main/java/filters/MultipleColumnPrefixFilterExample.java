@@ -17,16 +17,13 @@ import java.io.IOException;
 public class MultipleColumnPrefixFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 30, 50, 0, true, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable("testtable");
         // vv MultipleColumnPrefixFilterExample
         Filter filter = new MultipleColumnPrefixFilter(new byte[][]{
                 Bytes.toBytes("col-1"), Bytes.toBytes("col-2")
@@ -48,6 +45,8 @@ public class MultipleColumnPrefixFilterExample {
             System.out.println();
         }
         scanner.close();
-        // ^^ MultipleColumnPrefixFilterExample
+
+        table.close();
+        helper.close();
     }
 }

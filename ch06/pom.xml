@@ -6,13 +6,12 @@
   <parent>
     <artifactId>hbase-book</artifactId>
     <groupId>com.larsgeorge</groupId>
-    <version>2.0</version>
+    <version>3.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>com.larsgeorge</groupId>
   <artifactId>hbase-book-ch06</artifactId>
-  <version>2.0</version>
+  <version>3.0</version>
   <packaging>jar</packaging>
 
   <name>HBase Book Chapter 6</name>

@@ -1,10 +1,10 @@
 package coprocessor;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.Coprocessor;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import util.HBaseHelper;
 
 import java.io.IOException;
@@ -15,9 +15,7 @@ import java.io.IOException;
 public class LoadWithTableDescriptorExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        Connection connection = ConnectionFactory.createConnection(conf);
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
@@ -28,12 +26,12 @@ public class LoadWithTableDescriptorExample {
         htd.setValue("COPROCESSOR$1", "|" + RegionObserverExample.class.getCanonicalName() + "|" + Coprocessor.PRIORITY_USER);
 
         // co LoadWithTableDescriptorExample-3-Admin Acquire an administrative API to the cluster and add the table.
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         admin.createTable(htd);
 
         // co LoadWithTableDescriptorExample-4-Check Verify if the definition has been applied as expected.
         System.out.println(admin.getDescriptor(tableName));
         admin.close();
-        connection.close();
+        helper.close();
     }
 }

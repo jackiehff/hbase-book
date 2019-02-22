@@ -2,9 +2,7 @@ package filters;
 
 // cc FamilyFilterExample Example using a filter to include only specific column families
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
@@ -18,16 +16,13 @@ import java.io.IOException;
 public class FamilyFilterExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2", "colfam3", "colfam4");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 2, "colfam1", "colfam2", "colfam3", "colfam4");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = helper.getTable(TableName.valueOf("testtable"));
         // vv FamilyFilterExample
         Filter filter1 = new FamilyFilter(CompareOperator.LESS, // co FamilyFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new BinaryComparator(Bytes.toBytes("colfam3")));
