@@ -2,12 +2,8 @@ package admin;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.RegionLocator;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import util.HBaseHelper;
@@ -52,12 +48,12 @@ public class CreateTableWithRegionsExample {
 
         Admin admin = connection.getAdmin();
 
-        HTableDescriptor desc = new HTableDescriptor(TableName.valueOf("testtable1"));
-        HColumnDescriptor coldef = new HColumnDescriptor(Bytes.toBytes("colfam1"));
-        desc.addFamily(coldef);
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(TableName.valueOf("testtable1"))
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .build();
 
         // co CreateTableWithRegionsExample-4-CreateTable1 Call the createTable() method while also specifying the region boundaries.
-        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(100L), 10);
+        admin.createTable(tableDescriptor, Bytes.toBytes(1L), Bytes.toBytes(100L), 10);
         printTableRegions("testtable1");
 
         // co CreateTableWithRegionsExample-5-Regions Manually create region split keys.
@@ -69,10 +65,12 @@ public class CreateTableWithRegionsExample {
                 Bytes.toBytes("O"),
                 Bytes.toBytes("T")
         };
-        HTableDescriptor desc2 = new HTableDescriptor(TableName.valueOf("testtable2"));
-        desc2.addFamily(coldef);
-        // co CreateTableWithRegionsExample-6-CreateTable2 Call the createTable() method again, with a new table name and the list of region split keys.
-        admin.createTable(desc2, regions);
+
+        TableDescriptor tableDescriptor2 = TableDescriptorBuilder.newBuilder(TableName.valueOf("testtable2"))
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .build();
+        // Call the createTable() method again, with a new table name and the list of region split keys.
+        admin.createTable(tableDescriptor2, regions);
         printTableRegions("testtable2");
     }
 }

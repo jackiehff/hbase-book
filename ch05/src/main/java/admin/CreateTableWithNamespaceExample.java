@@ -1,10 +1,11 @@
 package admin;
 
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
+import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -24,12 +25,10 @@ public class CreateTableWithNamespaceExample {
         admin.createNamespace(namespace);
 
         TableName tableName = TableName.valueOf("testspace", "testtable");
-        HTableDescriptor desc = new HTableDescriptor(tableName);
-
-        HColumnDescriptor coldef = new HColumnDescriptor(Bytes.toBytes("colfam1"));
-        desc.addFamily(coldef);
-
-        admin.createTable(desc);
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .build();
+        admin.createTable(tableDescriptor);
 
         boolean avail = admin.isTableAvailable(tableName);
         System.out.println("Table available: " + avail);

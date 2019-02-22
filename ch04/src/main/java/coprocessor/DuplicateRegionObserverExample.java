@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DuplicateRegionObserverExample implements RegionObserver {
 
-    public static final Log LOG = LogFactory.getLog(HRegion.class);
+    public static final Log LOG = LogFactory.getLog(DuplicateRegionObserverExample.class);
 
     public static final byte[] FIXED_COLUMN = Bytes.toBytes("@@@GET_COUNTER@@@");
     private static AtomicInteger counter = new AtomicInteger(0);
@@ -50,15 +50,15 @@ public class DuplicateRegionObserverExample implements RegionObserver {
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
         TableName tableName = TableName.valueOf("testtable");
 
-        HTableDescriptor htd = new HTableDescriptor(tableName);
-        htd.addFamily(new HColumnDescriptor("colfam1"));
-        htd.addCoprocessor(DuplicateRegionObserverExample.class.getCanonicalName(),
-                null, Coprocessor.PRIORITY_USER, null);
-        htd.addCoprocessor(DuplicateRegionObserverExample.class.getCanonicalName(),
-                null, Coprocessor.PRIORITY_USER, null);
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(DuplicateRegionObserverExample.class.getCanonicalName())
+                        .setPriority(Coprocessor.PRIORITY_USER).build())
+                .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(DuplicateRegionObserverExample.class.getCanonicalName())
+                        .setPriority(Coprocessor.PRIORITY_USER).build())
+                .build();
 
         // ^^ DuplicateRegionObserverExample
     /* Does not work as expected! Will throw the following exception:
@@ -72,14 +72,14 @@ public class DuplicateRegionObserverExample implements RegionObserver {
 	  */
         // vv DuplicateRegionObserverExample
 
-        Admin admin = connection.getAdmin();
-        admin.createTable(htd);
+        Admin admin = helper.getConnection().getAdmin();
+        admin.createTable(tableDescriptor);
         System.out.println(admin.getDescriptor(tableName));
 
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 10, 10, "colfam1");
 
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable(tableName);
         Get get = new Get(Bytes.toBytes("row-1"));
         Result result = table.get(get);
 
@@ -87,7 +87,7 @@ public class DuplicateRegionObserverExample implements RegionObserver {
 
         table.close();
         admin.close();
-        connection.close();
+        helper.close();
     }
 }
 // ^^ DuplicateRegionObserverExample

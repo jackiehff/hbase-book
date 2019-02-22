@@ -1,11 +1,11 @@
 package coprocessor;
 
 import coprocessor.generated.RowCounterProtos;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.RegionLocator;
+import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcUtils;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import util.HBaseHelper;
@@ -13,14 +13,14 @@ import util.HBaseHelper;
 import java.io.IOException;
 import java.util.Map;
 
+
 /**
  * EndpointCombinedExample Example extending the batch call to execute multiple endpoint calls
  */
 public class EndpointCombinedExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         helper.put("testtable",
@@ -33,17 +33,16 @@ public class EndpointCombinedExample {
         helper.dump("testtable",
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         try {
             admin.split(TableName.valueOf("testtable"), Bytes.toBytes("row3"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         TableName name = TableName.valueOf("testtable");
-        Table table = connection.getTable(name);
+        Table table = helper.getTable(name);
         // wait for the split to be done
-        RegionLocator locator = connection.getRegionLocator(name);
+        RegionLocator locator = helper.getConnection().getRegionLocator(name);
         while (locator.getAllRegionLocations().size() < 2) {
             try {
                 Thread.sleep(1000);
@@ -58,12 +57,12 @@ public class EndpointCombinedExample {
                     RowCounterProtos.RowCountService.class,
                     null, null,
                     counter -> {
-                        BlockingRpcCallback<RowCounterProtos.CountResponse> rowCallback =
-                                new BlockingRpcCallback<>();
+                        CoprocessorRpcUtils.BlockingRpcCallback<RowCounterProtos.CountResponse> rowCallback =
+                                new CoprocessorRpcUtils.BlockingRpcCallback<>();
                         counter.getRowCount(null, request, rowCallback);
 
-                        BlockingRpcCallback<RowCounterProtos.CountResponse> cellCallback =
-                                new BlockingRpcCallback<>();
+                        CoprocessorRpcUtils.BlockingRpcCallback<RowCounterProtos.CountResponse> cellCallback =
+                                new CoprocessorRpcUtils.BlockingRpcCallback<>();
                         counter.getCellCount(null, request, cellCallback);
 
                         RowCounterProtos.CountResponse rowResponse = rowCallback.get();

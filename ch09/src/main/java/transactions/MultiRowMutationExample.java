@@ -2,8 +2,6 @@ package transactions;
 
 import com.google.protobuf.ServiceException;
 import org.apache.hadoop.hbase.Coprocessor;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.MultiRowMutationEndpoint;
@@ -31,9 +29,10 @@ public class MultiRowMutationExample {
 
         // vv MultiRowMutationExample
         TableDescriptor htd = new TableDescriptorBuilder.ModifyableTableDescriptor(tableName)
-                .setColumnFamily(new HColumnDescriptor("colfam1"))
-                .setCoprocessor(MultiRowMutationEndpoint.class.getCanonicalName(), null, Coprocessor.PRIORITY_SYSTEM, null) // co MultiRowMutationExample-01-SetCopro Set the coprocessor explicitly for the table.
-                .setValue(HTableDescriptor.SPLIT_POLICY, KeyPrefixRegionSplitPolicy.class.getName()) // co MultiRowMutationExample-02-SetSplitPolicy Set the supplied split policy.
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(MultiRowMutationEndpoint.class.getCanonicalName())
+                        .setPriority(Coprocessor.PRIORITY_SYSTEM).build()) // co MultiRowMutationExample-01-SetCopro Set the coprocessor explicitly for the table.
+                .setValue(TableDescriptorBuilder.SPLIT_POLICY, KeyPrefixRegionSplitPolicy.class.getName()) // co MultiRowMutationExample-02-SetSplitPolicy Set the supplied split policy.
                 .setValue(KeyPrefixRegionSplitPolicy.PREFIX_LENGTH_KEY, String.valueOf(2)); // co MultiRowMutationExample-03-SetPrefixLen Set the length of the prefix keeping entities together to two.
 
         System.out.println("Creating table...");

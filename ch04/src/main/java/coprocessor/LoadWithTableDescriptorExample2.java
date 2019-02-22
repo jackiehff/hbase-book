@@ -1,10 +1,9 @@
 package coprocessor;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.Coprocessor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
 import java.io.IOException;
@@ -19,14 +18,14 @@ public class LoadWithTableDescriptorExample2 {
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
-        // co LoadWithTableDescriptorExample2-1-Create Use fluent interface to create and configure the instance.
-        HTableDescriptor htd = new HTableDescriptor(tableName);
-        htd.addFamily(new HColumnDescriptor("colfam1"));
-        // co LoadWithTableDescriptorExample2-2-AddCP Use the provided method to add the coprocessor.
-        htd.addCoprocessor(RegionObserverExample.class.getCanonicalName(), null, Coprocessor.PRIORITY_USER, null);
+        // Use fluent interface to create and configure the instance
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(RegionObserverExample.class.getCanonicalName())
+                        .setPriority(Coprocessor.PRIORITY_USER).build()).build();
 
         Admin admin = helper.getConnection().getAdmin();
-        admin.createTable(htd);
+        admin.createTable(tableDescriptor);
 
         System.out.println(admin.getDescriptor(tableName));
         admin.close();

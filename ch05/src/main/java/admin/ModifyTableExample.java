@@ -1,10 +1,10 @@
 package admin;
 
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import util.HBaseHelper;
@@ -22,24 +22,25 @@ public class ModifyTableExample {
 
         Admin admin = helper.getConnection().getAdmin();
         TableName tableName = TableName.valueOf("testtable");
-        HColumnDescriptor coldef1 = new HColumnDescriptor("colfam1");
-        HTableDescriptor desc = new HTableDescriptor(tableName)
-                .addFamily(coldef1)
-                .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table");
+
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table")
+                .build();
 
         // co ModifyTableExample-1-CreateTable Create the table with the original structure and 50 regions.
-        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50);
+        admin.createTable(tableDescriptor, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50);
         // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
-        TableDescriptor htd1 = admin.getDescriptor(tableName);
-        HColumnDescriptor coldef2 = new HColumnDescriptor("colfam2");
-        htd1.addFamily(coldef2)
+        TableDescriptor htd1 = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam2")).build())
                 .setMaxFileSize(1024 * 1024 * 1024L)
-                .setValue("Description",
-                        "Chapter 5 - ModifyTableExample: Modified Table");
+                .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table")
+                .build();
+
 
         admin.disableTable(tableName);
         // co ModifyTableExample-3-ChangeTable Disable and modify the table.
-        admin.modifyTable(tableName, htd1);
+        admin.modifyTable(htd1);
 
         // co ModifyTableExample-4-Pair Create a status number pair to start the loop.
         Pair<Integer, Integer> status = new Pair<Integer, Integer>() {{
@@ -48,7 +49,7 @@ public class ModifyTableExample {
         }};
         for (int i = 0; status.getFirst() != 0 && i < 500; i++) {
             // co ModifyTableExample-5-Loop Loop over status until all regions are updated, or 500 seconds have been exceeded.
-            status = admin.getAlterStatus(desc.getTableName());
+            status = admin.getAlterStatus(tableDescriptor.getTableName());
             if (status.getSecond() != 0) {
                 int pending = status.getSecond() - status.getFirst();
                 System.out.println(pending + " of " + status.getSecond()

@@ -13,7 +13,9 @@ import util.HBaseHelper;
 import java.io.IOException;
 import java.util.Map;
 
-// cc EndpointBatchExample Example using the custom row-count endpoint in batch mode
+/**
+ * EndpointBatchExample Example using the custom row-count endpoint in batch mode
+ */
 public class EndpointBatchExample {
 
     public static void main(String[] args) throws IOException {

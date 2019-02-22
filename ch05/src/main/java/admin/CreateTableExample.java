@@ -1,9 +1,10 @@
 package admin;
 
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
+import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -21,15 +22,13 @@ public class CreateTableExample {
         Admin admin = helper.getConnection().getAdmin();
 
         TableName tableName = TableName.valueOf("testtable");
-        // co CreateTableExample-2-CreateHTD Create the table descriptor instance.
-        HTableDescriptor desc = new HTableDescriptor(tableName);
+        // Create the table descriptor instance.
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .build();
 
-        // co CreateTableExample-3-CreateHCD Create a column family descriptor and add it to the table descriptor.
-        HColumnDescriptor coldef = new HColumnDescriptor(Bytes.toBytes("colfam1"));
-        desc.addFamily(coldef);
-
-        // co CreateTableExample-4-CreateTable Call the createTable() method to do the actual work.
-        admin.createTable(desc);
+        // Call the createTable() method to do the actual work.
+        admin.createTable(tableDescriptor);
 
         // co CreateTableExample-5-Check Check if the table is available.
         boolean avail = admin.isTableAvailable(tableName);

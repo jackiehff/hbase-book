@@ -1,8 +1,6 @@
 package admin;
 
-import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HRegionLocation;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -42,17 +40,17 @@ public class ClusterOperationExample {
         Admin admin = helper.getConnection().getAdmin();
 
         TableName tableName = TableName.valueOf("testtable");
-        HColumnDescriptor coldef1 = new HColumnDescriptor("colfam1");
-        HTableDescriptor desc = new HTableDescriptor(tableName)
-                .addFamily(coldef1)
-                .setValue("Description", "Chapter 5 - ClusterOperationExample");
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setValue("Description", "Chapter 5 - ClusterOperationExample")
+                .build();
         byte[][] regions = new byte[][]{Bytes.toBytes("ABC"),
                 Bytes.toBytes("DEF"), Bytes.toBytes("GHI"), Bytes.toBytes("KLM"),
                 Bytes.toBytes("OPQ"), Bytes.toBytes("TUV")
         };
 
         // co ClusterOperationExample-01-Create Create a table with seven regions, and one column family.
-        admin.createTable(desc, regions);
+        admin.createTable(tableDescriptor, regions);
 
         BufferedMutator mutator = helper.getConnection().getBufferedMutator(tableName);
         for (int a = 'A'; a <= 'Z'; a++) {

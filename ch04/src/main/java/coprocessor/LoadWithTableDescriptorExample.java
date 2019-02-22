@@ -1,10 +1,12 @@
 package coprocessor;
 
 import org.apache.hadoop.hbase.Coprocessor;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
+import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
+import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
 import java.io.IOException;
@@ -19,17 +21,16 @@ public class LoadWithTableDescriptorExample {
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
-        // co LoadWithTableDescriptorExample-1-Define Define a table descriptor.
-        HTableDescriptor htd = new HTableDescriptor(tableName);
-        htd.addFamily(new HColumnDescriptor("colfam1"));
-        // co LoadWithTableDescriptorExample-2-AddCP Add the coprocessor definition to the descriptor, while omitting the path to the JAR file.
-        htd.setValue("COPROCESSOR$1", "|" + RegionObserverExample.class.getCanonicalName() + "|" + Coprocessor.PRIORITY_USER);
+        // Define a table descriptor, Add the coprocessor definition to the descriptor, while omitting the path to the JAR file
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+                .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
+                .setValue("COPROCESSOR$1", "|" + RegionObserverExample.class.getCanonicalName() + "|" + Coprocessor.PRIORITY_USER).build();
 
-        // co LoadWithTableDescriptorExample-3-Admin Acquire an administrative API to the cluster and add the table.
+        // Acquire an administrative API to the cluster and add the table.
         Admin admin = helper.getConnection().getAdmin();
-        admin.createTable(htd);
+        admin.createTable(tableDescriptor);
 
-        // co LoadWithTableDescriptorExample-4-Check Verify if the definition has been applied as expected.
+        // Verify if the definition has been applied as expected.
         System.out.println(admin.getDescriptor(tableName));
         admin.close();
         helper.close();
