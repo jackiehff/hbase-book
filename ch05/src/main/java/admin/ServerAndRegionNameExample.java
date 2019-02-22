@@ -1,8 +1,12 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HRegionLocation;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.RegionInfo;
+import org.apache.hadoop.hbase.client.RegionLocator;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -14,11 +18,9 @@ import java.io.IOException;
 public class ServerAndRegionNameExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
 
         // vv ServerAndRegionNameExample
         TableName tableName = TableName.valueOf("testtable");
@@ -32,7 +34,7 @@ public class ServerAndRegionNameExample {
         };
         admin.createTable(desc, regions);
 
-        RegionLocator locator = connection.getRegionLocator(tableName);
+        RegionLocator locator = helper.getConnection().getRegionLocator(tableName);
         HRegionLocation location = locator.getRegionLocation(Bytes.toBytes("Foo"));
         RegionInfo info = location.getRegion();
         System.out.println("Region Name: " + info.getRegionNameAsString());
@@ -40,6 +42,6 @@ public class ServerAndRegionNameExample {
         // ^^ ServerAndRegionNameExample
         locator.close();
         admin.close();
-        connection.close();
+        helper.close();
     }
 }

@@ -1,11 +1,7 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import util.HBaseHelper;
 
@@ -18,9 +14,7 @@ import java.util.List;
 public class ListTablesExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable1");
         helper.dropTable("testtable2");
         helper.dropTable("testtable3");
@@ -29,8 +23,7 @@ public class ListTablesExample {
         helper.createTable("testtable3", "colfam1", "colfam2", "colfam3");
 
         // vv ListTablesExample
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
 
         List<TableDescriptor> htds = admin.listTableDescriptors();
         System.out.println("Printing all tables...");

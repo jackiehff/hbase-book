@@ -1,7 +1,9 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HRegionLocation;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -33,13 +35,11 @@ public class ClusterOperationExample {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
 
         // vv ClusterOperationExample
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
 
         TableName tableName = TableName.valueOf("testtable");
         HColumnDescriptor coldef1 = new HColumnDescriptor("colfam1");
@@ -54,12 +54,12 @@ public class ClusterOperationExample {
         // co ClusterOperationExample-01-Create Create a table with seven regions, and one column family.
         admin.createTable(desc, regions);
 
-        BufferedMutator mutator = connection.getBufferedMutator(tableName);
+        BufferedMutator mutator = helper.getConnection().getBufferedMutator(tableName);
         for (int a = 'A'; a <= 'Z'; a++) {
             for (int b = 'A'; b <= 'Z'; b++) {
                 for (int c = 'A'; c <= 'Z'; c++) {
                     String row = Character.toString((char) a) +
-                            Character.toString((char) b) + Character.toString((char) c); // co ClusterOperationExample-02-Put Insert many rows starting from "AAA" to "ZZZ". These will be spread across the regions.
+                            (char) b + (char) c; // co ClusterOperationExample-02-Put Insert many rows starting from "AAA" to "ZZZ". These will be spread across the regions.
                     Put put = new Put(Bytes.toBytes(row));
                     put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col1"),
                             Bytes.toBytes("val1"));
@@ -92,7 +92,7 @@ public class ClusterOperationExample {
         printRegionInfo(list);
 
         System.out.println("Retrieving region with row ZZZ...");
-        RegionLocator locator = connection.getRegionLocator(tableName);
+        RegionLocator locator = helper.getConnection().getRegionLocator(tableName);
         HRegionLocation location =
                 locator.getRegionLocation(Bytes.toBytes("ZZZ")); // co ClusterOperationExample-06-Cache Retrieve region infos cached and refreshed to show the difference.
         System.out.println("Found cached region: " +
@@ -170,6 +170,6 @@ public class ClusterOperationExample {
         // ^^ ClusterOperationExample
         locator.close();
         admin.close();
-        connection.close();
+        helper.close();
     }
 }

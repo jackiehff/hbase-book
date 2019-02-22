@@ -1,13 +1,9 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
@@ -21,14 +17,10 @@ import java.io.IOException;
 public class ModifyTableExample {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        // vv ModifyTableExample
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         TableName tableName = TableName.valueOf("testtable");
         HColumnDescriptor coldef1 = new HColumnDescriptor("colfam1");
         HTableDescriptor desc = new HTableDescriptor(tableName)

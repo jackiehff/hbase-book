@@ -65,7 +65,7 @@ public class BulkImportJobExample {
         @SuppressWarnings("unchecked")
         public static <K, V> void writePartitionFile(Job job, InputSampler.Sampler<K, V> sampler)
                 throws IOException, ClassNotFoundException, InterruptedException {
-            LinkedList<K> splits = new LinkedList<K>();
+            LinkedList<K> splits = new LinkedList<>();
             Configuration conf = job.getConfiguration();
             final InputFormat inf =
                     ReflectionUtils.newInstance(job.getInputFormatClass(), conf);

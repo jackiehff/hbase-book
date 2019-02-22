@@ -19,7 +19,6 @@ public class SnapshotExample {
     public static void main(String[] args) throws IOException, InterruptedException {
         Configuration conf = HBaseConfiguration.create();
         conf.setInt("hbase.client.retries.number", 1);
-
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
         helper.dropTable("testtable2");
@@ -33,7 +32,7 @@ public class SnapshotExample {
         System.out.println("Before snapshot calls...");
         helper.dump("testtable", new String[]{"row1"}, null, null);
 
-        Connection connection = ConnectionFactory.createConnection(conf);
+        Connection connection = helper.getConnection();
         TableName tableName = TableName.valueOf("testtable");
         Table table = connection.getTable(tableName);
         Admin admin = connection.getAdmin();

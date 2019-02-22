@@ -1,9 +1,7 @@
 package datatasks;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellScanner;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -48,20 +46,17 @@ public class RenameTableExample {
     }
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        // ^^ RenameTableExample
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
         helper.fillTable("testtable", 1, 100, 100, "colfam1");
         // vv RenameTableExample
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         TableName name = TableName.valueOf("testtable");
 
         // co RenameTableExample-07-Test1 Check the content of the original table. The helper method (see full source code) prints the first value of the first row.
-        Table table = connection.getTable(name);
+        Table table = helper.getTable(name);
         printFirstValue(table);
 
         TableName rename = TableName.valueOf("newtesttable");
@@ -69,13 +64,12 @@ public class RenameTableExample {
         renameTable(admin, name, rename);
 
         // co RenameTableExample-09-Test2 Perform another check on the new table to see if we get the same first value of the first row back.
-        Table newTable = connection.getTable(rename);
+        Table newTable = helper.getTable(rename);
         printFirstValue(newTable);
 
         table.close();
         newTable.close();
         admin.close();
-        connection.close();
+        helper.close();
     }
-    // ^^ RenameTableExample
 }

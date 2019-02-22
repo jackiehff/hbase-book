@@ -7,7 +7,6 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.RegionLocator;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
@@ -45,8 +44,9 @@ public class CreateTableWithRegionsExample {
 
     public static void main(String[] args) throws IOException {
         conf = HBaseConfiguration.create();
-        connection = ConnectionFactory.createConnection(conf);
         HBaseHelper helper = HBaseHelper.getHelper(conf);
+        connection = helper.getConnection();
+
         helper.dropTable("testtable1");
         helper.dropTable("testtable2");
 
@@ -57,7 +57,7 @@ public class CreateTableWithRegionsExample {
         desc.addFamily(coldef);
 
         // co CreateTableWithRegionsExample-4-CreateTable1 Call the createTable() method while also specifying the region boundaries.
-        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(100L), 10;
+        admin.createTable(desc, Bytes.toBytes(1L), Bytes.toBytes(100L), 10);
         printTableRegions("testtable1");
 
         // co CreateTableWithRegionsExample-5-Regions Manually create region split keys.

@@ -1,9 +1,8 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Delete;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -19,17 +18,11 @@ public class DeleteTimestampExample {
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 3, "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-
-        TableName tableName = TableName.valueOf("testtable");
-        Table table = connection.getTable(tableName);
-        Admin admin = connection.getAdmin();
+        Table table = helper.getTable("testtable");
 
         // co DeleteTimestampExample-1-Put Store the same column six times.
         for (int count = 1; count <= 6; count++) {

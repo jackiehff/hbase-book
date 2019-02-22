@@ -1,11 +1,12 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.ClusterMetrics;
+import org.apache.hadoop.hbase.RegionMetrics;
+import org.apache.hadoop.hbase.ServerMetrics;
+import org.apache.hadoop.hbase.ServerName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.util.Bytes;
+import util.HBaseHelper;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,10 +18,8 @@ import java.util.Map;
 public class ClusterStatusExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        HBaseHelper helper = HBaseHelper.getHelper();
+        Admin admin = helper.getConnection().getAdmin();
 
         // ClusterStatusExample-1-GetStatus Get the cluster status.
         ClusterMetrics status = admin.getClusterMetrics();

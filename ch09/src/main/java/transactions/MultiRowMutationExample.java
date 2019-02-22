@@ -1,8 +1,10 @@
 package transactions;
 
 import com.google.protobuf.ServiceException;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.Coprocessor;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.MultiRowMutationEndpoint;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
@@ -23,9 +25,7 @@ import java.util.List;
 public class MultiRowMutationExample {
 
     public static void main(String[] args) throws IOException, InterruptedException, ServiceException {
-        Configuration conf = HBaseConfiguration.create();
-        Connection connection = ConnectionFactory.createConnection(conf);
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
@@ -37,9 +37,9 @@ public class MultiRowMutationExample {
                 .setValue(KeyPrefixRegionSplitPolicy.PREFIX_LENGTH_KEY, String.valueOf(2)); // co MultiRowMutationExample-03-SetPrefixLen Set the length of the prefix keeping entities together to two.
 
         System.out.println("Creating table...");
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         admin.createTable(htd);
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable(tableName);
 
         // ^^ MultiRowMutationExample
         System.out.println("Filling table with test data...");
@@ -124,6 +124,6 @@ public class MultiRowMutationExample {
         System.out.println(admin.getDescriptor(tableName));
         table.close();
         admin.close();
-        connection.close();
+        helper.close();
     }
 }

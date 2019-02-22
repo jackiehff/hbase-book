@@ -7,6 +7,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
+import util.HBaseHelper;
 
 import java.io.IOException;
 
@@ -16,10 +17,8 @@ import java.io.IOException;
 public class NamespaceExample {
 
     public static void main(String[] args) throws IOException {
-        // vv NamespaceExample
-        Configuration conf = HBaseConfiguration.create();
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        HBaseHelper helper = HBaseHelper.getHelper();
+        Admin admin = helper.getConnection().getAdmin();
         // ^^ NamespaceExample
         try {
             TableName[] tbls = admin.listTableNamesByNamespace("testspace");

@@ -1,13 +1,9 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
 
@@ -19,15 +15,10 @@ import java.io.IOException;
 public class CreateTableExample {
 
     public static void main(String[] args) throws IOException {
-        // vv CreateTableExample
-        Configuration conf = HBaseConfiguration.create();
-        // ^^ CreateTableExample
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
-        // vv CreateTableExample
-        Connection connection = ConnectionFactory.createConnection(conf);
         // co CreateTableExample-1-CreateAdmin Create a administrative API instance.
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
 
         TableName tableName = TableName.valueOf("testtable");
         // co CreateTableExample-2-CreateHTD Create the table descriptor instance.
@@ -43,6 +34,5 @@ public class CreateTableExample {
         // co CreateTableExample-5-Check Check if the table is available.
         boolean avail = admin.isTableAvailable(tableName);
         System.out.println("Table available: " + avail);
-        // ^^ CreateTableExample
     }
 }

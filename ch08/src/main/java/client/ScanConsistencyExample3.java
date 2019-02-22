@@ -2,7 +2,6 @@ package client;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -32,9 +31,7 @@ public class ScanConsistencyExample3 {
         System.out.println("Table before the operations:");
         helper.dump("testtable");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        TableName tableName = TableName.valueOf("testtable");
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable("testtable");
 
         // vv ScanConsistencyExample3
         Scan scan = new Scan();
@@ -65,9 +62,7 @@ public class ScanConsistencyExample3 {
         }
         scanner.close();
 
-        // ^^ ScanConsistencyExample3
         table.close();
-        connection.close();
         helper.close();
     }
 }

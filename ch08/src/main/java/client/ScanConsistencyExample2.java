@@ -1,7 +1,5 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -15,9 +13,7 @@ import java.io.IOException;
 public class ScanConsistencyExample2 {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
@@ -26,9 +22,8 @@ public class ScanConsistencyExample2 {
         System.out.println("Table before the operations:");
         helper.dump("testtable");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
         TableName tableName = TableName.valueOf("testtable");
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable(tableName);
 
         Scan scan = new Scan();
         scan.setCaching(1);
@@ -49,7 +44,7 @@ public class ScanConsistencyExample2 {
 
         System.out.println("Flushing and splitting table...");
         // vv ScanConsistencyExample2
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         // co ScanConsistencyExample2-1-Flush Flush table and wait a little while for the operation to complete.
         admin.flush(tableName);
         try {
@@ -74,7 +69,6 @@ public class ScanConsistencyExample2 {
         System.out.println("Print table under new scanner...");
         helper.dump("testtable");
         table.close();
-        connection.close();
         helper.close();
     }
 }

@@ -1,10 +1,6 @@
 package admin;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseHelper;
@@ -26,9 +22,7 @@ public class ListTablesExample2 {
     }
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropNamespace("testspace1", true);
         helper.dropNamespace("testspace2", true);
         helper.dropTable("testtable3");
@@ -38,8 +32,7 @@ public class ListTablesExample2 {
         helper.createTable("testspace2:testtable2", "colfam1");
         helper.createTable("testtable3", "colfam1");
 
-        Connection connection = ConnectionFactory.createConnection(conf);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
 
         System.out.println("List: .*");
         // vv ListTablesExample2

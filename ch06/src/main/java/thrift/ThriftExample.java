@@ -1,7 +1,5 @@
 package thrift;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.thrift.generated.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -29,12 +27,9 @@ public class ThriftExample {
     private static final byte[] VALUE = Bytes.toBytes("testValue");
 
     public static void main(String[] args) throws Exception {
-        // ^^ ThriftExample
-        Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
 
-        // vv ThriftExample
         TTransport transport = new TSocket("0.0.0.0", 9090, 20000);
         TProtocol protocol = new TBinaryProtocol(transport, true, true); // co ThriftExample-1-Conn Create a connection using the Thrift boilerplate classes.
         Hbase.Client client = new Hbase.Client(protocol);
@@ -92,5 +87,4 @@ public class ThriftExample {
         System.out.println("Done.");
         transport.close(); // co ThriftExample-7-Close Close the connection after everything is done.
     }
-    // ^^ ThriftExample
 }

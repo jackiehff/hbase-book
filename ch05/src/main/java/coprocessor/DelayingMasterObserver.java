@@ -46,4 +46,3 @@ public class DelayingMasterObserver extends BaseMasterObserver implements Assign
         env.getMasterServices().getAssignmentManager().registerListener(this);
     }
 }
-// ^^ DelayingMasterObserver

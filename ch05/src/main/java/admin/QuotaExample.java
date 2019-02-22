@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class QuotaExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
         conf.setInt("hbase.client.retries.number", 1);
 
@@ -31,7 +31,7 @@ public class QuotaExample {
         helper.fillTable("foo:limited", 1, 10, 1, "cf1");
 
         // vv QuotaExample
-        Connection connection = ConnectionFactory.createConnection(conf);
+        Connection connection = helper.getConnection();
         TableName fooLimited = TableName.valueOf("foo:limited");
         // co QuotaExample-1-Names Create the table name instances for the test tables.
         TableName fooUnlimited = TableName.valueOf("foo:unlimited");
