@@ -1,7 +1,5 @@
 package filters;
 
-// cc FamilyFilterExample Example using a filter to include only specific column families
-
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * FamilyFilterExample Example using a filter to include only specific column families
+ */
 public class FamilyFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -50,6 +51,7 @@ public class FamilyFilterExample {
         get2.setFilter(filter2);
         Result result2 = table.get(get2); // co FamilyFilterExample-5-Get2 Get the same row while applying the new filter, this will return "NONE".
         System.out.println("Result of get(): " + result2);
-        // ^^ FamilyFilterExample
+
+        helper.close();
     }
 }

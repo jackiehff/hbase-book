@@ -1,7 +1,5 @@
 package filters;
 
-// cc TimestampFilterExample Example filtering data by timestamps
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -14,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TimestampFilterExample Example filtering data by timestamps
+ */
 public class TimestampFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -26,9 +27,9 @@ public class TimestampFilterExample {
         Table table = helper.getTable("testtable");
         // vv TimestampFilterExample
         List<Long> ts = new ArrayList<>();
-        ts.add(new Long(5));
-        ts.add(new Long(10)); // co TimestampFilterExample-1-AddTS Add timestamps to the list.
-        ts.add(new Long(15));
+        ts.add(5L);
+        ts.add(10L); // co TimestampFilterExample-1-AddTS Add timestamps to the list.
+        ts.add(15L);
         Filter filter = new TimestampsFilter(ts);
 
         Scan scan1 = new Scan();

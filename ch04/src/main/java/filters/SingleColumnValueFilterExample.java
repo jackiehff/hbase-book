@@ -1,7 +1,5 @@
 package filters;
 
-// cc SingleColumnValueFilterExample Example using a filter to return only rows with a given value in a given column
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.*;
@@ -12,6 +10,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * SingleColumnValueFilterExample Example using a filter to return only rows with a given value in a given column
+ */
 public class SingleColumnValueFilterExample {
 
     public static void main(String[] args) throws IOException {

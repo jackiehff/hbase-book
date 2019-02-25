@@ -89,5 +89,8 @@ public class EndpointCombinedExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+        admin.close();
+        helper.close();
     }
 }

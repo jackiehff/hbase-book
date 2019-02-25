@@ -16,7 +16,9 @@ import java.util.List;
 
 import static org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
 
-// cc MultiRowRangeFilterExample Example using the multi-row-range filter
+/**
+ * MultiRowRangeFilterExample Example using the multi-row-range filter
+ */
 public class MultiRowRangeFilterExample {
 
     public static void main(String[] args) throws IOException {

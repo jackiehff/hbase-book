@@ -1,7 +1,5 @@
 package filters;
 
-// cc QualifierFilterExample Example using a filter to include only specific column qualifiers
-
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
@@ -12,6 +10,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * QualifierFilterExample Example using a filter to include only specific column qualifiers
+ */
 public class QualifierFilterExample {
 
     public static void main(String[] args) throws IOException {

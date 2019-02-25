@@ -1,7 +1,5 @@
 package filters;
 
-// cc CustomFilterExample Example using a custom filter
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -16,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CustomFilterExample Example using a custom filter
+ */
 public class CustomFilterExample {
 
     public static void main(String[] args) throws IOException {

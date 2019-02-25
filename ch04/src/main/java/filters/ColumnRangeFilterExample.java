@@ -1,7 +1,5 @@
 package filters;
 
-// cc ColumnRangeFilterExample Example filtering by columns within a given range
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ColumnRangeFilterExample Example filtering by columns within a given range
+ */
 public class ColumnRangeFilterExample {
 
     public static void main(String[] args) throws IOException {

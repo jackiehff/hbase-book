@@ -1,7 +1,5 @@
 package filters;
 
-// cc RandomRowFilterExample Example filtering rows randomly
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * RandomRowFilterExample Example filtering rows randomly
+ */
 public class RandomRowFilterExample {
 
     public static void main(String[] args) throws IOException {

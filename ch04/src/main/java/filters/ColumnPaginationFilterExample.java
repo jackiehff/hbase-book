@@ -1,6 +1,5 @@
 package filters;
 
-// cc ColumnPaginationFilterExample Example paginating through columns in a row
 
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -12,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ColumnPaginationFilterExample Example paginating through columns in a row
+ */
 public class ColumnPaginationFilterExample {
 
     public static void main(String[] args) throws IOException {

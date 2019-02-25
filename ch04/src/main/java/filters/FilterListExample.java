@@ -1,7 +1,5 @@
 package filters;
 
-// cc FilterListExample Example of using a filter list to combine single purpose filters
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.Result;
@@ -16,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FilterListExample Example of using a filter list to combine single purpose filters
+ */
 public class FilterListExample {
 
     public static void main(String[] args) throws IOException {
@@ -85,5 +86,7 @@ public class FilterListExample {
         scanner2.close();
         // ^^ FilterListExample
         System.out.println("Total cell count for scan #2: " + n);
+
+        helper.close();
     }
 }

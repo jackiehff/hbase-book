@@ -1,7 +1,5 @@
 package filters;
 
-// cc KeyOnlyFilterExample Only returns the first found cell from each row
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -14,6 +12,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * KeyOnlyFilterExample Only returns the first found cell from each row
+ */
 public class KeyOnlyFilterExample {
 
     private static Table table;
@@ -57,5 +58,8 @@ public class KeyOnlyFilterExample {
         // vv KeyOnlyFilterExample
         Filter filter2 = new KeyOnlyFilter(true);
         scan(filter2);
+
+        table.close();
+        helper.close();
     }
 }

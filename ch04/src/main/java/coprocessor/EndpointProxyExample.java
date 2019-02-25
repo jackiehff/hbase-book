@@ -1,7 +1,5 @@
 package coprocessor;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
@@ -18,10 +16,8 @@ import static coprocessor.generated.RowCounterProtos.*;
 public class EndpointProxyExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
         TableName tableName = TableName.valueOf("testtable");
-        Connection connection = ConnectionFactory.createConnection(conf);
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
+        HBaseHelper helper = HBaseHelper.getHelper();
         helper.dropTable("testtable");
         helper.createTable("testtable", 3, "colfam1", "colfam2");
         helper.put("testtable",
@@ -30,13 +26,13 @@ public class EndpointProxyExample {
                 new long[]{1, 2}, new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
         helper.dump("testtable", new String[]{"row1", "row2", "row3", "row4", "row5"}, null, null);
-        Admin admin = connection.getAdmin();
+        Admin admin = helper.getConnection().getAdmin();
         try {
             admin.split(tableName, Bytes.toBytes("row3"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Table table = connection.getTable(tableName);
+        Table table = helper.getTable(tableName);
         // wait for the split to be done
         while (admin.getRegions(tableName).size() < 2) {
             try {
@@ -68,5 +64,8 @@ public class EndpointProxyExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+        admin.close();
+        helper.close();
     }
 }

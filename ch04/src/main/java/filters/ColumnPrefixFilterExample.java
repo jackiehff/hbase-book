@@ -1,7 +1,5 @@
 package filters;
 
-// cc ColumnPrefixFilterExample Example filtering by column prefix
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ColumnPrefixFilterExample Example filtering by column prefix
+ */
 public class ColumnPrefixFilterExample {
 
     public static void main(String[] args) throws IOException {

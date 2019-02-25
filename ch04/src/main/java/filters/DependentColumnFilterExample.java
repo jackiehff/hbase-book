@@ -1,7 +1,5 @@
 package filters;
 
-// cc DependentColumnFilterExample Example using a filter to include only specific column families
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.TableName;
@@ -12,6 +10,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * DependentColumnFilterExample Example using a filter to include only specific column families
+ */
 public class DependentColumnFilterExample {
 
     private static Table table = null;
@@ -79,6 +80,7 @@ public class DependentColumnFilterExample {
                 new RegexStringComparator(".*\\.5"));
         filter(false, CompareOperator.EQUAL,
                 new RegexStringComparator(".*\\.5"));
+
+        helper.close();
     }
-    // ^^ DependentColumnFilterExample
 }

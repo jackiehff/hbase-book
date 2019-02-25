@@ -18,10 +18,9 @@ public class PutWriteBufferExample1 {
         helper.createTable("testtable", "colfam1");
 
         TableName name = TableName.valueOf("testtable");
-        Connection connection = helper.getConnection();
-        Table table = connection.getTable(name);
+        Table table = helper.getTable(name);
         // co PutWriteBufferExample1-1-CheckFlush Get a mutator instance for the table.
-        BufferedMutator mutator = connection.getBufferedMutator(name);
+        BufferedMutator mutator = helper.getConnection().getBufferedMutator(name);
 
         Put put1 = new Put(Bytes.toBytes("row1"));
         put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
@@ -50,7 +49,6 @@ public class PutWriteBufferExample1 {
 
         mutator.close();
         table.close();
-        connection.close();
         helper.close();
     }
 }

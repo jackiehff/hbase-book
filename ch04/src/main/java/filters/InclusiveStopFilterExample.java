@@ -1,7 +1,5 @@
 package filters;
 
-// cc InclusiveStopFilterExample Example using a filter to include a stop row
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * InclusiveStopFilterExample Example using a filter to include a stop row
+ */
 public class InclusiveStopFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -37,6 +38,6 @@ public class InclusiveStopFilterExample {
             System.out.println(result);
         }
         scanner.close();
-        // ^^ InclusiveStopFilterExample
+        helper.close();
     }
 }

@@ -1,12 +1,10 @@
 package filters;
 
-// cc FirstKeyValueMatchingQualifiersFilterExample Returns all columns, or up to the first found reference qualifier, for each row
-
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FirstKeyValueMatchingQualifiersFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -16,6 +14,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * FirstKeyValueMatchingQualifiersFilterExample Returns all columns, or up to the first found reference qualifier, for each row
+ */
 public class FirstKeyValueMatchingQualifiersFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -27,7 +28,6 @@ public class FirstKeyValueMatchingQualifiersFilterExample {
                 /* col */ 1, 10, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
         Table table = helper.getTable("testtable");
-        // vv FirstKeyValueMatchingQualifiersFilterExample
         Set<byte[]> quals = new HashSet<>();
         quals.add(Bytes.toBytes("col-2"));
         quals.add(Bytes.toBytes("col-4"));

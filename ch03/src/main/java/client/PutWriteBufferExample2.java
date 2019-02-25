@@ -20,9 +20,8 @@ public class PutWriteBufferExample2 {
         helper.createTable("testtable", "colfam1");
 
         TableName name = TableName.valueOf("testtable");
-        Connection connection = helper.getConnection();
-        Table table = connection.getTable(name);
-        BufferedMutator mutator = connection.getBufferedMutator(name);
+        Table table = helper.getTable(name);
+        BufferedMutator mutator = helper.getConnection().getBufferedMutator(name);
 
         // co PutWriteBufferExample2-1-DoPut Create a list to hold all mutations.
         List<Mutation> mutations = new ArrayList<>();
@@ -56,7 +55,6 @@ public class PutWriteBufferExample2 {
 
         mutator.close();
         table.close();
-        connection.close();
         helper.close();
     }
 }

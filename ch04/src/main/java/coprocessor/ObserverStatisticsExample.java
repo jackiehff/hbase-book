@@ -213,5 +213,7 @@ public class ObserverStatisticsExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+        helper.close();
     }
 }

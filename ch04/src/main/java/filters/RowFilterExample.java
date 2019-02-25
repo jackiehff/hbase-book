@@ -1,7 +1,5 @@
 package filters;
 
-// cc RowFilterExample Example using a filter to select specific rows
-
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * RowFilterExample Example using a filter to select specific rows
+ */
 public class RowFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -51,7 +52,8 @@ public class RowFilterExample {
         }
         scanner2.close();
 
-        Filter filter3 = new RowFilter(CompareOperator.EQUAL, // co RowFilterExample-3-Filter3 The third filter uses a substring match approach.
+        // co RowFilterExample-3-Filter3 The third filter uses a substring match approach.
+        Filter filter3 = new RowFilter(CompareOperator.EQUAL,
                 new SubstringComparator("-5"));
         scan.setFilter(filter3);
         ResultScanner scanner3 = table.getScanner(scan);

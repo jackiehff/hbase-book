@@ -1,7 +1,5 @@
 package filters;
 
-// cc PrefixFilterExample Example using the prefix based filter
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.Filter;
@@ -11,6 +9,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * PrefixFilterExample Example using the prefix based filter
+ */
 public class PrefixFilterExample {
 
     public static void main(String[] args) throws IOException {

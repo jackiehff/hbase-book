@@ -1,7 +1,5 @@
 package filters;
 
-// cc ValueNotNullFilterExample Example using the single value based filter in combination
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.*;
@@ -13,6 +11,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * ValueNotNullFilterExample Example using the single value based filter in combination
+ */
 public class ValueNotNullFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -55,9 +56,7 @@ public class ValueNotNullFilterExample {
         scan.setFilter(list);
 
         ResultScanner scanner = table.getScanner(scan);
-        // ^^ ValueNotNullFilterExample
         System.out.println("Results of scan:");
-        // vv ValueNotNullFilterExample
         for (Result result : scanner) {
             for (Cell cell : result.rawCells()) {
                 System.out.println("Cell: " + cell + ", Value: " +
@@ -66,7 +65,6 @@ public class ValueNotNullFilterExample {
             }
         }
         scanner.close();
-        // ^^ ValueNotNullFilterExample
         table.close();
         helper.close();
     }

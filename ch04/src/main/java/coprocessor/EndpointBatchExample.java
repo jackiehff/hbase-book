@@ -65,5 +65,8 @@ public class EndpointBatchExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+        admin.close();
+        helper.close();
     }
 }

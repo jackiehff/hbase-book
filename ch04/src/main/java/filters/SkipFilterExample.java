@@ -1,7 +1,5 @@
 package filters;
 
-// cc SkipFilterExample Example of using a filter to skip entire rows based on another filter's results
-
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.Result;
@@ -17,6 +15,9 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * SkipFilterExample Example of using a filter to skip entire rows based on another filter's results
+ */
 public class SkipFilterExample {
 
     public static void main(String[] args) throws IOException {
@@ -32,7 +33,8 @@ public class SkipFilterExample {
                 new BinaryComparator(Bytes.toBytes("val-0")));
 
         Scan scan = new Scan();
-        scan.setFilter(filter1); // co SkipFilterExample-1-AddFilter1 Only add the ValueFilter to the first scan.
+        // co SkipFilterExample-1-AddFilter1 Only add the ValueFilter to the first scan.
+        scan.setFilter(filter1);
         ResultScanner scanner1 = table.getScanner(scan);
         // ^^ SkipFilterExample
         System.out.println("Results of scan #1:");
@@ -51,8 +53,8 @@ public class SkipFilterExample {
         scanner1.close();
 
         Filter filter2 = new SkipFilter(filter1);
-
-        scan.setFilter(filter2); // co SkipFilterExample-2-AddFilter2 Add the decorating skip filter for the second scan.
+        // co SkipFilterExample-2-AddFilter2 Add the decorating skip filter for the second scan.
+        scan.setFilter(filter2);
         ResultScanner scanner2 = table.getScanner(scan);
         // ^^ SkipFilterExample
         System.out.println("Total cell count for scan #1: " + n);

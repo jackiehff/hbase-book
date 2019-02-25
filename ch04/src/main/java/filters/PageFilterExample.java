@@ -1,7 +1,5 @@
 package filters;
 
-// cc PageFilterExample Example using a filter to paginate through rows
-
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -13,11 +11,12 @@ import util.HBaseHelper;
 
 import java.io.IOException;
 
+/**
+ * PageFilterExample Example using a filter to paginate through rows
+ */
 public class PageFilterExample {
 
-    // vv PageFilterExample
     private static final byte[] POSTFIX = new byte[]{0x00};
-    // ^^ PageFilterExample
 
     public static void main(String[] args) throws IOException {
         HBaseHelper helper = HBaseHelper.getHelper();
