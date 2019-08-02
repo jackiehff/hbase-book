@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
@@ -18,11 +19,10 @@ public class DeleteTimestampExample {
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
 
     public static void main(String[] args) throws IOException {
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1");
 
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 3, "colfam1");
-
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co DeleteTimestampExample-1-Put Store the same column six times.
         for (int count = 1; count <= 6; count++) {
@@ -32,7 +32,7 @@ public class DeleteTimestampExample {
         }
         // ^^ DeleteTimestampExample
         System.out.println("After put calls...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 //    admin.flush(tableName);
 //    Thread.sleep(3000);
 //    admin.majorCompact(tableName);
@@ -47,6 +47,6 @@ public class DeleteTimestampExample {
         // ^^ DeleteTimestampExample
 
         System.out.println("After delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
     }
 }

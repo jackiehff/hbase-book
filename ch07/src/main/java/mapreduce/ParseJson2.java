@@ -5,8 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -28,8 +28,6 @@ import java.io.IOException;
 // cc ParseJson2 MapReduce job that parses the raw data into separate columns (map phase only).
 public class ParseJson2 {
 
-    private static final Log LOG = LogFactory.getLog(ParseJson2.class);
-
     public static final String NAME = "ParseJson2";
 
     public enum Counters {ROWS, COLS, ERROR, VALID}
@@ -38,15 +36,13 @@ public class ParseJson2 {
      * Implements the <code>Mapper</code> that reads the data and extracts the
      * required information.
      */
-    static class ParseMapper
-            extends TableMapper<ImmutableBytesWritable, Mutation> {
+    static class ParseMapper extends TableMapper<ImmutableBytesWritable, Mutation> {
 
         private JSONParser parser = new JSONParser();
         private byte[] columnFamily = null;
 
         @Override
-        protected void setup(Context context)
-                throws IOException, InterruptedException {
+        protected void setup(Context context) {
             columnFamily = Bytes.toBytes(
                     context.getConfiguration().get("conf.columnfamily"));
         }
@@ -180,7 +176,7 @@ public class ParseJson2 {
 
         Scan scan = new Scan();
         if (column != null) {
-            byte[][] colkey = KeyValue.parseColumn(Bytes.toBytes(column));
+            byte[][] colkey = CellUtil.parseColumn(Bytes.toBytes(column));
             if (colkey.length > 1) {
                 scan.addColumn(colkey[0], colkey[1]);
                 conf.set("conf.columnfamily", Bytes.toStringBinary(colkey[0])); // co ParseJson2-2-Conf Store the column family in the configuration for later use in the mapper.

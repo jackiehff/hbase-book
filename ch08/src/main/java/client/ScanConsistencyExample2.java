@@ -1,6 +1,6 @@
 package client;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -13,17 +13,15 @@ import java.io.IOException;
 public class ScanConsistencyExample2 {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable("testtable", 1, 5, 2, "colfam1");
 
         System.out.println("Table before the operations:");
         HBaseUtils.dump("testtable");
 
-        TableName tableName = TableName.valueOf("testtable");
-        Table table = HBaseUtils.getTable(tableName);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         Scan scan = new Scan();
         scan.setCaching(1);
@@ -46,15 +44,15 @@ public class ScanConsistencyExample2 {
         // vv ScanConsistencyExample2
         Admin admin = HBaseUtils.getConnection().getAdmin();
         // co ScanConsistencyExample2-1-Flush Flush table and wait a little while for the operation to complete.
-        admin.flush(tableName);
+        admin.flush(HBaseConstants.TEST_TABLE);
         try {
             Thread.currentThread().sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         // co ScanConsistencyExample2-2-Split Split the table and wait until split operation has completed.
-        admin.split(tableName, Bytes.toBytes("row-3"));
-        while (admin.getRegions(tableName).size() == 1) {
+        admin.split(HBaseConstants.TEST_TABLE, Bytes.toBytes("row-3"));
+        while (admin.getRegions(HBaseConstants.TEST_TABLE).size() == 1) {
         }
 
         // ^^ ScanConsistencyExample2
@@ -67,7 +65,7 @@ public class ScanConsistencyExample2 {
 
         // ^^ ScanConsistencyExample2
         System.out.println("Print table under new scanner...");
-        HBaseUtils.dump("testtable");
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE);
         table.close();
         HBaseUtils.closeConnection();
     }

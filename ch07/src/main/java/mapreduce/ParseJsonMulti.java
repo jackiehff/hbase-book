@@ -5,8 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
@@ -26,8 +26,6 @@ import java.io.IOException;
 
 // cc ParseJsonMulti MapReduce job that parses the raw data into separate tables.
 public class ParseJsonMulti {
-
-    private static final Log LOG = LogFactory.getLog(ParseJsonMulti.class);
 
     public static final String NAME = "ParseJsonMulti";
 
@@ -218,7 +216,7 @@ public class ParseJsonMulti {
         // ^^ ParseJsonMulti
         Scan scan = new Scan();
         if (column != null) {
-            byte[][] colkey = KeyValue.parseColumn(Bytes.toBytes(column));
+            byte[][] colkey = CellUtil.parseColumn(Bytes.toBytes(column));
             if (colkey.length > 1) {
                 scan.addColumn(colkey[0], colkey[1]);
                 conf.set("conf.columnfamily", Bytes.toStringBinary(colkey[0]));
@@ -229,8 +227,7 @@ public class ParseJsonMulti {
             }
         }
         // vv ParseJsonMulti
-        Job job = Job.getInstance(conf, "Parse data in " + input +
-                ", into two tables");
+        Job job = Job.getInstance(conf, "Parse data in " + input + ", into two tables");
         job.setJarByClass(ParseJsonMulti.class);
         TableMapReduceUtil.initTableMapperJob(input, scan, ParseMapper.class,
                 ImmutableBytesWritable.class, Put.class, job);

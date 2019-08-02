@@ -35,8 +35,7 @@ public class ImportJsonFromFile {
      * Implements the <code>Mapper</code> that takes the lines from the input
      * and outputs <code>Put</code> instances.
      */
-    static class ImportMapper
-            extends Mapper<LongWritable, Text, ImmutableBytesWritable, Mutation> {
+    static class ImportMapper extends Mapper<LongWritable, Text, ImmutableBytesWritable, Mutation> {
 
         private JSONParser parser = new JSONParser();
 

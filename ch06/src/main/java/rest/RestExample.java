@@ -1,5 +1,6 @@
 package rest;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -16,11 +17,10 @@ import java.io.IOException;
 public class RestExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 100, 10, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 10, "colfam1");
 
         // vv RestExample
         Cluster cluster = new Cluster();
@@ -28,7 +28,7 @@ public class RestExample {
 
         Client client = new Client(cluster); // co RestExample-2-Client Create the client handling the HTTP communication.
 
-        RemoteHTable table = new RemoteHTable(client, "testtable"); // co RestExample-3-Table Create a remote table instance, wrapping the REST access into a familiar interface.
+        RemoteHTable table = new RemoteHTable(client, HBaseConstants.TEST_TABLE_NAME); // co RestExample-3-Table Create a remote table instance, wrapping the REST access into a familiar interface.
 
         Get get = new Get(Bytes.toBytes("row-30")); // co RestExample-4-Get Perform a get operation as if it were a direct HBase connection.
         get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-3"));

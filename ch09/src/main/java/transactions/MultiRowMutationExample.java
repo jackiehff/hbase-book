@@ -1,8 +1,8 @@
 package transactions;
 
 import com.google.protobuf.ServiceException;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Coprocessor;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.MultiRowMutationEndpoint;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
@@ -23,12 +23,10 @@ import java.util.List;
 public class MultiRowMutationExample {
 
     public static void main(String[] args) throws IOException, InterruptedException, ServiceException {
-
-        HBaseUtils.dropTable("testtable");
-        TableName tableName = TableName.valueOf("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
 
         // vv MultiRowMutationExample
-        TableDescriptor htd = new TableDescriptorBuilder.ModifyableTableDescriptor(tableName)
+        TableDescriptor htd = new TableDescriptorBuilder.ModifyableTableDescriptor(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(MultiRowMutationEndpoint.class.getCanonicalName())
                         .setPriority(Coprocessor.PRIORITY_SYSTEM).build()) // co MultiRowMutationExample-01-SetCopro Set the coprocessor explicitly for the table.
@@ -38,7 +36,7 @@ public class MultiRowMutationExample {
         System.out.println("Creating table...");
         Admin admin = HBaseUtils.getConnection().getAdmin();
         admin.createTable(htd);
-        Table table = HBaseUtils.getTable(tableName);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // ^^ MultiRowMutationExample
         System.out.println("Filling table with test data...");
@@ -61,19 +59,19 @@ public class MultiRowMutationExample {
         // ^^ MultiRowMutationExample
         System.out.println("Flushing table...");
         // co MultiRowMutationExample-06-Flush Force a flush of the created data.
-        admin.flush(tableName);
+        admin.flush(HBaseConstants.TEST_TABLE);
         Thread.sleep(3 * 1000L);
 
-        List<RegionInfo> regions = admin.getRegions(tableName);
+        List<RegionInfo> regions = admin.getRegions(HBaseConstants.TEST_TABLE);
         int numRegions = regions.size();
 
         // ^^ MultiRowMutationExample
         System.out.println("Number of regions: " + numRegions);
         System.out.println("Splitting table...");
         // co MultiRowMutationExample-07-Split Subsequently split the table to test the split policy.
-        admin.split(tableName);
+        admin.split(HBaseConstants.TEST_TABLE);
         do {
-            regions = admin.getRegions(tableName);
+            regions = admin.getRegions(HBaseConstants.TEST_TABLE);
             Thread.sleep(1 * 1000L);
             System.out.print(".");
         } while (regions.size() <= numRegions);
@@ -120,7 +118,7 @@ public class MultiRowMutationExample {
             System.out.println(", Value: " + Bytes.toString(val));
         }
 
-        System.out.println(admin.getDescriptor(tableName));
+        System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
         table.close();
         admin.close();
         HBaseUtils.closeConnection();

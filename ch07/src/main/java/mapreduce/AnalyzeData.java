@@ -1,13 +1,11 @@
 package mapreduce;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
@@ -29,8 +27,6 @@ import java.io.IOException;
 
 // cc AnalyzeData MapReduce job that reads the imported data and analyzes it.
 public class AnalyzeData {
-
-    private static final Log LOG = LogFactory.getLog(AnalyzeData.class);
 
     public static final String NAME = "AnalyzeData";
 
@@ -144,7 +140,7 @@ public class AnalyzeData {
                 count++; // co AnalyzeData-4-Count Count the occurrences and emit sum.
             }
             // ^^ AnalyzeData
-            if (context.getConfiguration().get("conf.debug") != null){
+            if (context.getConfiguration().get("conf.debug") != null) {
                 System.out.println("Author: " + key.toString() + ", Count: " + count);
 
             }
@@ -208,11 +204,10 @@ public class AnalyzeData {
         /*...*/
         // ^^ AnalyzeData
         Configuration conf = HBaseConfiguration.create();
-        String[] otherArgs =
-                new GenericOptionsParser(conf, args).getRemainingArgs();
+        String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
         CommandLine cmd = parseArgs(otherArgs);
         // check debug flag and other options
-        if (cmd.hasOption("d")){
+        if (cmd.hasOption("d")) {
             conf.set("conf.debug", "true");
         }
         // get details
@@ -223,7 +218,8 @@ public class AnalyzeData {
         // vv AnalyzeData
         Scan scan = new Scan(); // co AnalyzeData-5-Scan Create and configure a Scan instance.
         if (column != null) {
-            byte[][] colkey = KeyValue.parseColumn(Bytes.toBytes(column));
+            byte[][] colkey = CellUtil.parseColumn(Bytes.toBytes(column));
+
             if (colkey.length > 1) {
                 scan.addColumn(colkey[0], colkey[1]);
             } else {

@@ -6,8 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
@@ -54,7 +54,7 @@ public class ImportFromFile2 {
         @Override
         protected void setup(Context context) {
             String column = context.getConfiguration().get("conf.column");
-            byte[][] colkey = KeyValue.parseColumn(Bytes.toBytes(column));
+            byte[][] colkey = CellUtil.parseColumn(Bytes.toBytes(column));
             family = colkey[0];
             if (colkey.length > 1) {
                 qualifier = colkey[1];

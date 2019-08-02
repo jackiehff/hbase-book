@@ -1,5 +1,6 @@
 package thrift;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.thrift.generated.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 // cc ThriftExample Example using the Thrift generated client API
 public class ThriftExample {
-
     // vv ThriftExample
     private static final byte[] TABLE = Bytes.toBytes("testtable");
     private static final byte[] ROW = Bytes.toBytes("testRow");
@@ -27,8 +27,7 @@ public class ThriftExample {
     private static final byte[] VALUE = Bytes.toBytes("testValue");
 
     public static void main(String[] args) throws Exception {
-
-        HBaseUtils.dropTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
 
         TTransport transport = new TSocket("0.0.0.0", 9090, 20000);
         TProtocol protocol = new TBinaryProtocol(transport, true, true); // co ThriftExample-1-Conn Create a connection using the Thrift boilerplate classes.

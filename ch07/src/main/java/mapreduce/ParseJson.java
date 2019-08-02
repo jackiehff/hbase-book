@@ -7,8 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -38,8 +38,7 @@ public class ParseJson {
      * required information.
      */
     // vv ParseJson
-    static class ParseMapper
-            extends TableMapper<ImmutableBytesWritable, Mutation> {
+    static class ParseMapper extends TableMapper<ImmutableBytesWritable, Mutation> {
 
         private JSONParser parser = new JSONParser();
         private byte[] columnFamily = null;
@@ -189,7 +188,7 @@ public class ParseJson {
         // vv ParseJson
         Scan scan = new Scan();
         if (column != null) {
-            byte[][] colkey = KeyValue.parseColumn(Bytes.toBytes(column));
+            byte[][] colkey = CellUtil.parseColumn(Bytes.toBytes(column));
             if (colkey.length > 1) {
                 scan.addColumn(colkey[0], colkey[1]);
                 conf.set("conf.columnfamily", Bytes.toStringBinary(colkey[0])); // co ParseJson-2-Conf Store the column family in the configuration for later use in the mapper.

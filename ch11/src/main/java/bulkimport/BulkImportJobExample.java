@@ -9,6 +9,8 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat2;
+import org.apache.hadoop.hbase.mapreduce.PutSortReducer;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.*;
@@ -175,7 +177,7 @@ public class BulkImportJobExample {
                                 if (counter % 1000 == 0) {
                                     LOG.info(String.format("Fill: Collected %d samples from %d splits", counter, i));
                                 }
-                                    counter++;
+                                counter++;
                                 samples.add(ReflectionUtils.copy(job.getConfiguration(), reader.getCurrentKey(), null));
                             } else {
                                 // When exceeding the maximum number of samples, replace a
@@ -190,7 +192,7 @@ public class BulkImportJobExample {
                                         LOG.info(String.format("Replace Random: Collected %d samples from %d splits", counter, i));
 
                                     }
-                                        counter++;
+                                    counter++;
                                 }
                                 freq *= (numSamples - 1) / (double) numSamples;
                             }

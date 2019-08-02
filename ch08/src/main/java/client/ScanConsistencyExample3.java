@@ -1,7 +1,6 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -14,24 +13,20 @@ import java.io.IOException;
 public class ScanConsistencyExample3 {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "master-1.internal.larsgeorge.com," +
-                "master-2.internal.larsgeorge.com,master-3.internal.larsgeorge.com");
-        HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
-        HBaseUtils.dropTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         // vv ScanConsistencyExample3
         /*[*/
         byte[][] regions = new byte[][]{Bytes.toBytes("row-5")};
-        HBaseUtils.createTable("testtable", regions, "colfam1");/*]*/
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE_NAME, regions, "colfam1");/*]*/
 
         // ^^ ScanConsistencyExample3
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 9, 1, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 9, 1, "colfam1");
 
         System.out.println("Table before the operations:");
-        HBaseUtils.dump("testtable");
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE);
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // vv ScanConsistencyExample3
         Scan scan = new Scan();

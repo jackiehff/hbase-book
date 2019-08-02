@@ -23,8 +23,7 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public class JsonStringToMap extends EvalFunc<Map> {
-    private static final Logger LOG = LoggerFactory.getLogger(
-            JsonStringToMap.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JsonStringToMap.class);
     private final JSONParser jsonParser = new JSONParser();
 
     @Override
