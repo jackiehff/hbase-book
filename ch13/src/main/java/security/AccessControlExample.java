@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.security.access.AccessControlClient;
 import org.apache.hadoop.hbase.security.access.Permission;
 import org.apache.hadoop.hbase.security.access.UserPermission;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.security.PrivilegedExceptionAction;
 import java.util.List;
@@ -37,13 +37,13 @@ public class AccessControlExample {
         superuser.doAs((PrivilegedExceptionAction<Void>) () -> {
             Configuration conf = superuser.getConfiguration();
 
-            HBaseHelper helper = HBaseHelper.getHelper(conf);
-            helper.dropTable("testtable");
-            helper.createTable("testtable", "colfam1", "colfam2");
+            HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+            HBaseUtils.dropTable("testtable");
+            HBaseUtils.createTable("testtable", "colfam1", "colfam2");
 
             System.out.println("Adding rows to table...");
-            helper.fillTable("testtable", 1, 100, 100, "colfam1", "colfam2");
-            helper.close();
+            HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1", "colfam2");
+            HBaseUtils.closeConnection();
             return null;
         });
 

@@ -153,9 +153,9 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
     long ammount)
   {
     this();
-    this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
-    this.column = org.apache.thrift.TBaseHelper.copyBinary(column);
+    this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
+    this.column = org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
     this.ammount = ammount;
     setAmmountIsSet(true);
   }
@@ -191,12 +191,12 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public byte[] getTable() {
-    setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+    setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
     return table == null ? null : table.array();
   }
 
   public ByteBuffer bufferForTable() {
-    return org.apache.thrift.TBaseHelper.copyBinary(table);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
   }
 
   public TIncrement setTable(byte[] table) {
@@ -205,7 +205,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public TIncrement setTable(ByteBuffer table) {
-    this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+    this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     return this;
   }
 
@@ -225,12 +225,12 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TIncrement setRow(byte[] row) {
@@ -239,7 +239,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public TIncrement setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -259,12 +259,12 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public byte[] getColumn() {
-    setColumn(org.apache.thrift.TBaseHelper.rightSize(column));
+    setColumn(org.apache.thrift.TBaseHBaseUtils.rightSize(column));
     return column == null ? null : column.array();
   }
 
   public ByteBuffer bufferForColumn() {
-    return org.apache.thrift.TBaseHelper.copyBinary(column);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
   }
 
   public TIncrement setColumn(byte[] column) {
@@ -273,7 +273,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
   }
 
   public TIncrement setColumn(ByteBuffer column) {
-    this.column = org.apache.thrift.TBaseHelper.copyBinary(column);
+    this.column = org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
     return this;
   }
 
@@ -481,7 +481,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
       return lastComparison;
     }
     if (isSetTable()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -491,7 +491,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -501,7 +501,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
       return lastComparison;
     }
     if (isSetColumn()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.column, other.column);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.column, other.column);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -511,7 +511,7 @@ public class TIncrement implements org.apache.thrift.TBase<TIncrement, TIncremen
       return lastComparison;
     }
     if (isSetAmmount()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ammount, other.ammount);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.ammount, other.ammount);
       if (lastComparison != 0) {
         return lastComparison;
       }

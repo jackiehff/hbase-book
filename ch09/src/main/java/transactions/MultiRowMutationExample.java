@@ -12,7 +12,7 @@ import org.apache.hadoop.hbase.protobuf.generated.MultiRowMutationProtos.MultiRo
 import org.apache.hadoop.hbase.protobuf.generated.MultiRowMutationProtos.MutateRowsRequest;
 import org.apache.hadoop.hbase.regionserver.KeyPrefixRegionSplitPolicy;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,8 +23,8 @@ import java.util.List;
 public class MultiRowMutationExample {
 
     public static void main(String[] args) throws IOException, InterruptedException, ServiceException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
+
+        HBaseUtils.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
 
         // vv MultiRowMutationExample
@@ -36,9 +36,9 @@ public class MultiRowMutationExample {
                 .setValue(KeyPrefixRegionSplitPolicy.PREFIX_LENGTH_KEY, String.valueOf(2)); // co MultiRowMutationExample-03-SetPrefixLen Set the length of the prefix keeping entities together to two.
 
         System.out.println("Creating table...");
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         admin.createTable(htd);
-        Table table = helper.getTable(tableName);
+        Table table = HBaseUtils.getTable(tableName);
 
         // ^^ MultiRowMutationExample
         System.out.println("Filling table with test data...");
@@ -123,6 +123,6 @@ public class MultiRowMutationExample {
         System.out.println(admin.getDescriptor(tableName));
         table.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

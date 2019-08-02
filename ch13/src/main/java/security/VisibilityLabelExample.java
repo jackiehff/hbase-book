@@ -14,7 +14,7 @@ import org.apache.hadoop.hbase.security.visibility.Authorizations;
 import org.apache.hadoop.hbase.security.visibility.CellVisibility;
 import org.apache.hadoop.hbase.security.visibility.VisibilityClient;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
@@ -30,7 +30,7 @@ public class VisibilityLabelExample {
                                   final String... labels) {
         user.doAs((PrivilegedAction<Void>) () -> {
             try {
-                VisibilityClient.addLabels(user.getConnection(), labels); // co VisibilityLabelExample-01-Helper Helper method to execute the method in the context of the authenticated user.
+                VisibilityClient.addLabels(user.getConnection(), labels); // co VisibilityLabelExample-01-HBaseUtils HBaseUtils method to execute the method in the context of the authenticated user.
             } catch (Throwable throwable) {
                 System.out.println("addLabels() failed with: " +
                         throwable.getMessage().split("\n")[0]);
@@ -157,13 +157,13 @@ public class VisibilityLabelExample {
         superuser.doAs((PrivilegedExceptionAction<Void>) () -> {
             Configuration conf = superuser.getConfiguration();
 
-            HBaseHelper helper = HBaseHelper.getHelper(conf);
-            helper.dropTable("testtable");
-            helper.createTable("testtable", "colfam1");
+            HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+            HBaseUtils.dropTable("testtable");
+            HBaseUtils.createTable("testtable", "colfam1");
 
             System.out.println("Superuser: Adding rows to table...");
-            helper.fillTable("testtable", 1, 2, 2, "colfam1");
-            helper.close();
+            HBaseUtils.fillTable("testtable", 1, 2, 2, "colfam1");
+            HBaseUtils.closeConnection();
             return null;
         });
 

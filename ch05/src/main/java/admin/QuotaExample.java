@@ -5,9 +5,10 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.quotas.*;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,19 +20,18 @@ public class QuotaExample {
         Configuration conf = HBaseConfiguration.create();
         conf.setInt("hbase.client.retries.number", 1);
 
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropNamespace("bar", true);
-        helper.dropNamespace("foo", true);
-        helper.createNamespace("bar");
-        helper.createNamespace("foo");
-        helper.createTable("foo:unlimited", "cf1");
-        helper.createTable("foo:limited", "cf1");
-        helper.createTable("bar:limited", "cf1");
+        HBaseUtils.dropNamespace("bar", true);
+        HBaseUtils.dropNamespace("foo", true);
+        HBaseUtils.createNamespace("bar");
+        HBaseUtils.createNamespace("foo");
+        HBaseUtils.createTable("foo:unlimited", "cf1");
+        HBaseUtils.createTable("foo:limited", "cf1");
+        HBaseUtils.createTable("bar:limited", "cf1");
         System.out.println("Adding rows to tables...");
-        helper.fillTable("foo:limited", 1, 10, 1, "cf1");
+        HBaseUtils.fillTable("foo:limited", 1, 10, 1, "cf1");
 
         // vv QuotaExample
-        Connection connection = helper.getConnection();
+        Connection connection = HBaseUtils.getConnection();
         TableName fooLimited = TableName.valueOf("foo:limited");
         // co QuotaExample-1-Names Create the table name instances for the test tables.
         TableName fooUnlimited = TableName.valueOf("foo:unlimited");
@@ -71,7 +71,7 @@ public class QuotaExample {
         qf.addTypeFilter(QuotaType.THROTTLE);
         //qf.setNamespaceFilter("foo");
         // co QuotaExample-6-GetQuotas Configure a filter, get a retriever instance and print out the results.
-        QuotaRetriever qr = admin.getQuotaRetriever(qf);
+        List<QuotaSettings> qr = admin.getQuota(qf);
         System.out.println("Quotas:");
         for (QuotaSettings setting : qr) {
             System.out.println("  Quota Setting: " + setting);
@@ -79,6 +79,6 @@ public class QuotaExample {
 
         table.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

@@ -2,7 +2,7 @@ package admin;
 
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -20,17 +20,16 @@ public class ListTablesExample3 {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropNamespace("testspace1", true);
-        helper.dropNamespace("testspace2", true);
-        helper.dropTable("testtable3");
-        helper.createNamespace("testspace1");
-        helper.createNamespace("testspace2");
-        helper.createTable("testspace1:testtable1", "colfam1");
-        helper.createTable("testspace2:testtable2", "colfam1");
-        helper.createTable("testtable3", "colfam1");
+        HBaseUtils.dropNamespace("testspace1", true);
+        HBaseUtils.dropNamespace("testspace2", true);
+        HBaseUtils.dropTable("testtable3");
+        HBaseUtils.createNamespace("testspace1");
+        HBaseUtils.createNamespace("testspace2");
+        HBaseUtils.createTable("testspace1:testtable1", "colfam1");
+        HBaseUtils.createTable("testspace2:testtable2", "colfam1");
+        HBaseUtils.createTable("testtable3", "colfam1");
 
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
         System.out.println("List: .*");
         // vv ListTablesExample3

@@ -1,13 +1,12 @@
 package admin;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.util.Pair;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -16,14 +15,11 @@ import java.io.IOException;
  */
 public class ModifyTableExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
+    public static void main(String[] args) throws IOException {
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
-        Admin admin = helper.getConnection().getAdmin();
-        TableName tableName = TableName.valueOf("testtable");
-
-        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table")
                 .build();
@@ -31,19 +27,21 @@ public class ModifyTableExample {
         // co ModifyTableExample-1-CreateTable Create the table with the original structure and 50 regions.
         admin.createTable(tableDescriptor, Bytes.toBytes(1L), Bytes.toBytes(10000L), 50);
         // co ModifyTableExample-2-SchemaUpdate Get schema, update by adding a new family and changing the maximum file size property.
-        TableDescriptor htd1 = TableDescriptorBuilder.newBuilder(tableName)
+        TableDescriptor htd1 = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam2")).build())
                 .setMaxFileSize(1024 * 1024 * 1024L)
                 .setValue("Description", "Chapter 5 - ModifyTableExample: Original Table")
                 .build();
 
 
-        admin.disableTable(tableName);
+        admin.disableTable(HBaseConstants.TEST_TABLE);
         // co ModifyTableExample-3-ChangeTable Disable and modify the table.
         admin.modifyTable(htd1);
 
         // co ModifyTableExample-4-Pair Create a status number pair to start the loop.
-        Pair<Integer, Integer> status = new Pair<Integer, Integer>() {{
+
+        // TODO admin.getAlterStatus no longer needed in HBase 3.0.0
+        /*Pair<Integer, Integer> status = new Pair<Integer, Integer>() {{
             setFirst(50);
             setSecond(50);
         }};
@@ -62,11 +60,11 @@ public class ModifyTableExample {
         }
         if (status.getFirst() != 0) {
             throw new IOException("Failed to update regions after 500 seconds.");
-        }
+        }*/
 
-        admin.enableTable(tableName);
+        admin.enableTable(HBaseConstants.TEST_TABLE);
 
-        TableDescriptor htd2 = admin.getDescriptor(tableName);
+        TableDescriptor htd2 = admin.getDescriptor(HBaseConstants.TEST_TABLE);
         // co ModifyTableExample-6-Verify Check if the table schema matches the new one created locally.
         System.out.println("Equals: " + htd1.equals(htd2));
         System.out.println("New schema: " + htd2);

@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,11 +18,10 @@ import java.util.List;
 public class GetClosestRowBeforeExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         List<Put> puts = new ArrayList<>();
         Put put1 = new Put(Bytes.toBytes("row1"));
@@ -83,6 +82,6 @@ public class GetClosestRowBeforeExample {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

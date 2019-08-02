@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.MultiRowRangeFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,15 +22,15 @@ import static org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
 public class MultiRowRangeFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-//    if (!helper.existsTable("testtable")) {
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+//    if (!HBaseUtils.existsTable("testtable")) {
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 100, 10, 3, false, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 100, 10, 3, false, "colfam1");
 //    }
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         // vv MultiRowRangeFilterExample
         List<RowRange> ranges = new ArrayList<>();
@@ -65,6 +65,6 @@ public class MultiRowRangeFilterExample {
         scanner.close();
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

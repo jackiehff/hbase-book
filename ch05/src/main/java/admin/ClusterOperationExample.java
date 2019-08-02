@@ -1,10 +1,11 @@
 package admin;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.HRegionLocation;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,14 +34,11 @@ public class ClusterOperationExample {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         // vv ClusterOperationExample
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
-        TableName tableName = TableName.valueOf("testtable");
-        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setValue("Description", "Chapter 5 - ClusterOperationExample")
                 .build();
@@ -52,7 +50,7 @@ public class ClusterOperationExample {
         // co ClusterOperationExample-01-Create Create a table with seven regions, and one column family.
         admin.createTable(tableDescriptor, regions);
 
-        BufferedMutator mutator = helper.getConnection().getBufferedMutator(tableName);
+        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(HBaseConstants.TEST_TABLE);
         for (int a = 'A'; a <= 'Z'; a++) {
             for (int b = 'A'; b <= 'Z'; b++) {
                 for (int c = 'A'; c <= 'Z'; c++) {
@@ -68,7 +66,7 @@ public class ClusterOperationExample {
         }
         mutator.close();
 
-        List<RegionInfo> list = admin.getRegions(tableName);
+        List<RegionInfo> list = admin.getRegions(HBaseConstants.TEST_TABLE);
         int numRegions = list.size();
         RegionInfo info = list.get(numRegions - 1);
         System.out.println("Number of regions: " + numRegions); // co ClusterOperationExample-03-List List details about the regions.
@@ -76,9 +74,9 @@ public class ClusterOperationExample {
         printRegionInfo(list);
 
         System.out.println("Splitting region: " + info.getRegionNameAsString());
-        admin.splitRegion(info.getRegionName()); // co ClusterOperationExample-04-Split Split the last region this table has, starting at row key "TUV". Adds a new region starting with key "WEI".
+        admin.splitRegionAsync(info.getRegionName()); // co ClusterOperationExample-04-Split Split the last region this table has, starting at row key "TUV". Adds a new region starting with key "WEI".
         do {
-            list = admin.getRegions(tableName);
+            list = admin.getRegions(HBaseConstants.TEST_TABLE);
             Thread.sleep(1 * 1000L);
             System.out.print(".");
         }
@@ -90,7 +88,7 @@ public class ClusterOperationExample {
         printRegionInfo(list);
 
         System.out.println("Retrieving region with row ZZZ...");
-        RegionLocator locator = helper.getConnection().getRegionLocator(tableName);
+        RegionLocator locator = HBaseUtils.getConnection().getRegionLocator(HBaseConstants.TEST_TABLE);
         HRegionLocation location =
                 locator.getRegionLocation(Bytes.toBytes("ZZZ")); // co ClusterOperationExample-06-Cache Retrieve region infos cached and refreshed to show the difference.
         System.out.println("Found cached region: " +
@@ -100,7 +98,7 @@ public class ClusterOperationExample {
                 location.getRegion().getRegionNameAsString());
 
         List<RegionInfo> online = admin.getRegions(location.getServerName());
-        online = filterTableRegions(online, tableName);
+        online = filterTableRegions(online, HBaseConstants.TEST_TABLE);
         int numOnline = online.size();
         System.out.println("Number of online regions: " + numOnline);
         System.out.println("Online Regions: ");
@@ -112,7 +110,7 @@ public class ClusterOperationExample {
         int revs = 0;
         do {
             online = admin.getRegions(location.getServerName());
-            online = filterTableRegions(online, tableName);
+            online = filterTableRegions(online, HBaseConstants.TEST_TABLE);
             Thread.sleep(1 * 1000L);
             System.out.print(".");
             revs++;
@@ -126,8 +124,7 @@ public class ClusterOperationExample {
         RegionInfo split = online.get(0); // co ClusterOperationExample-08-Wrong Attempt to split a region with a split key that does not fall into boundaries. Triggers log message.
         System.out.println("Splitting region with wrong key: " +
                 split.getRegionNameAsString());
-        admin.splitRegion(split.getRegionName(),
-                Bytes.toBytes("ZZZ")); // triggers log message
+        admin.splitRegionAsync(split.getRegionName(), Bytes.toBytes("ZZZ")); // triggers log message
 
         System.out.println("Assigning region: " + offline.getRegionNameAsString());
         // co ClusterOperationExample-09-Reassign Reassign the offlined region.
@@ -135,7 +132,7 @@ public class ClusterOperationExample {
         revs = 0;
         do {
             online = admin.getRegions(location.getServerName());
-            online = filterTableRegions(online, tableName);
+            online = filterTableRegions(online, HBaseConstants.TEST_TABLE);
             Thread.sleep(1 * 1000L);
             System.out.print(".");
             revs++;
@@ -151,10 +148,10 @@ public class ClusterOperationExample {
         RegionInfo m2 = online.get(1);
         System.out.println("Regions: " + m1 + " with " + m2);
         // co ClusterOperationExample-10-Merge Merge the first two regions. Print out result of operation.
-        admin.mergeRegions(m1.getEncodedNameAsBytes(), m2.getEncodedNameAsBytes(), false);
+        admin.mergeRegionsAsync(m1.getEncodedNameAsBytes(), m2.getEncodedNameAsBytes(), false);
         revs = 0;
         do {
-            list = admin.getRegions(tableName);
+            list = admin.getRegions(HBaseConstants.TEST_TABLE);
             Thread.sleep(1 * 1000L);
             System.out.print(".");
             revs++;
@@ -168,6 +165,6 @@ public class ClusterOperationExample {
         // ^^ ClusterOperationExample
         locator.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

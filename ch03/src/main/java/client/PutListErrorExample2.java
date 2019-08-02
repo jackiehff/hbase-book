@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,11 +15,10 @@ import java.util.List;
 public class PutListErrorExample2 {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         List<Put> puts = new ArrayList<>();
 
@@ -45,6 +44,6 @@ public class PutListErrorExample2 {
             // co PutListErrorExample2-2-Catch Catch local exception and commit queued updates.
         }
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

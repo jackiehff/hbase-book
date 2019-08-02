@@ -70,7 +70,7 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
     }
     // vv AuthenticatedUser
 
-    public <T> T doAs(PrivilegedAction<T> action) { // co AuthenticatedUser-04-doAsHelper Convenience methods to execute priviledged calls.
+    public <T> T doAs(PrivilegedAction<T> action) { // co AuthenticatedUser-04-doAsHBaseUtils Convenience methods to execute priviledged calls.
         return ugi.doAs(action);
     }
 
@@ -107,7 +107,7 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
     }
     // vv AuthenticatedUser
 
-    public void grant(final TableName tableName, final String user,  // co AuthenticatedUser-05-GrantHelper Call the access control client method in the context of the authenticated user.
+    public void grant(final TableName tableName, final String user,  // co AuthenticatedUser-05-GrantHBaseUtils Call the access control client method in the context of the authenticated user.
                       final String family, final String qualifier,
                       final Permission.Action... action)
             throws Exception {
@@ -129,7 +129,7 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
         });
     }
 
-    public void grant(final TableName tableName, final String user,  // co AuthenticatedUser-06-GrantCells Helper method that allows to grant permissions to cells.
+    public void grant(final TableName tableName, final String user,  // co AuthenticatedUser-06-GrantCells HBaseUtils method that allows to grant permissions to cells.
                       final Scan scan, final Permission.Action... action)
             throws Exception {
         doAs(new PrivilegedExceptionAction<Void>() {
@@ -200,7 +200,7 @@ public class AuthenticatedUser implements AutoCloseable { // co AuthenticatedUse
     }
     // vv AuthenticatedUser
 
-    public void revoke(final TableName tableName, final String user,  // co AuthenticatedUser-08-Revoke Helper method to revoke previously granted permissions.
+    public void revoke(final TableName tableName, final String user,  // co AuthenticatedUser-08-Revoke HBaseUtils method to revoke previously granted permissions.
                        final String family, final String qualifier,
                        final Permission.Action... action)
             throws Exception {

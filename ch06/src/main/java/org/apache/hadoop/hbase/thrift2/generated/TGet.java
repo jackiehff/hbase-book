@@ -192,7 +192,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
     ByteBuffer row)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   /**
@@ -201,7 +201,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
   public TGet(TGet other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetRow()) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
     }
     if (other.isSetColumns()) {
       List<TColumn> __this__columns = new ArrayList<TColumn>(other.columns.size());
@@ -216,7 +216,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
     }
     this.maxVersions = other.maxVersions;
     if (other.isSetFilterString()) {
-      this.filterString = org.apache.thrift.TBaseHelper.copyBinary(other.filterString);
+      this.filterString = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.filterString);
     }
     if (other.isSetAttributes()) {
       Map<ByteBuffer,ByteBuffer> __this__attributes = new HashMap<ByteBuffer,ByteBuffer>(other.attributes);
@@ -246,12 +246,12 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TGet setRow(byte[] row) {
@@ -260,7 +260,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
   }
 
   public TGet setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -389,12 +389,12 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
   }
 
   public byte[] getFilterString() {
-    setFilterString(org.apache.thrift.TBaseHelper.rightSize(filterString));
+    setFilterString(org.apache.thrift.TBaseHBaseUtils.rightSize(filterString));
     return filterString == null ? null : filterString.array();
   }
 
   public ByteBuffer bufferForFilterString() {
-    return org.apache.thrift.TBaseHelper.copyBinary(filterString);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(filterString);
   }
 
   public TGet setFilterString(byte[] filterString) {
@@ -403,7 +403,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
   }
 
   public TGet setFilterString(ByteBuffer filterString) {
-    this.filterString = org.apache.thrift.TBaseHelper.copyBinary(filterString);
+    this.filterString = org.apache.thrift.TBaseHBaseUtils.copyBinary(filterString);
     return this;
   }
 
@@ -755,7 +755,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -765,7 +765,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -775,7 +775,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -785,7 +785,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetTimeRange()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timeRange, other.timeRange);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timeRange, other.timeRange);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -795,7 +795,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetMaxVersions()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxVersions, other.maxVersions);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.maxVersions, other.maxVersions);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -805,7 +805,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetFilterString()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.filterString, other.filterString);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.filterString, other.filterString);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -815,7 +815,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetAttributes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.attributes, other.attributes);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.attributes, other.attributes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -825,7 +825,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       return lastComparison;
     }
     if (isSetAuthorizations()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.authorizations, other.authorizations);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.authorizations, other.authorizations);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -854,7 +854,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
     if (this.row == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.row, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
     }
     first = false;
     if (isSetColumns()) {
@@ -895,7 +895,7 @@ public class TGet implements org.apache.thrift.TBase<TGet, TGet._Fields>, java.i
       if (this.filterString == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.filterString, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.filterString, sb);
       }
       first = false;
     }

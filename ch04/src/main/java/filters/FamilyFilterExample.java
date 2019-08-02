@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.FamilyFilter;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class FamilyFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2", "colfam3", "colfam4");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 2, "colfam1", "colfam2", "colfam3", "colfam4");
 
-        Table table = helper.getTable(TableName.valueOf("testtable"));
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2", "colfam3", "colfam4");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 2, "colfam1", "colfam2", "colfam3", "colfam4");
+
+        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
         // vv FamilyFilterExample
         Filter filter1 = new FamilyFilter(CompareOperator.LESS, // co FamilyFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new BinaryComparator(Bytes.toBytes("colfam3")));
@@ -52,6 +52,6 @@ public class FamilyFilterExample {
         Result result2 = table.get(get2); // co FamilyFilterExample-5-Get2 Get the same row while applying the new filter, this will return "NONE".
         System.out.println("Result of get(): " + result2);
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

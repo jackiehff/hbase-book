@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -70,14 +70,13 @@ public class MissingRegionExample {
         connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(tableName);
 
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropTable("testtable");
+        HBaseUtils.dropTable("testtable");
         byte[][] regions = new byte[][]{
                 Bytes.toBytes("row-030"),
                 Bytes.toBytes("row-060")
         };
-        helper.createTable("testtable", regions, "colfam1", "colfam2");
-        helper.fillTable("testtable", 1, 100, 1, 3, false, "colfam1", "colfam2");
+        HBaseUtils.createTable("testtable", regions, "colfam1", "colfam2");
+        HBaseUtils.fillTable("testtable", 1, 100, 1, 3, false, "colfam1", "colfam2");
         printTableRegions();
 
         // vv MissingRegionExample
@@ -132,6 +131,6 @@ public class MissingRegionExample {
         // ^^ MissingRegionExample
         table.close();
         connection.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

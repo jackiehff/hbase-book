@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -15,10 +15,9 @@ import java.io.IOException;
 public class ResultExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        Table table = HBaseUtils.getTable("testtable");
 
         Put put = new Put(Bytes.toBytes("row1"));
         put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
@@ -38,6 +37,6 @@ public class ResultExample {
         System.out.println(result2);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

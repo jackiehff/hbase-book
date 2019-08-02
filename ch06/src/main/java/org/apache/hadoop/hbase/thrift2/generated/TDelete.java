@@ -208,7 +208,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
     ByteBuffer row)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   /**
@@ -217,7 +217,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
   public TDelete(TDelete other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetRow()) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
     }
     if (other.isSetColumns()) {
       List<TColumn> __this__columns = new ArrayList<TColumn>(other.columns.size());
@@ -256,12 +256,12 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TDelete setRow(byte[] row) {
@@ -270,7 +270,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
   }
 
   public TDelete setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -670,7 +670,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -680,7 +680,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -690,7 +690,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -700,7 +700,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetDeleteType()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.deleteType, other.deleteType);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.deleteType, other.deleteType);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -710,7 +710,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetAttributes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.attributes, other.attributes);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.attributes, other.attributes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -720,7 +720,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
       return lastComparison;
     }
     if (isSetDurability()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.durability, other.durability);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.durability, other.durability);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -749,7 +749,7 @@ public class TDelete implements org.apache.thrift.TBase<TDelete, TDelete._Fields
     if (this.row == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.row, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
     }
     first = false;
     if (isSetColumns()) {

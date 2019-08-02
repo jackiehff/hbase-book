@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 /**
  * GetMaxResultsRowOffsetExample2 Retrieves parts of a row with offset and limit #2
@@ -15,11 +15,10 @@ import util.HBaseHelper;
 public class GetMaxResultsRowOffsetExample2 {
 
     public static void main(String[] args) throws Exception {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", 3, "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", 3, "colfam1");
 
-        Table table = helper.getTable(TableName.valueOf("testtable"));
+        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
 
         // co GetMaxResultsRowOffsetExample2-1-Loop Insert three versions of each column.
         for (int version = 1; version <= 3; version++) {
@@ -64,6 +63,6 @@ public class GetMaxResultsRowOffsetExample2 {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

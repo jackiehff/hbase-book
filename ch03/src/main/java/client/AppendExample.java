@@ -1,9 +1,10 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Append;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -13,27 +14,25 @@ import java.io.IOException;
 public class AppendExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", 100, "colfam1", "colfam2");
-        helper.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
+        HBaseUtils.put("testtable",
                 new String[]{"row1"},
                 new String[]{"colfam1"},
                 new String[]{"qual1"},
                 new long[]{1},
                 new String[]{"oldvalue"});
         System.out.println("Before append call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         Append append = new Append(Bytes.toBytes("row1"));
         append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("newvalue"));
         append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("anothervalue"));
         table.append(append);
 
         System.out.println("After append call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
-        table.close();
-        helper.close();
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
+        HBaseUtils.closeConnection();
     }
 }

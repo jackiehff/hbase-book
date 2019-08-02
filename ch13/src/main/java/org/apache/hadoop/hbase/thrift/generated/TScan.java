@@ -237,12 +237,12 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public byte[] getStartRow() {
-    setStartRow(org.apache.thrift.TBaseHelper.rightSize(startRow));
+    setStartRow(org.apache.thrift.TBaseHBaseUtils.rightSize(startRow));
     return startRow == null ? null : startRow.array();
   }
 
   public ByteBuffer bufferForStartRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(startRow);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(startRow);
   }
 
   public TScan setStartRow(byte[] startRow) {
@@ -251,7 +251,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public TScan setStartRow(ByteBuffer startRow) {
-    this.startRow = org.apache.thrift.TBaseHelper.copyBinary(startRow);
+    this.startRow = org.apache.thrift.TBaseHBaseUtils.copyBinary(startRow);
     return this;
   }
 
@@ -271,12 +271,12 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public byte[] getStopRow() {
-    setStopRow(org.apache.thrift.TBaseHelper.rightSize(stopRow));
+    setStopRow(org.apache.thrift.TBaseHBaseUtils.rightSize(stopRow));
     return stopRow == null ? null : stopRow.array();
   }
 
   public ByteBuffer bufferForStopRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(stopRow);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(stopRow);
   }
 
   public TScan setStopRow(byte[] stopRow) {
@@ -285,7 +285,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public TScan setStopRow(ByteBuffer stopRow) {
-    this.stopRow = org.apache.thrift.TBaseHelper.copyBinary(stopRow);
+    this.stopRow = org.apache.thrift.TBaseHBaseUtils.copyBinary(stopRow);
     return this;
   }
 
@@ -390,12 +390,12 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public byte[] getFilterString() {
-    setFilterString(org.apache.thrift.TBaseHelper.rightSize(filterString));
+    setFilterString(org.apache.thrift.TBaseHBaseUtils.rightSize(filterString));
     return filterString == null ? null : filterString.array();
   }
 
   public ByteBuffer bufferForFilterString() {
-    return org.apache.thrift.TBaseHelper.copyBinary(filterString);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(filterString);
   }
 
   public TScan setFilterString(byte[] filterString) {
@@ -404,7 +404,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
   }
 
   public TScan setFilterString(ByteBuffer filterString) {
-    this.filterString = org.apache.thrift.TBaseHelper.copyBinary(filterString);
+    this.filterString = org.apache.thrift.TBaseHBaseUtils.copyBinary(filterString);
     return this;
   }
 
@@ -793,7 +793,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetStartRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startRow, other.startRow);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.startRow, other.startRow);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -803,7 +803,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetStopRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.stopRow, other.stopRow);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.stopRow, other.stopRow);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -813,7 +813,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -823,7 +823,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -833,7 +833,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetCaching()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.caching, other.caching);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.caching, other.caching);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -843,7 +843,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetFilterString()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.filterString, other.filterString);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.filterString, other.filterString);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -853,7 +853,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetBatchSize()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.batchSize, other.batchSize);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.batchSize, other.batchSize);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -863,7 +863,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetSortColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sortColumns, other.sortColumns);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.sortColumns, other.sortColumns);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -873,7 +873,7 @@ public class TScan implements org.apache.thrift.TBase<TScan, TScan._Fields>, jav
       return lastComparison;
     }
     if (isSetReversed()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.reversed, other.reversed);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.reversed, other.reversed);
       if (lastComparison != 0) {
         return lastComparison;
       }

@@ -139,7 +139,7 @@ public class TCell implements org.apache.thrift.TBase<TCell, TCell._Fields>, jav
     long timestamp)
   {
     this();
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     this.timestamp = timestamp;
     setTimestampIsSet(true);
   }
@@ -167,12 +167,12 @@ public class TCell implements org.apache.thrift.TBase<TCell, TCell._Fields>, jav
   }
 
   public byte[] getValue() {
-    setValue(org.apache.thrift.TBaseHelper.rightSize(value));
+    setValue(org.apache.thrift.TBaseHBaseUtils.rightSize(value));
     return value == null ? null : value.array();
   }
 
   public ByteBuffer bufferForValue() {
-    return org.apache.thrift.TBaseHelper.copyBinary(value);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
   }
 
   public TCell setValue(byte[] value) {
@@ -181,7 +181,7 @@ public class TCell implements org.apache.thrift.TBase<TCell, TCell._Fields>, jav
   }
 
   public TCell setValue(ByteBuffer value) {
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     return this;
   }
 
@@ -335,7 +335,7 @@ public class TCell implements org.apache.thrift.TBase<TCell, TCell._Fields>, jav
       return lastComparison;
     }
     if (isSetValue()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.value, other.value);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -345,7 +345,7 @@ public class TCell implements org.apache.thrift.TBase<TCell, TCell._Fields>, jav
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }

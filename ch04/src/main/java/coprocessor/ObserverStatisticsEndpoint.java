@@ -67,7 +67,7 @@ public class ObserverStatisticsEndpoint extends ObserverStatisticsProtos.Observe
                     ObserverStatisticsProtos.NameInt32Pair.newBuilder();
             for (Map.Entry<String, Integer> entry : stats.entrySet()) {
                 pair.setName(entry.getKey());
-                pair.setValue(entry.getValue().intValue());
+                pair.setValue(entry.getValue());
                 builder.addAttribute(pair.build());
             }
             response = builder.build();
@@ -85,7 +85,7 @@ public class ObserverStatisticsEndpoint extends ObserverStatisticsProtos.Observe
     }
 
     /**
-     * Internal helper to keep track of call counts.
+     * Internal HBaseUtils to keep track of call counts.
      *
      * @param call The name of the call.
      */

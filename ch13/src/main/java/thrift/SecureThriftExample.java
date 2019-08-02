@@ -7,7 +7,7 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSaslClientTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.AppConfigurationEntry;
@@ -52,8 +52,8 @@ public class SecureThriftExample {
 
     private void run() throws Exception {
         // ^^ SecureThriftExample
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
+
+        HBaseUtils.dropTable("testtable");
 
         // vv SecureThriftExample
         System.out.println("Using port " + port + " and server " + hostname);

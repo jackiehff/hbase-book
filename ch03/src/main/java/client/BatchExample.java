@@ -1,8 +1,9 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,19 +22,18 @@ public class BatchExample {
     private final static byte[] QUAL2 = Bytes.toBytes("qual2");
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        helper.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1"},
                 new String[]{"qual1", "qual2", "qual3"},
                 new long[]{1, 2, 3},
                 new String[]{"val1", "val2", "val3"});
         System.out.println("Before batch call...");
-        helper.dump("testtable", new String[]{"row1", "row2"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co BatchExample-1-CreateList Create a list to hold all values.
         List<Row> batch = new ArrayList<>();
@@ -75,7 +75,7 @@ public class BatchExample {
 
         table.close();
         System.out.println("After batch call...");
-        helper.dump("testtable", new String[]{"row1", "row2"}, null, null);
-        helper.close();
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
+        HBaseUtils.closeConnection();
     }
 }

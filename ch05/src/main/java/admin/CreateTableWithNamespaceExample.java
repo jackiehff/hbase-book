@@ -1,5 +1,6 @@
 package admin;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
@@ -7,7 +8,7 @@ import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,9 +18,8 @@ import java.io.IOException;
 public class CreateTableWithNamespaceExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        Admin admin = helper.getConnection().getAdmin();
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
         NamespaceDescriptor namespace = NamespaceDescriptor.create("testspace").build();
         admin.createNamespace(namespace);

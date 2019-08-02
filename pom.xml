@@ -20,16 +20,19 @@
     </scm>
 
     <properties>
-        <jdkLevel>1.8</jdkLevel>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
         <hadoop.version>3.2.0</hadoop.version>
-        <!--<hbase.version>2.1.2</hbase.version>-->
         <hbase.version>3.0.0-SNAPSHOT</hbase.version>
         <m.version>0.17.0</m.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <libthrift.version>0.11.0</libthrift.version>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     </properties>
 
     <build>
@@ -37,10 +40,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${jdkLevel}</source>
-                    <target>${jdkLevel}</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <showDeprecation>false</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>

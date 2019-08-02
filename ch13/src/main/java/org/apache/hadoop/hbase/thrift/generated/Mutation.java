@@ -159,8 +159,8 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
     this();
     this.isDelete = isDelete;
     setIsDeleteIsSet(true);
-    this.column = org.apache.thrift.TBaseHelper.copyBinary(column);
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.column = org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     this.writeToWAL = writeToWAL;
     setWriteToWALIsSet(true);
   }
@@ -218,12 +218,12 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
   }
 
   public byte[] getColumn() {
-    setColumn(org.apache.thrift.TBaseHelper.rightSize(column));
+    setColumn(org.apache.thrift.TBaseHBaseUtils.rightSize(column));
     return column == null ? null : column.array();
   }
 
   public ByteBuffer bufferForColumn() {
-    return org.apache.thrift.TBaseHelper.copyBinary(column);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
   }
 
   public Mutation setColumn(byte[] column) {
@@ -232,7 +232,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
   }
 
   public Mutation setColumn(ByteBuffer column) {
-    this.column = org.apache.thrift.TBaseHelper.copyBinary(column);
+    this.column = org.apache.thrift.TBaseHBaseUtils.copyBinary(column);
     return this;
   }
 
@@ -252,12 +252,12 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
   }
 
   public byte[] getValue() {
-    setValue(org.apache.thrift.TBaseHelper.rightSize(value));
+    setValue(org.apache.thrift.TBaseHBaseUtils.rightSize(value));
     return value == null ? null : value.array();
   }
 
   public ByteBuffer bufferForValue() {
-    return org.apache.thrift.TBaseHelper.copyBinary(value);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
   }
 
   public Mutation setValue(byte[] value) {
@@ -266,7 +266,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
   }
 
   public Mutation setValue(ByteBuffer value) {
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     return this;
   }
 
@@ -474,7 +474,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
       return lastComparison;
     }
     if (isSetIsDelete()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isDelete, other.isDelete);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.isDelete, other.isDelete);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -484,7 +484,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
       return lastComparison;
     }
     if (isSetColumn()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.column, other.column);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.column, other.column);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -494,7 +494,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
       return lastComparison;
     }
     if (isSetValue()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.value, other.value);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -504,7 +504,7 @@ public class Mutation implements org.apache.thrift.TBase<Mutation, Mutation._Fie
       return lastComparison;
     }
     if (isSetWriteToWAL()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.writeToWAL, other.writeToWAL);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.writeToWAL, other.writeToWAL);
       if (lastComparison != 0) {
         return lastComparison;
       }

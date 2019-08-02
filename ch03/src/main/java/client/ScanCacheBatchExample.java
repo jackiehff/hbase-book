@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.client.metrics.ScanMetrics;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -38,12 +38,12 @@ public class ScanCacheBatchExample {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        helper.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
 
-        table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
+
+        table = HBaseUtils.getTable("testtable");
 
         scan(1, 1, false);
         scan(1, 0, false);
@@ -60,6 +60,6 @@ public class ScanCacheBatchExample {
         scan(10, 10, false);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

@@ -1,13 +1,8 @@
 package client;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,10 +12,10 @@ import java.io.IOException;
 public class IncrementSingleExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "daily");
-        Table table = helper.getTable("testtable");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "daily");
+        Table table = HBaseUtils.getTable("testtable");
 
         // co IncrementSingleExample-1-Incr1 Increase counter by one.
         long cnt1 = table.incrementColumnValue(Bytes.toBytes("20110101"), Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);
@@ -33,6 +28,6 @@ public class IncrementSingleExample {
         System.out.println("cnt1: " + cnt1 + ", cnt2: " + cnt2 + ", current: " + current + ", cnt3: " + cnt3);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

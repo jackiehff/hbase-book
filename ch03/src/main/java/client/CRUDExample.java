@@ -2,7 +2,7 @@ package client;
 
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -12,12 +12,11 @@ import java.io.IOException;
 public class CRUDExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
 
         try (
-                Table table = helper.getTable("testtable")
+                Table table = HBaseUtils.getTable("testtable")
         ) {
             // Put操作
             Put put = new Put(Bytes.toBytes("row1"));
@@ -55,6 +54,6 @@ public class CRUDExample {
             }
         }
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

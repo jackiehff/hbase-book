@@ -4,7 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -19,16 +19,16 @@ public class ScanConsistencyExample1 {
         conf.set("hbase.zookeeper.quorum", "master-1.internal.larsgeorge.com," +
                 "master-2.internal.larsgeorge.com,master-3.internal.larsgeorge.com");
 
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 5, 1, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 5, 1, "colfam1");
 
         System.out.println("Table before the operations:");
-        helper.dump("testtable");
+        HBaseUtils.dump("testtable");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         // vv ScanConsistencyExample1
         Scan scan = new Scan();
@@ -40,7 +40,7 @@ public class ScanConsistencyExample1 {
         System.out.println("Starting scan, reading one row...");
         // vv ScanConsistencyExample1
         Result result = scanner.next();
-        helper.dumpResult(result);
+        HBaseUtils.dumpResult(result);
 
         // ^^ ScanConsistencyExample1
         System.out.println("Applying mutations...");
@@ -57,14 +57,14 @@ public class ScanConsistencyExample1 {
         System.out.println("Resuming original scan...");
         for (Result result2 : scanner) {
             // co ScanConsistencyExample1-4-Scan Scan the rest of the table to see if the mutations are visible.
-            helper.dumpResult(result2);
+            HBaseUtils.dumpResult(result2);
         }
         scanner.close();
 
         System.out.println("Print table under new scanner...");
         // co ScanConsistencyExample1-5-Dump Print the entire table again, with a new scanner instance.
-        helper.dump("testtable");
+        HBaseUtils.dump("testtable");
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

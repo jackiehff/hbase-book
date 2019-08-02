@@ -145,7 +145,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
     ByteBuffer family)
   {
     this();
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
   }
 
   /**
@@ -154,10 +154,10 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   public TColumn(TColumn other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetFamily()) {
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(other.family);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.family);
     }
     if (other.isSetQualifier()) {
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(other.qualifier);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.qualifier);
     }
     this.timestamp = other.timestamp;
   }
@@ -175,12 +175,12 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public byte[] getFamily() {
-    setFamily(org.apache.thrift.TBaseHelper.rightSize(family));
+    setFamily(org.apache.thrift.TBaseHBaseUtils.rightSize(family));
     return family == null ? null : family.array();
   }
 
   public ByteBuffer bufferForFamily() {
-    return org.apache.thrift.TBaseHelper.copyBinary(family);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
   }
 
   public TColumn setFamily(byte[] family) {
@@ -189,7 +189,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public TColumn setFamily(ByteBuffer family) {
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
     return this;
   }
 
@@ -209,12 +209,12 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public byte[] getQualifier() {
-    setQualifier(org.apache.thrift.TBaseHelper.rightSize(qualifier));
+    setQualifier(org.apache.thrift.TBaseHBaseUtils.rightSize(qualifier));
     return qualifier == null ? null : qualifier.array();
   }
 
   public ByteBuffer bufferForQualifier() {
-    return org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
   }
 
   public TColumn setQualifier(byte[] qualifier) {
@@ -223,7 +223,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public TColumn setQualifier(ByteBuffer qualifier) {
-    this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
     return this;
   }
 
@@ -404,7 +404,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       return lastComparison;
     }
     if (isSetFamily()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.family, other.family);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.family, other.family);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -414,7 +414,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       return lastComparison;
     }
     if (isSetQualifier()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.qualifier, other.qualifier);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.qualifier, other.qualifier);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -424,7 +424,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -453,7 +453,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
     if (this.family == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.family, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.family, sb);
     }
     first = false;
     if (isSetQualifier()) {
@@ -462,7 +462,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       if (this.qualifier == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.qualifier, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.qualifier, sb);
       }
       first = false;
     }

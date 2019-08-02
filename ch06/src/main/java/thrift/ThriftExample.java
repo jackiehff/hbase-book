@@ -6,7 +6,7 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class ThriftExample {
     private static final byte[] VALUE = Bytes.toBytes("testValue");
 
     public static void main(String[] args) throws Exception {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
+
+        HBaseUtils.dropTable("testtable");
 
         TTransport transport = new TSocket("0.0.0.0", 9090, 20000);
         TProtocol protocol = new TBinaryProtocol(transport, true, true); // co ThriftExample-1-Conn Create a connection using the Thrift boilerplate classes.

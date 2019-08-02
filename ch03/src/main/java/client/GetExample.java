@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -15,12 +15,12 @@ public class GetExample {
 
     public static void main(String[] args) throws IOException {
         // co GetExample-1-CreateConf Create the configuration.
-        HBaseHelper helper = HBaseHelper.getHelper();
-        if (!helper.existsTable("testtable")) {
-            helper.createTable("testtable", "colfam1");
+
+        if (!HBaseUtils.existsTable("testtable")) {
+            HBaseUtils.createTable("testtable", "colfam1");
         }
         // co GetExample-2-NewTable Instantiate a new table reference.
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
         // co GetExample-3-NewGet Create get with specific row.
         Get get = new Get(Bytes.toBytes("row1"));
         // co GetExample-4-AddCol Add a column to the get.
@@ -35,6 +35,6 @@ public class GetExample {
 
         // co GetExample-8-Close Close the table and connection instances to free resources.
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

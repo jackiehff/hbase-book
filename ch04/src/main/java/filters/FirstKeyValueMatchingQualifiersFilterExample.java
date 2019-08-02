@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FirstKeyValueMatchingQualifiersFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -20,14 +20,14 @@ import java.util.Set;
 public class FirstKeyValueMatchingQualifiersFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTableRandom("testtable", /* row */ 1, 50, 0,
+        HBaseUtils.fillTableRandom("testtable", /* row */ 1, 50, 0,
                 /* col */ 1, 10, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
         Set<byte[]> quals = new HashSet<>();
         quals.add(Bytes.toBytes("col-2"));
         quals.add(Bytes.toBytes("col-4"));

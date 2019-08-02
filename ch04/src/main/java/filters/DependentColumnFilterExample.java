@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -62,13 +62,13 @@ public class DependentColumnFilterExample {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 10, true, "colfam1", "colfam2");
 
-        table = helper.getTable(TableName.valueOf("testtable"));
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, true, "colfam1", "colfam2");
+
+        table = HBaseUtils.getTable(TableName.valueOf("testtable"));
         // vv DependentColumnFilterExample
         filter(true, CompareOperator.NO_OP, null);
         filter(false, CompareOperator.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.
@@ -81,6 +81,6 @@ public class DependentColumnFilterExample {
         filter(false, CompareOperator.EQUAL,
                 new RegexStringComparator(".*\\.5"));
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

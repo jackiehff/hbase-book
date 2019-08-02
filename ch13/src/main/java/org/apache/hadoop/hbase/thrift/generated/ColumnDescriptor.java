@@ -215,7 +215,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
     int timeToLive)
   {
     this();
-    this.name = org.apache.thrift.TBaseHelper.copyBinary(name);
+    this.name = org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
     this.maxVersions = maxVersions;
     setMaxVersionsIsSet(true);
     this.compression = compression;
@@ -280,12 +280,12 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
   }
 
   public byte[] getName() {
-    setName(org.apache.thrift.TBaseHelper.rightSize(name));
+    setName(org.apache.thrift.TBaseHBaseUtils.rightSize(name));
     return name == null ? null : name.array();
   }
 
   public ByteBuffer bufferForName() {
-    return org.apache.thrift.TBaseHelper.copyBinary(name);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
   }
 
   public ColumnDescriptor setName(byte[] name) {
@@ -294,7 +294,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
   }
 
   public ColumnDescriptor setName(ByteBuffer name) {
-    this.name = org.apache.thrift.TBaseHelper.copyBinary(name);
+    this.name = org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
     return this;
   }
 
@@ -800,7 +800,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, other.name);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.name, other.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -810,7 +810,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetMaxVersions()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxVersions, other.maxVersions);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.maxVersions, other.maxVersions);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -820,7 +820,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetCompression()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.compression, other.compression);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.compression, other.compression);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -830,7 +830,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetInMemory()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.inMemory, other.inMemory);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.inMemory, other.inMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -840,7 +840,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetBloomFilterType()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bloomFilterType, other.bloomFilterType);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.bloomFilterType, other.bloomFilterType);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -850,7 +850,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetBloomFilterVectorSize()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bloomFilterVectorSize, other.bloomFilterVectorSize);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.bloomFilterVectorSize, other.bloomFilterVectorSize);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -860,7 +860,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetBloomFilterNbHashes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bloomFilterNbHashes, other.bloomFilterNbHashes);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.bloomFilterNbHashes, other.bloomFilterNbHashes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -870,7 +870,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetBlockCacheEnabled()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.blockCacheEnabled, other.blockCacheEnabled);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.blockCacheEnabled, other.blockCacheEnabled);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -880,7 +880,7 @@ public class ColumnDescriptor implements org.apache.thrift.TBase<ColumnDescripto
       return lastComparison;
     }
     if (isSetTimeToLive()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timeToLive, other.timeToLive);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timeToLive, other.timeToLive);
       if (lastComparison != 0) {
         return lastComparison;
       }

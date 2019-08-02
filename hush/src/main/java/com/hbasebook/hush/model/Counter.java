@@ -3,7 +3,7 @@ package com.hbasebook.hush.model;
 import java.util.Objects;
 
 /**
- * Helper to sort counters by key or value.
+ * HBaseUtils to sort counters by key or value.
  *
  * @param <K> The key type.
  * @param <V> The value type.

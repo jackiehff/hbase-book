@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.NullComparator;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class ValueNotNullFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 5, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 5, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
 
         Put put = new Put(Bytes.toBytes("row-5"))
                 .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-6"),
@@ -66,6 +66,6 @@ public class ValueNotNullFilterExample {
         }
         scanner.close();
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

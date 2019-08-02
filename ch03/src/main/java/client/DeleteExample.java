@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -13,19 +13,18 @@ import java.io.IOException;
 public class DeleteExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", 100, "colfam1", "colfam2");
-        helper.put("testtable",
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", 100, "colfam1", "colfam2");
+        HBaseUtils.put("testtable",
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val1", "val2", "val2", "val3", "val3"});
         System.out.println("Before delete call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         // co DeleteExample-1-NewDel Create delete with specific row.
         Delete delete = new Delete(Bytes.toBytes("row1"));
@@ -49,7 +48,7 @@ public class DeleteExample {
 
         table.close();
         System.out.println("After delete call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
-        helper.close();
+        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.closeConnection();
     }
 }

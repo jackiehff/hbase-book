@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.rest.client.Client;
 import org.apache.hadoop.hbase.rest.client.Cluster;
 import org.apache.hadoop.hbase.rest.client.RemoteHTable;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -16,11 +16,11 @@ import java.io.IOException;
 public class RestExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 100, 10, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 100, 10, "colfam1");
 
         // vv RestExample
         Cluster cluster = new Cluster();

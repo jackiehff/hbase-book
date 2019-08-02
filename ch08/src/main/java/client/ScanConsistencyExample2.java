@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -13,17 +13,17 @@ import java.io.IOException;
 public class ScanConsistencyExample2 {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 5, 2, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 5, 2, "colfam1");
 
         System.out.println("Table before the operations:");
-        helper.dump("testtable");
+        HBaseUtils.dump("testtable");
 
         TableName tableName = TableName.valueOf("testtable");
-        Table table = helper.getTable(tableName);
+        Table table = HBaseUtils.getTable(tableName);
 
         Scan scan = new Scan();
         scan.setCaching(1);
@@ -31,7 +31,7 @@ public class ScanConsistencyExample2 {
 
         System.out.println("Starting scan, reading one row...");
         Result result = scanner.next();
-        helper.dumpResult(result);
+        HBaseUtils.dumpResult(result);
 
         System.out.println("Applying mutations...");
         Put put = new Put(Bytes.toBytes("row-3"));
@@ -44,7 +44,7 @@ public class ScanConsistencyExample2 {
 
         System.out.println("Flushing and splitting table...");
         // vv ScanConsistencyExample2
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         // co ScanConsistencyExample2-1-Flush Flush table and wait a little while for the operation to complete.
         admin.flush(tableName);
         try {
@@ -61,14 +61,14 @@ public class ScanConsistencyExample2 {
         System.out.println("Resuming original scan...");
         // vv ScanConsistencyExample2
         for (Result result2 : scanner) {
-            helper.dumpResult(result2);
+            HBaseUtils.dumpResult(result2);
         }
         scanner.close();
 
         // ^^ ScanConsistencyExample2
         System.out.println("Print table under new scanner...");
-        helper.dump("testtable");
+        HBaseUtils.dump("testtable");
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

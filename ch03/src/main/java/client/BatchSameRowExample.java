@@ -1,8 +1,9 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,14 +19,13 @@ public class BatchSameRowExample {
     private final static byte[] QUAL1 = Bytes.toBytes("qual1");
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        helper.put("testtable", "row1", "colfam1", "qual1", 1L, "val1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE, "row1", "colfam1", "qual1", 1L, "val1");
         System.out.println("Before batch call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         List<Row> batch = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class BatchSameRowExample {
         }
         table.close();
         System.out.println("After batch call...");
-        helper.dump("testtable", new String[]{"row1"}, null, null);
-        helper.close();
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
+        HBaseUtils.closeConnection();
     }
 }

@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.client.metrics.ScanMetrics;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -44,12 +44,12 @@ public class ScanSlicingExample {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        helper.fillTable("testtable", 1, 10, 10, 2, true, "colfam1", "colfam2");
 
-        table = helper.getTable(TableName.valueOf("testtable"));
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, 2, true, "colfam1", "colfam2");
+
+        table = HBaseUtils.getTable(TableName.valueOf("testtable"));
 
         scan(1, 11, 0, 0, 2, -1, true);
         scan(2, 11, 0, 4, 2, -1, true);
@@ -59,6 +59,6 @@ public class ScanSlicingExample {
         scan(6, 11, -1, -1, -1, 10000, false);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

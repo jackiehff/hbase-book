@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcUtils;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,29 +20,29 @@ import java.util.Map;
 public class EndpointCombinedExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        helper.put("testtable",
+        TableName name = TableName.valueOf("testtable");
+        HBaseUtils.dropTable(name);
+        HBaseUtils.createTable(name, "colfam1", "colfam2");
+        HBaseUtils.put(name,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1"},
                 new long[]{1, 2},
                 new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        helper.dump("testtable",
+        HBaseUtils.dump(name,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         try {
             admin.split(TableName.valueOf("testtable"), Bytes.toBytes("row3"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        TableName name = TableName.valueOf("testtable");
-        Table table = helper.getTable(name);
+
+        Table table = HBaseUtils.getTable(name);
         // wait for the split to be done
-        RegionLocator locator = helper.getConnection().getRegionLocator(name);
+        RegionLocator locator = HBaseUtils.getConnection().getRegionLocator(name);
         while (locator.getAllRegionLocations().size() < 2) {
             try {
                 Thread.sleep(1000);
@@ -91,6 +91,6 @@ public class EndpointCombinedExample {
         }
 
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

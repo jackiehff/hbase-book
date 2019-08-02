@@ -4,7 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,21 +17,21 @@ public class ScanConsistencyExample3 {
         Configuration conf = HBaseConfiguration.create();
         conf.set("hbase.zookeeper.quorum", "master-1.internal.larsgeorge.com," +
                 "master-2.internal.larsgeorge.com,master-3.internal.larsgeorge.com");
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropTable("testtable");
+        HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+        HBaseUtils.dropTable("testtable");
         // vv ScanConsistencyExample3
         /*[*/
         byte[][] regions = new byte[][]{Bytes.toBytes("row-5")};
-        helper.createTable("testtable", regions, "colfam1");/*]*/
+        HBaseUtils.createTable("testtable", regions, "colfam1");/*]*/
 
         // ^^ ScanConsistencyExample3
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 9, 1, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 9, 1, "colfam1");
 
         System.out.println("Table before the operations:");
-        helper.dump("testtable");
+        HBaseUtils.dump("testtable");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         // vv ScanConsistencyExample3
         Scan scan = new Scan();
@@ -42,7 +42,7 @@ public class ScanConsistencyExample3 {
         System.out.println("Starting scan, reading one row...");
         // vv ScanConsistencyExample3
         Result result = scanner.next();
-        helper.dumpResult(result);
+        HBaseUtils.dumpResult(result);
 
         // ^^ ScanConsistencyExample3
         System.out.println("Applying mutations...");
@@ -58,11 +58,11 @@ public class ScanConsistencyExample3 {
         System.out.println("Resuming original scan...");
         // vv ScanConsistencyExample3
         for (Result result2 : scanner) {
-            helper.dumpResult(result2);
+            HBaseUtils.dumpResult(result2);
         }
         scanner.close();
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

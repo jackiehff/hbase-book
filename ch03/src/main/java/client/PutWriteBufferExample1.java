@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -13,14 +13,13 @@ import java.io.IOException;
 public class PutWriteBufferExample1 {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
 
         TableName name = TableName.valueOf("testtable");
-        Table table = helper.getTable(name);
+        Table table = HBaseUtils.getTable(name);
         // co PutWriteBufferExample1-1-CheckFlush Get a mutator instance for the table.
-        BufferedMutator mutator = helper.getConnection().getBufferedMutator(name);
+        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(name);
 
         Put put1 = new Put(Bytes.toBytes("row1"));
         put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
@@ -49,6 +48,6 @@ public class PutWriteBufferExample1 {
 
         mutator.close();
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

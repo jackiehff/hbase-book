@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.ColumnPaginationFilter;
 import org.apache.hadoop.hbase.filter.Filter;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class ColumnPaginationFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 30, 2, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 30, 2, true, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
         // vv ColumnPaginationFilterExample
         Filter filter = new ColumnPaginationFilter(5, 15);
 
@@ -40,6 +40,6 @@ public class ColumnPaginationFilterExample {
         // ^^ ColumnPaginationFilterExample
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

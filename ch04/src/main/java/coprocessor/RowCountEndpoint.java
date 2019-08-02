@@ -71,7 +71,7 @@ public class RowCountEndpoint extends RowCounterProtos.RowCountService implement
     }
 
     /**
-     * Helper method to count rows or cells.
+     * HBaseUtils method to count rows or cells.
      * *
      *
      * @param filter     The optional filter instance.

@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,31 +18,31 @@ public class DeleteListErrorExample {
 
     public static void main(String[] args) throws IOException {
         Logger.getLogger("org.apache.zookeeper").setLevel(Level.OFF);
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", 100, "colfam1", "colfam2");
-        helper.put("testtable",
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", 100, "colfam1", "colfam2");
+        HBaseUtils.put("testtable",
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
-        helper.put("testtable",
+        HBaseUtils.put("testtable",
                 new String[]{"row2"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
-        helper.put("testtable",
+        HBaseUtils.put("testtable",
                 new String[]{"row3"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
         System.out.println("Before delete call...");
-        helper.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
+        HBaseUtils.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         List<Delete> deletes = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class DeleteListErrorExample {
 
         table.close();
         System.out.println("After delete call...");
-        helper.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
-        helper.close();
+        HBaseUtils.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
+        HBaseUtils.closeConnection();
     }
 }

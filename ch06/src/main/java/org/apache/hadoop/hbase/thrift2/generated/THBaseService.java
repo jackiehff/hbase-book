@@ -214,7 +214,7 @@ public class THBaseService {
 
     /**
      * Get results for the provided TScan object.
-     * This helper function opens a scanner, get the results and close the scanner.
+     * This HBaseUtils function opens a scanner, get the results and close the scanner.
      * 
      * @return between zero and numRows TResults
      * 
@@ -2804,7 +2804,7 @@ public class THBaseService {
       TGet get)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.get = get;
     }
 
@@ -2813,7 +2813,7 @@ public class THBaseService {
      */
     public exists_args(exists_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetGet()) {
         this.get = new TGet(other.get);
@@ -2834,12 +2834,12 @@ public class THBaseService {
      * the table to check on
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -2851,7 +2851,7 @@ public class THBaseService {
     }
 
     public exists_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -3012,7 +3012,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3022,7 +3022,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetGet()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.get, other.get);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.get, other.get);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3051,7 +3051,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -3474,7 +3474,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3484,7 +3484,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3766,7 +3766,7 @@ public class THBaseService {
       TGet get)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.get = get;
     }
 
@@ -3775,7 +3775,7 @@ public class THBaseService {
      */
     public get_args(get_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetGet()) {
         this.get = new TGet(other.get);
@@ -3796,12 +3796,12 @@ public class THBaseService {
      * the table to get from
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -3813,7 +3813,7 @@ public class THBaseService {
     }
 
     public get_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -3974,7 +3974,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3984,7 +3984,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetGet()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.get, other.get);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.get, other.get);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4013,7 +4013,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -4434,7 +4434,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4444,7 +4444,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4738,7 +4738,7 @@ public class THBaseService {
       List<TGet> gets)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.gets = gets;
     }
 
@@ -4747,7 +4747,7 @@ public class THBaseService {
      */
     public getMultiple_args(getMultiple_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetGets()) {
         List<TGet> __this__gets = new ArrayList<TGet>(other.gets.size());
@@ -4772,12 +4772,12 @@ public class THBaseService {
      * the table to get from
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -4789,7 +4789,7 @@ public class THBaseService {
     }
 
     public getMultiple_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -4969,7 +4969,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4979,7 +4979,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetGets()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.gets, other.gets);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.gets, other.gets);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5008,7 +5008,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -5478,7 +5478,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5488,7 +5488,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5806,7 +5806,7 @@ public class THBaseService {
       TPut put)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.put = put;
     }
 
@@ -5815,7 +5815,7 @@ public class THBaseService {
      */
     public put_args(put_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetPut()) {
         this.put = new TPut(other.put);
@@ -5836,12 +5836,12 @@ public class THBaseService {
      * the table to put data in
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -5853,7 +5853,7 @@ public class THBaseService {
     }
 
     public put_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -6014,7 +6014,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6024,7 +6024,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetPut()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.put, other.put);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.put, other.put);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6053,7 +6053,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -6410,7 +6410,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6723,11 +6723,11 @@ public class THBaseService {
       TPut put)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
-      this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
+      this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
       this.put = put;
     }
 
@@ -6736,19 +6736,19 @@ public class THBaseService {
      */
     public checkAndPut_args(checkAndPut_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetRow()) {
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
       }
       if (other.isSetFamily()) {
-        this.family = org.apache.thrift.TBaseHelper.copyBinary(other.family);
+        this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.family);
       }
       if (other.isSetQualifier()) {
-        this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(other.qualifier);
+        this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.qualifier);
       }
       if (other.isSetValue()) {
-        this.value = org.apache.thrift.TBaseHelper.copyBinary(other.value);
+        this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.value);
       }
       if (other.isSetPut()) {
         this.put = new TPut(other.put);
@@ -6773,12 +6773,12 @@ public class THBaseService {
      * to check in and put to
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -6790,7 +6790,7 @@ public class THBaseService {
     }
 
     public checkAndPut_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -6813,12 +6813,12 @@ public class THBaseService {
      * row to check
      */
     public byte[] getRow() {
-      setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+      setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
       return row == null ? null : row.array();
     }
 
     public ByteBuffer bufferForRow() {
-      return org.apache.thrift.TBaseHelper.copyBinary(row);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     }
 
     /**
@@ -6830,7 +6830,7 @@ public class THBaseService {
     }
 
     public checkAndPut_args setRow(ByteBuffer row) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
       return this;
     }
 
@@ -6853,12 +6853,12 @@ public class THBaseService {
      * column family to check
      */
     public byte[] getFamily() {
-      setFamily(org.apache.thrift.TBaseHelper.rightSize(family));
+      setFamily(org.apache.thrift.TBaseHBaseUtils.rightSize(family));
       return family == null ? null : family.array();
     }
 
     public ByteBuffer bufferForFamily() {
-      return org.apache.thrift.TBaseHelper.copyBinary(family);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
     }
 
     /**
@@ -6870,7 +6870,7 @@ public class THBaseService {
     }
 
     public checkAndPut_args setFamily(ByteBuffer family) {
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
       return this;
     }
 
@@ -6893,12 +6893,12 @@ public class THBaseService {
      * column qualifier to check
      */
     public byte[] getQualifier() {
-      setQualifier(org.apache.thrift.TBaseHelper.rightSize(qualifier));
+      setQualifier(org.apache.thrift.TBaseHBaseUtils.rightSize(qualifier));
       return qualifier == null ? null : qualifier.array();
     }
 
     public ByteBuffer bufferForQualifier() {
-      return org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
     }
 
     /**
@@ -6910,7 +6910,7 @@ public class THBaseService {
     }
 
     public checkAndPut_args setQualifier(ByteBuffer qualifier) {
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
       return this;
     }
 
@@ -6935,12 +6935,12 @@ public class THBaseService {
      * column in question
      */
     public byte[] getValue() {
-      setValue(org.apache.thrift.TBaseHelper.rightSize(value));
+      setValue(org.apache.thrift.TBaseHBaseUtils.rightSize(value));
       return value == null ? null : value.array();
     }
 
     public ByteBuffer bufferForValue() {
-      return org.apache.thrift.TBaseHelper.copyBinary(value);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     }
 
     /**
@@ -6954,7 +6954,7 @@ public class THBaseService {
     }
 
     public checkAndPut_args setValue(ByteBuffer value) {
-      this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+      this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
       return this;
     }
 
@@ -7223,7 +7223,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7233,7 +7233,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetRow()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7243,7 +7243,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetFamily()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.family, other.family);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.family, other.family);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7253,7 +7253,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetQualifier()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.qualifier, other.qualifier);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.qualifier, other.qualifier);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7263,7 +7263,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetValue()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.value, other.value);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7273,7 +7273,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetPut()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.put, other.put);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.put, other.put);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7302,7 +7302,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7310,7 +7310,7 @@ public class THBaseService {
       if (this.row == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.row, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7318,7 +7318,7 @@ public class THBaseService {
       if (this.family == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.family, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.family, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7326,7 +7326,7 @@ public class THBaseService {
       if (this.qualifier == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.qualifier, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.qualifier, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7334,7 +7334,7 @@ public class THBaseService {
       if (this.value == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.value, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.value, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7840,7 +7840,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7850,7 +7850,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8133,7 +8133,7 @@ public class THBaseService {
       List<TPut> puts)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.puts = puts;
     }
 
@@ -8142,7 +8142,7 @@ public class THBaseService {
      */
     public putMultiple_args(putMultiple_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetPuts()) {
         List<TPut> __this__puts = new ArrayList<TPut>(other.puts.size());
@@ -8167,12 +8167,12 @@ public class THBaseService {
      * the table to put data in
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -8184,7 +8184,7 @@ public class THBaseService {
     }
 
     public putMultiple_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -8360,7 +8360,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8370,7 +8370,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetPuts()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.puts, other.puts);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.puts, other.puts);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8399,7 +8399,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -8785,7 +8785,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9038,7 +9038,7 @@ public class THBaseService {
       TDelete deleteSingle)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.deleteSingle = deleteSingle;
     }
 
@@ -9047,7 +9047,7 @@ public class THBaseService {
      */
     public deleteSingle_args(deleteSingle_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetDeleteSingle()) {
         this.deleteSingle = new TDelete(other.deleteSingle);
@@ -9068,12 +9068,12 @@ public class THBaseService {
      * the table to delete from
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -9085,7 +9085,7 @@ public class THBaseService {
     }
 
     public deleteSingle_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -9246,7 +9246,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9256,7 +9256,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetDeleteSingle()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.deleteSingle, other.deleteSingle);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.deleteSingle, other.deleteSingle);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9285,7 +9285,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -9642,7 +9642,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9896,7 +9896,7 @@ public class THBaseService {
       List<TDelete> deletes)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.deletes = deletes;
     }
 
@@ -9905,7 +9905,7 @@ public class THBaseService {
      */
     public deleteMultiple_args(deleteMultiple_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetDeletes()) {
         List<TDelete> __this__deletes = new ArrayList<TDelete>(other.deletes.size());
@@ -9930,12 +9930,12 @@ public class THBaseService {
      * the table to delete from
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -9947,7 +9947,7 @@ public class THBaseService {
     }
 
     public deleteMultiple_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -10123,7 +10123,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10133,7 +10133,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetDeletes()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.deletes, other.deletes);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.deletes, other.deletes);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10162,7 +10162,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -10632,7 +10632,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10642,7 +10642,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11020,11 +11020,11 @@ public class THBaseService {
       TDelete deleteSingle)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
-      this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
+      this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
       this.deleteSingle = deleteSingle;
     }
 
@@ -11033,19 +11033,19 @@ public class THBaseService {
      */
     public checkAndDelete_args(checkAndDelete_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetRow()) {
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
       }
       if (other.isSetFamily()) {
-        this.family = org.apache.thrift.TBaseHelper.copyBinary(other.family);
+        this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.family);
       }
       if (other.isSetQualifier()) {
-        this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(other.qualifier);
+        this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.qualifier);
       }
       if (other.isSetValue()) {
-        this.value = org.apache.thrift.TBaseHelper.copyBinary(other.value);
+        this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.value);
       }
       if (other.isSetDeleteSingle()) {
         this.deleteSingle = new TDelete(other.deleteSingle);
@@ -11070,12 +11070,12 @@ public class THBaseService {
      * to check in and delete from
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -11087,7 +11087,7 @@ public class THBaseService {
     }
 
     public checkAndDelete_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -11110,12 +11110,12 @@ public class THBaseService {
      * row to check
      */
     public byte[] getRow() {
-      setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+      setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
       return row == null ? null : row.array();
     }
 
     public ByteBuffer bufferForRow() {
-      return org.apache.thrift.TBaseHelper.copyBinary(row);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     }
 
     /**
@@ -11127,7 +11127,7 @@ public class THBaseService {
     }
 
     public checkAndDelete_args setRow(ByteBuffer row) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
       return this;
     }
 
@@ -11150,12 +11150,12 @@ public class THBaseService {
      * column family to check
      */
     public byte[] getFamily() {
-      setFamily(org.apache.thrift.TBaseHelper.rightSize(family));
+      setFamily(org.apache.thrift.TBaseHBaseUtils.rightSize(family));
       return family == null ? null : family.array();
     }
 
     public ByteBuffer bufferForFamily() {
-      return org.apache.thrift.TBaseHelper.copyBinary(family);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
     }
 
     /**
@@ -11167,7 +11167,7 @@ public class THBaseService {
     }
 
     public checkAndDelete_args setFamily(ByteBuffer family) {
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
       return this;
     }
 
@@ -11190,12 +11190,12 @@ public class THBaseService {
      * column qualifier to check
      */
     public byte[] getQualifier() {
-      setQualifier(org.apache.thrift.TBaseHelper.rightSize(qualifier));
+      setQualifier(org.apache.thrift.TBaseHBaseUtils.rightSize(qualifier));
       return qualifier == null ? null : qualifier.array();
     }
 
     public ByteBuffer bufferForQualifier() {
-      return org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
     }
 
     /**
@@ -11207,7 +11207,7 @@ public class THBaseService {
     }
 
     public checkAndDelete_args setQualifier(ByteBuffer qualifier) {
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
       return this;
     }
 
@@ -11232,12 +11232,12 @@ public class THBaseService {
      * column in question
      */
     public byte[] getValue() {
-      setValue(org.apache.thrift.TBaseHelper.rightSize(value));
+      setValue(org.apache.thrift.TBaseHBaseUtils.rightSize(value));
       return value == null ? null : value.array();
     }
 
     public ByteBuffer bufferForValue() {
-      return org.apache.thrift.TBaseHelper.copyBinary(value);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     }
 
     /**
@@ -11251,7 +11251,7 @@ public class THBaseService {
     }
 
     public checkAndDelete_args setValue(ByteBuffer value) {
-      this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+      this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
       return this;
     }
 
@@ -11520,7 +11520,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11530,7 +11530,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetRow()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11540,7 +11540,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetFamily()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.family, other.family);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.family, other.family);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11550,7 +11550,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetQualifier()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.qualifier, other.qualifier);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.qualifier, other.qualifier);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11560,7 +11560,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetValue()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.value, other.value);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11570,7 +11570,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetDeleteSingle()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.deleteSingle, other.deleteSingle);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.deleteSingle, other.deleteSingle);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11599,7 +11599,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -11607,7 +11607,7 @@ public class THBaseService {
       if (this.row == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.row, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -11615,7 +11615,7 @@ public class THBaseService {
       if (this.family == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.family, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.family, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -11623,7 +11623,7 @@ public class THBaseService {
       if (this.qualifier == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.qualifier, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.qualifier, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -11631,7 +11631,7 @@ public class THBaseService {
       if (this.value == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.value, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.value, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -12137,7 +12137,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12147,7 +12147,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12429,7 +12429,7 @@ public class THBaseService {
       TIncrement increment)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.increment = increment;
     }
 
@@ -12438,7 +12438,7 @@ public class THBaseService {
      */
     public increment_args(increment_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetIncrement()) {
         this.increment = new TIncrement(other.increment);
@@ -12459,12 +12459,12 @@ public class THBaseService {
      * the table to increment the value on
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -12476,7 +12476,7 @@ public class THBaseService {
     }
 
     public increment_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -12637,7 +12637,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12647,7 +12647,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIncrement()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.increment, other.increment);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.increment, other.increment);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12676,7 +12676,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -13097,7 +13097,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13107,7 +13107,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13396,7 +13396,7 @@ public class THBaseService {
       TAppend append)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.append = append;
     }
 
@@ -13405,7 +13405,7 @@ public class THBaseService {
      */
     public append_args(append_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetAppend()) {
         this.append = new TAppend(other.append);
@@ -13426,12 +13426,12 @@ public class THBaseService {
      * the table to append the value on
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -13443,7 +13443,7 @@ public class THBaseService {
     }
 
     public append_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -13604,7 +13604,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13614,7 +13614,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetAppend()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.append, other.append);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.append, other.append);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13643,7 +13643,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -14064,7 +14064,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14074,7 +14074,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14363,7 +14363,7 @@ public class THBaseService {
       TScan scan)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.scan = scan;
     }
 
@@ -14372,7 +14372,7 @@ public class THBaseService {
      */
     public openScanner_args(openScanner_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetScan()) {
         this.scan = new TScan(other.scan);
@@ -14393,12 +14393,12 @@ public class THBaseService {
      * the table to get the Scanner for
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -14410,7 +14410,7 @@ public class THBaseService {
     }
 
     public openScanner_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -14571,7 +14571,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14581,7 +14581,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetScan()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scan, other.scan);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.scan, other.scan);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14610,7 +14610,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -15033,7 +15033,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15043,7 +15043,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15527,7 +15527,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetScannerId()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scannerId, other.scannerId);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.scannerId, other.scannerId);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15537,7 +15537,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetNumRows()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.numRows, other.numRows);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.numRows, other.numRows);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16076,7 +16076,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16086,7 +16086,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16096,7 +16096,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIa()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ia, other.ia);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.ia, other.ia);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16571,7 +16571,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetScannerId()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scannerId, other.scannerId);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.scannerId, other.scannerId);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16998,7 +16998,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17008,7 +17008,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIa()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ia, other.ia);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.ia, other.ia);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17294,7 +17294,7 @@ public class THBaseService {
       TRowMutations rowMutations)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.rowMutations = rowMutations;
     }
 
@@ -17303,7 +17303,7 @@ public class THBaseService {
      */
     public mutateRow_args(mutateRow_args other) {
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetRowMutations()) {
         this.rowMutations = new TRowMutations(other.rowMutations);
@@ -17324,12 +17324,12 @@ public class THBaseService {
      * table to apply the mutations
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -17341,7 +17341,7 @@ public class THBaseService {
     }
 
     public mutateRow_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -17502,7 +17502,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17512,7 +17512,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetRowMutations()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.rowMutations, other.rowMutations);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.rowMutations, other.rowMutations);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17541,7 +17541,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -17898,7 +17898,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18169,7 +18169,7 @@ public class THBaseService {
       int numRows)
     {
       this();
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       this.scan = scan;
       this.numRows = numRows;
       setNumRowsIsSet(true);
@@ -18181,7 +18181,7 @@ public class THBaseService {
     public getScannerResults_args(getScannerResults_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetTable()) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(other.table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.table);
       }
       if (other.isSetScan()) {
         this.scan = new TScan(other.scan);
@@ -18205,12 +18205,12 @@ public class THBaseService {
      * the table to get the Scanner for
      */
     public byte[] getTable() {
-      setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+      setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
       return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-      return org.apache.thrift.TBaseHelper.copyBinary(table);
+      return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     /**
@@ -18222,7 +18222,7 @@ public class THBaseService {
     }
 
     public getScannerResults_args setTable(ByteBuffer table) {
-      this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+      this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
       return this;
     }
 
@@ -18439,7 +18439,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetTable()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18449,7 +18449,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetScan()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scan, other.scan);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.scan, other.scan);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18459,7 +18459,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetNumRows()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.numRows, other.numRows);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.numRows, other.numRows);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18488,7 +18488,7 @@ public class THBaseService {
       if (this.table == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.table, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.table, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -18959,7 +18959,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.success, other.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18969,7 +18969,7 @@ public class THBaseService {
         return lastComparison;
       }
       if (isSetIo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.io, other.io);
+        lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.io, other.io);
         if (lastComparison != 0) {
           return lastComparison;
         }

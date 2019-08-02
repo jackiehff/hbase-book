@@ -319,7 +319,7 @@ public class TTimeRange implements org.apache.thrift.TBase<TTimeRange, TTimeRang
       return lastComparison;
     }
     if (isSetMinStamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.minStamp, other.minStamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.minStamp, other.minStamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -329,7 +329,7 @@ public class TTimeRange implements org.apache.thrift.TBase<TTimeRange, TTimeRang
       return lastComparison;
     }
     if (isSetMaxStamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxStamp, other.maxStamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.maxStamp, other.maxStamp);
       if (lastComparison != 0) {
         return lastComparison;
       }

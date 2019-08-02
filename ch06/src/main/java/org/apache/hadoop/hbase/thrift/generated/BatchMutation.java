@@ -135,7 +135,7 @@ public class BatchMutation implements org.apache.thrift.TBase<BatchMutation, Bat
     List<Mutation> mutations)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     this.mutations = mutations;
   }
 
@@ -166,12 +166,12 @@ public class BatchMutation implements org.apache.thrift.TBase<BatchMutation, Bat
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public BatchMutation setRow(byte[] row) {
@@ -180,7 +180,7 @@ public class BatchMutation implements org.apache.thrift.TBase<BatchMutation, Bat
   }
 
   public BatchMutation setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -350,7 +350,7 @@ public class BatchMutation implements org.apache.thrift.TBase<BatchMutation, Bat
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -360,7 +360,7 @@ public class BatchMutation implements org.apache.thrift.TBase<BatchMutation, Bat
       return lastComparison;
     }
     if (isSetMutations()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mutations, other.mutations);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.mutations, other.mutations);
       if (lastComparison != 0) {
         return lastComparison;
       }

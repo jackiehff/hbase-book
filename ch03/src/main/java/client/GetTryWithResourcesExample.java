@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -15,14 +15,14 @@ public class GetTryWithResourcesExample {
 
     public static void main(String[] args) throws IOException {
         // co GetTryWithResourcesExample-1-CreateConf Create the configuration.
-        HBaseHelper helper = HBaseHelper.getHelper();
-        if (!helper.existsTable("testtable")) {
-            helper.createTable("testtable", "colfam1");
+
+        if (!HBaseUtils.existsTable("testtable")) {
+            HBaseUtils.createTable("testtable", "colfam1");
         }
 
         try (
                 // co GetTryWithResourcesExample-2-NewTable Instantiate a new table reference in "try" block.
-                Table table = helper.getTable("testtable")
+                Table table = HBaseUtils.getTable("testtable")
         ) {
             Get get = new Get(Bytes.toBytes("row1"));
             get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
@@ -31,6 +31,6 @@ public class GetTryWithResourcesExample {
                     Bytes.toBytes("qual1"));
             System.out.println("Value: " + Bytes.toString(val));
         }// co GetTryWithResourcesExample-3-Close No explicit close needed, Java will handle AutoClosable's.
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

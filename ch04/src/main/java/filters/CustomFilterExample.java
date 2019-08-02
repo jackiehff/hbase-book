@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import java.util.List;
 public class CustomFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 10, 2, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, 2, true, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
         // vv CustomFilterExample
         List<Filter> filters = new ArrayList<>();
 
@@ -59,6 +59,6 @@ public class CustomFilterExample {
         // ^^ CustomFilterExample
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

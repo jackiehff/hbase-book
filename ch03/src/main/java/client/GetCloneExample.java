@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -14,11 +14,10 @@ import java.io.IOException;
 public class GetCloneExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        if (!helper.existsTable("testtable")) {
-            helper.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable("testtable")) {
+            HBaseUtils.createTable("testtable", "colfam1");
         }
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         Get get1 = new Get(Bytes.toBytes("row1"));
         get1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
@@ -28,6 +27,6 @@ public class GetCloneExample {
         System.out.println("Result : " + result);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

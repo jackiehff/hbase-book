@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,11 +15,10 @@ import java.util.List;
 public class PutListExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         // co PutListExample-1-CreateList Create a list that holds the Put instances.
         List<Put> puts = new ArrayList<>();
@@ -42,6 +41,6 @@ public class PutListExample {
         // co PutListExample-5-DoPut Store multiple rows with columns into HBase.
         table.put(puts);
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

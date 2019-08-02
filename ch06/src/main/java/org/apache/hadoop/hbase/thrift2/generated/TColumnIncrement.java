@@ -146,8 +146,8 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
     ByteBuffer qualifier)
   {
     this();
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
-    this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
+    this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
   }
 
   /**
@@ -156,10 +156,10 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
   public TColumnIncrement(TColumnIncrement other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetFamily()) {
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(other.family);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.family);
     }
     if (other.isSetQualifier()) {
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(other.qualifier);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.qualifier);
     }
     this.amount = other.amount;
   }
@@ -177,12 +177,12 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
   }
 
   public byte[] getFamily() {
-    setFamily(org.apache.thrift.TBaseHelper.rightSize(family));
+    setFamily(org.apache.thrift.TBaseHBaseUtils.rightSize(family));
     return family == null ? null : family.array();
   }
 
   public ByteBuffer bufferForFamily() {
-    return org.apache.thrift.TBaseHelper.copyBinary(family);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
   }
 
   public TColumnIncrement setFamily(byte[] family) {
@@ -191,7 +191,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
   }
 
   public TColumnIncrement setFamily(ByteBuffer family) {
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
     return this;
   }
 
@@ -211,12 +211,12 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
   }
 
   public byte[] getQualifier() {
-    setQualifier(org.apache.thrift.TBaseHelper.rightSize(qualifier));
+    setQualifier(org.apache.thrift.TBaseHBaseUtils.rightSize(qualifier));
     return qualifier == null ? null : qualifier.array();
   }
 
   public ByteBuffer bufferForQualifier() {
-    return org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
   }
 
   public TColumnIncrement setQualifier(byte[] qualifier) {
@@ -225,7 +225,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
   }
 
   public TColumnIncrement setQualifier(ByteBuffer qualifier) {
-    this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
     return this;
   }
 
@@ -406,7 +406,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
       return lastComparison;
     }
     if (isSetFamily()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.family, other.family);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.family, other.family);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -416,7 +416,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
       return lastComparison;
     }
     if (isSetQualifier()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.qualifier, other.qualifier);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.qualifier, other.qualifier);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -426,7 +426,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
       return lastComparison;
     }
     if (isSetAmount()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.amount, other.amount);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.amount, other.amount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -455,7 +455,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
     if (this.family == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.family, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.family, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -463,7 +463,7 @@ public class TColumnIncrement implements org.apache.thrift.TBase<TColumnIncremen
     if (this.qualifier == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.qualifier, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.qualifier, sb);
     }
     first = false;
     if (isSetAmount()) {

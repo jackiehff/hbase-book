@@ -2,14 +2,16 @@ package coprocessor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellScanner;
+import org.apache.hadoop.hbase.Coprocessor;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,14 +45,8 @@ public class DuplicateRegionObserverExample implements RegionObserver {
     }
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "master-1.internal.larsgeorge.com," +
-                "master-2.internal.larsgeorge.com,master-3.internal.larsgeorge.com");
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropTable("testtable");
-
         TableName tableName = TableName.valueOf("testtable");
-
+        HBaseUtils.dropTable(tableName);
         TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(DuplicateRegionObserverExample.class.getCanonicalName())
@@ -71,22 +67,22 @@ public class DuplicateRegionObserverExample implements RegionObserver {
 	  */
         // vv DuplicateRegionObserverExample
 
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         admin.createTable(tableDescriptor);
         System.out.println(admin.getDescriptor(tableName));
 
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 10, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1");
 
-        Table table = helper.getTable(tableName);
+        Table table = HBaseUtils.getTable(tableName);
         Get get = new Get(Bytes.toBytes("row-1"));
         Result result = table.get(get);
 
-        helper.dumpResult(result);
+        HBaseUtils.dumpResult(result);
 
         table.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }
 // ^^ DuplicateRegionObserverExample

@@ -1,12 +1,12 @@
 package admin;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -16,14 +16,12 @@ import java.io.IOException;
 public class CreateTableExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         // co CreateTableExample-1-CreateAdmin Create a administrative API instance.
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
-        TableName tableName = TableName.valueOf("testtable");
         // Create the table descriptor instance.
-        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .build();
 
@@ -31,7 +29,7 @@ public class CreateTableExample {
         admin.createTable(tableDescriptor);
 
         // co CreateTableExample-5-Check Check if the table is available.
-        boolean avail = admin.isTableAvailable(tableName);
+        boolean avail = admin.isTableAvailable(HBaseConstants.TEST_TABLE);
         System.out.println("Table available: " + avail);
     }
 }

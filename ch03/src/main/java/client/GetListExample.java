@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +18,11 @@ import java.util.List;
 public class GetListExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        if (!helper.existsTable("testtable")) {
-            helper.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable("testtable")) {
+            HBaseUtils.createTable("testtable", "colfam1");
         }
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         byte[] cf1 = Bytes.toBytes("colfam1");
         byte[] qf1 = Bytes.toBytes("qual1");
@@ -85,6 +84,6 @@ public class GetListExample {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

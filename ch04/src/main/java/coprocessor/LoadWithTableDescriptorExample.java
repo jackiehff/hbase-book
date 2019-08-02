@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,9 +17,8 @@ import java.io.IOException;
 public class LoadWithTableDescriptorExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
         TableName tableName = TableName.valueOf("testtable");
+        HBaseUtils.dropTable(tableName);
 
         // Define a table descriptor, Add the coprocessor definition to the descriptor, while omitting the path to the JAR file
         TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
@@ -27,12 +26,12 @@ public class LoadWithTableDescriptorExample {
                 .setValue("COPROCESSOR$1", "|" + RegionObserverExample.class.getCanonicalName() + "|" + Coprocessor.PRIORITY_USER).build();
 
         // Acquire an administrative API to the cluster and add the table.
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         admin.createTable(tableDescriptor);
 
         // Verify if the definition has been applied as expected.
         System.out.println(admin.getDescriptor(tableName));
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

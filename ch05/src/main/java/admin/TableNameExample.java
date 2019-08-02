@@ -7,16 +7,16 @@ import org.apache.hadoop.hbase.TableName;
  */
 public class TableNameExample {
 
-    private static void print(String tablename) {
-        print(null, tablename);
+    private static void print(String tableName) {
+        print(null, tableName);
     }
 
-    private static void print(String namespace, String tablename) {
-        System.out.print("Given Namespace: " + namespace + ", Tablename: " + tablename + " -> ");
+    private static void print(String namespace, String tableName) {
+        System.out.print("Given Namespace: " + namespace + ", Tablename: " + tableName + " -> ");
         try {
             System.out.println(namespace != null ?
-                    TableName.valueOf(namespace, tablename) :
-                    TableName.valueOf(tablename));
+                    TableName.valueOf(namespace, tableName) :
+                    TableName.valueOf(tableName));
         } catch (Exception e) {
             System.out.println(e.getClass().getSimpleName() + ": " + e.getMessage());
         }

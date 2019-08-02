@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -14,10 +14,9 @@ public class PutExample {
 
     public static void main(String[] args) throws IOException {
         // Create the required configuration.
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        Table table = HBaseUtils.getTable("testtable");
 
         // Create put with specific row.
         Put put = new Put(Bytes.toBytes("row1"));
@@ -32,6 +31,6 @@ public class PutExample {
         // Close table and connection instances to free resources.
         table.close();
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

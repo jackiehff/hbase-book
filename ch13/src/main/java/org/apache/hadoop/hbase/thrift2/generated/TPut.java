@@ -185,7 +185,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
     List<TColumnValue> columnValues)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     this.columnValues = columnValues;
   }
 
@@ -195,7 +195,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
   public TPut(TPut other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetRow()) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
     }
     if (other.isSetColumnValues()) {
       List<TColumnValue> __this__columnValues = new ArrayList<TColumnValue>(other.columnValues.size());
@@ -233,12 +233,12 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TPut setRow(byte[] row) {
@@ -247,7 +247,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
   }
 
   public TPut setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -639,7 +639,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -649,7 +649,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetColumnValues()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columnValues, other.columnValues);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columnValues, other.columnValues);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -659,7 +659,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -669,7 +669,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetAttributes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.attributes, other.attributes);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.attributes, other.attributes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -679,7 +679,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetDurability()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.durability, other.durability);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.durability, other.durability);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -689,7 +689,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
       return lastComparison;
     }
     if (isSetCellVisibility()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cellVisibility, other.cellVisibility);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.cellVisibility, other.cellVisibility);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -718,7 +718,7 @@ public class TPut implements org.apache.thrift.TBase<TPut, TPut._Fields>, java.i
     if (this.row == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.row, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
     }
     first = false;
     if (!first) sb.append(", ");

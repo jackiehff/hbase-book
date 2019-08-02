@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -18,14 +18,14 @@ import java.io.IOException;
 public class FirstKeyOnlyFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTableRandom("testtable", /* row */ 1, 30, 0,
+        HBaseUtils.fillTableRandom("testtable", /* row */ 1, 30, 0,
                 /* col */ 1, 30, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
         // vv FirstKeyOnlyFilterExample
         Filter filter = new FirstKeyOnlyFilter();
 
@@ -47,6 +47,6 @@ public class FirstKeyOnlyFilterExample {
         System.out.println("Total num of rows: " + rowCount);
         scanner.close();
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

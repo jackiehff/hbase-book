@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -15,11 +15,10 @@ import java.io.IOException;
  */
 public class CreateTableWithRegionsExample {
 
-    private static Configuration conf = null;
-    private static Connection connection = null;
+    private static Connection connection = HBaseUtils.getConnection();
 
     private static void printTableRegions(String tableName) throws IOException {
-        // co CreateTableWithRegionsExample-1-PrintTable Helper method to print the regions of a table.
+        // co CreateTableWithRegionsExample-1-PrintTable HBaseUtils method to print the regions of a table.
         System.out.println("Printing regions of table: " + tableName);
         TableName tn = TableName.valueOf(tableName);
         RegionLocator locator = connection.getRegionLocator(tn);
@@ -39,12 +38,8 @@ public class CreateTableWithRegionsExample {
     }
 
     public static void main(String[] args) throws IOException {
-        conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        connection = helper.getConnection();
-
-        helper.dropTable("testtable1");
-        helper.dropTable("testtable2");
+        HBaseUtils.dropTable("testtable1");
+        HBaseUtils.dropTable("testtable2");
 
         Admin admin = connection.getAdmin();
 

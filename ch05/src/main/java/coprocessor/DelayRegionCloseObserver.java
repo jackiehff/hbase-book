@@ -19,7 +19,7 @@ import java.util.Random;
  * DelayRegionCloseObserver Special test observer creating delays
  */
 public class DelayRegionCloseObserver implements RegionObserver {
-    public static final Log LOG = LogFactory.getLog(HRegion.class);
+    public static final Log LOG = LogFactory.getLog(DelayRegionCloseObserver.class);
 
     private Random rnd = new Random();
 

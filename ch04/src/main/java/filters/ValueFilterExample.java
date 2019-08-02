@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -18,13 +18,13 @@ import java.io.IOException;
 public class ValueFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
+
+        Table table = HBaseUtils.getTable("testtable");
         // vv ValueFilterExample
         Filter filter = new ValueFilter(CompareOperator.EQUAL, // co ValueFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new SubstringComparator(".4"));
@@ -57,6 +57,6 @@ public class ValueFilterExample {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

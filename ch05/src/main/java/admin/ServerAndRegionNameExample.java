@@ -1,10 +1,10 @@
 package admin;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.HRegionLocation;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -14,12 +14,10 @@ import java.io.IOException;
 public class ServerAndRegionNameExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        Admin admin = helper.getConnection().getAdmin();
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        Admin admin = HBaseUtils.getConnection().getAdmin();
 
-        TableName tableName = TableName.valueOf("testtable");
-        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setValue("Description", "Chapter 5 - ServerAndRegionNameExample").build();
 
@@ -29,7 +27,7 @@ public class ServerAndRegionNameExample {
         };
         admin.createTable(tableDescriptor, regions);
 
-        RegionLocator locator = helper.getConnection().getRegionLocator(tableName);
+        RegionLocator locator = HBaseUtils.getConnection().getRegionLocator(HBaseConstants.TEST_TABLE);
         HRegionLocation location = locator.getRegionLocation(Bytes.toBytes("Foo"));
         RegionInfo info = location.getRegion();
         System.out.println("Region Name: " + info.getRegionNameAsString());
@@ -37,6 +35,6 @@ public class ServerAndRegionNameExample {
 
         locator.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

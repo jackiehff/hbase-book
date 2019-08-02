@@ -9,7 +9,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,20 +54,20 @@ public class ObserverStatisticsExample {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", 3, "colfam1", "colfam2");
-        helper.put("testtable",
+        TableName tableName = TableName.valueOf("testtable");
+        HBaseUtils.dropTable(tableName);
+        HBaseUtils.createTable(tableName, 3, "colfam1", "colfam2");
+        HBaseUtils.put(tableName,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"}, new String[]{"qual1", "qual1"},
                 new long[]{1, 2}, new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        helper.dump("testtable",
+        HBaseUtils.dump(tableName,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
         try {
-            TableName tableName = TableName.valueOf("testtable");
-            table = helper.getTable(tableName);
+
+            table = HBaseUtils.getTable(tableName);
             printStatistics(false, true);
 
             System.out.println("Apply single put...");
@@ -214,6 +214,6 @@ public class ObserverStatisticsExample {
             throwable.printStackTrace();
         }
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

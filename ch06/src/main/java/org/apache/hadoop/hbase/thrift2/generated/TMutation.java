@@ -328,9 +328,9 @@ public class TMutation extends org.apache.thrift.TUnion<TMutation, TMutation._Fi
 
   @Override
   public int compareTo(TMutation other) {
-    int lastComparison = org.apache.thrift.TBaseHelper.compareTo(getSetField(), other.getSetField());
+    int lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(getSetField(), other.getSetField());
     if (lastComparison == 0) {
-      return org.apache.thrift.TBaseHelper.compareTo(getFieldValue(), other.getFieldValue());
+      return org.apache.thrift.TBaseHBaseUtils.compareTo(getFieldValue(), other.getFieldValue());
     }
     return lastComparison;
   }

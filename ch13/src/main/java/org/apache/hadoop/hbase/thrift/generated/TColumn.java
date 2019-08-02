@@ -134,7 +134,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
     TCell cell)
   {
     this();
-    this.columnName = org.apache.thrift.TBaseHelper.copyBinary(columnName);
+    this.columnName = org.apache.thrift.TBaseHBaseUtils.copyBinary(columnName);
     this.cell = cell;
   }
 
@@ -161,12 +161,12 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public byte[] getColumnName() {
-    setColumnName(org.apache.thrift.TBaseHelper.rightSize(columnName));
+    setColumnName(org.apache.thrift.TBaseHBaseUtils.rightSize(columnName));
     return columnName == null ? null : columnName.array();
   }
 
   public ByteBuffer bufferForColumnName() {
-    return org.apache.thrift.TBaseHelper.copyBinary(columnName);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(columnName);
   }
 
   public TColumn setColumnName(byte[] columnName) {
@@ -175,7 +175,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
   }
 
   public TColumn setColumnName(ByteBuffer columnName) {
-    this.columnName = org.apache.thrift.TBaseHelper.copyBinary(columnName);
+    this.columnName = org.apache.thrift.TBaseHBaseUtils.copyBinary(columnName);
     return this;
   }
 
@@ -330,7 +330,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       return lastComparison;
     }
     if (isSetColumnName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columnName, other.columnName);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columnName, other.columnName);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -340,7 +340,7 @@ public class TColumn implements org.apache.thrift.TBase<TColumn, TColumn._Fields
       return lastComparison;
     }
     if (isSetCell()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cell, other.cell);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.cell, other.cell);
       if (lastComparison != 0) {
         return lastComparison;
       }

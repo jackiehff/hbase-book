@@ -135,7 +135,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
     List<TMutation> mutations)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     this.mutations = mutations;
   }
 
@@ -144,7 +144,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
    */
   public TRowMutations(TRowMutations other) {
     if (other.isSetRow()) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
     }
     if (other.isSetMutations()) {
       List<TMutation> __this__mutations = new ArrayList<TMutation>(other.mutations.size());
@@ -166,12 +166,12 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TRowMutations setRow(byte[] row) {
@@ -180,7 +180,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
   }
 
   public TRowMutations setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -350,7 +350,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -360,7 +360,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
       return lastComparison;
     }
     if (isSetMutations()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mutations, other.mutations);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.mutations, other.mutations);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -389,7 +389,7 @@ public class TRowMutations implements org.apache.thrift.TBase<TRowMutations, TRo
     if (this.row == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.row, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
     }
     first = false;
     if (!first) sb.append(", ");

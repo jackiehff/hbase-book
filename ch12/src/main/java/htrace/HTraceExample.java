@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.trace.SpanReceiverHost;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.htrace.core.*;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,11 +29,11 @@ public class HTraceExample {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Configuration conf = HBaseConfiguration.create();
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 100, 100, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1");
 
         // vv HTraceExample
         Map<String, String> configMap = new HashMap<>();

@@ -251,7 +251,7 @@ public class TIllegalArgument extends TException implements org.apache.thrift.TB
       return lastComparison;
     }
     if (isSetMessage()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.message, other.message);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.message, other.message);
       if (lastComparison != 0) {
         return lastComparison;
       }

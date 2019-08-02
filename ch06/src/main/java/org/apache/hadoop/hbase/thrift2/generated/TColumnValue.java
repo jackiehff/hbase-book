@@ -159,9 +159,9 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
     ByteBuffer value)
   {
     this();
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
-    this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
+    this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
   }
 
   /**
@@ -170,17 +170,17 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   public TColumnValue(TColumnValue other) {
     __isset_bitfield = other.__isset_bitfield;
     if (other.isSetFamily()) {
-      this.family = org.apache.thrift.TBaseHelper.copyBinary(other.family);
+      this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.family);
     }
     if (other.isSetQualifier()) {
-      this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(other.qualifier);
+      this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.qualifier);
     }
     if (other.isSetValue()) {
-      this.value = org.apache.thrift.TBaseHelper.copyBinary(other.value);
+      this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.value);
     }
     this.timestamp = other.timestamp;
     if (other.isSetTags()) {
-      this.tags = org.apache.thrift.TBaseHelper.copyBinary(other.tags);
+      this.tags = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.tags);
     }
   }
 
@@ -199,12 +199,12 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public byte[] getFamily() {
-    setFamily(org.apache.thrift.TBaseHelper.rightSize(family));
+    setFamily(org.apache.thrift.TBaseHBaseUtils.rightSize(family));
     return family == null ? null : family.array();
   }
 
   public ByteBuffer bufferForFamily() {
-    return org.apache.thrift.TBaseHelper.copyBinary(family);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
   }
 
   public TColumnValue setFamily(byte[] family) {
@@ -213,7 +213,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public TColumnValue setFamily(ByteBuffer family) {
-    this.family = org.apache.thrift.TBaseHelper.copyBinary(family);
+    this.family = org.apache.thrift.TBaseHBaseUtils.copyBinary(family);
     return this;
   }
 
@@ -233,12 +233,12 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public byte[] getQualifier() {
-    setQualifier(org.apache.thrift.TBaseHelper.rightSize(qualifier));
+    setQualifier(org.apache.thrift.TBaseHBaseUtils.rightSize(qualifier));
     return qualifier == null ? null : qualifier.array();
   }
 
   public ByteBuffer bufferForQualifier() {
-    return org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
   }
 
   public TColumnValue setQualifier(byte[] qualifier) {
@@ -247,7 +247,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public TColumnValue setQualifier(ByteBuffer qualifier) {
-    this.qualifier = org.apache.thrift.TBaseHelper.copyBinary(qualifier);
+    this.qualifier = org.apache.thrift.TBaseHBaseUtils.copyBinary(qualifier);
     return this;
   }
 
@@ -267,12 +267,12 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public byte[] getValue() {
-    setValue(org.apache.thrift.TBaseHelper.rightSize(value));
+    setValue(org.apache.thrift.TBaseHBaseUtils.rightSize(value));
     return value == null ? null : value.array();
   }
 
   public ByteBuffer bufferForValue() {
-    return org.apache.thrift.TBaseHelper.copyBinary(value);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
   }
 
   public TColumnValue setValue(byte[] value) {
@@ -281,7 +281,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public TColumnValue setValue(ByteBuffer value) {
-    this.value = org.apache.thrift.TBaseHelper.copyBinary(value);
+    this.value = org.apache.thrift.TBaseHBaseUtils.copyBinary(value);
     return this;
   }
 
@@ -324,12 +324,12 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public byte[] getTags() {
-    setTags(org.apache.thrift.TBaseHelper.rightSize(tags));
+    setTags(org.apache.thrift.TBaseHBaseUtils.rightSize(tags));
     return tags == null ? null : tags.array();
   }
 
   public ByteBuffer bufferForTags() {
-    return org.apache.thrift.TBaseHelper.copyBinary(tags);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(tags);
   }
 
   public TColumnValue setTags(byte[] tags) {
@@ -338,7 +338,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
   }
 
   public TColumnValue setTags(ByteBuffer tags) {
-    this.tags = org.apache.thrift.TBaseHelper.copyBinary(tags);
+    this.tags = org.apache.thrift.TBaseHBaseUtils.copyBinary(tags);
     return this;
   }
 
@@ -550,7 +550,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       return lastComparison;
     }
     if (isSetFamily()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.family, other.family);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.family, other.family);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -560,7 +560,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       return lastComparison;
     }
     if (isSetQualifier()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.qualifier, other.qualifier);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.qualifier, other.qualifier);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -570,7 +570,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       return lastComparison;
     }
     if (isSetValue()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.value, other.value);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -580,7 +580,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       return lastComparison;
     }
     if (isSetTimestamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.timestamp, other.timestamp);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.timestamp, other.timestamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -590,7 +590,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       return lastComparison;
     }
     if (isSetTags()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tags, other.tags);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.tags, other.tags);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -619,7 +619,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
     if (this.family == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.family, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.family, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -627,7 +627,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
     if (this.qualifier == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.qualifier, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.qualifier, sb);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -635,7 +635,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
     if (this.value == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.value, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.value, sb);
     }
     first = false;
     if (isSetTimestamp()) {
@@ -650,7 +650,7 @@ public class TColumnValue implements org.apache.thrift.TBase<TColumnValue, TColu
       if (this.tags == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.tags, sb);
+        org.apache.thrift.TBaseHBaseUtils.toString(this.tags, sb);
       }
       first = false;
     }

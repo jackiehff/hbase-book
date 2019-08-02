@@ -139,8 +139,8 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
             List<ByteBuffer> columns,
             List<ByteBuffer> values) {
         this();
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
         this.columns = columns;
         this.values = values;
     }
@@ -184,12 +184,12 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     }
 
     public byte[] getTable() {
-        setTable(org.apache.thrift.TBaseHelper.rightSize(table));
+        setTable(org.apache.thrift.TBaseHBaseUtils.rightSize(table));
         return table == null ? null : table.array();
     }
 
     public ByteBuffer bufferForTable() {
-        return org.apache.thrift.TBaseHelper.copyBinary(table);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
     }
 
     public TAppend setTable(byte[] table) {
@@ -198,7 +198,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     }
 
     public TAppend setTable(ByteBuffer table) {
-        this.table = org.apache.thrift.TBaseHelper.copyBinary(table);
+        this.table = org.apache.thrift.TBaseHBaseUtils.copyBinary(table);
         return this;
     }
 
@@ -220,12 +220,12 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     }
 
     public byte[] getRow() {
-        setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+        setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
         return row == null ? null : row.array();
     }
 
     public ByteBuffer bufferForRow() {
-        return org.apache.thrift.TBaseHelper.copyBinary(row);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     }
 
     public TAppend setRow(byte[] row) {
@@ -234,7 +234,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     }
 
     public TAppend setRow(ByteBuffer row) {
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
         return this;
     }
 
@@ -505,7 +505,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
             return lastComparison;
         }
         if (isSetTable()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.table, other.table);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.table, other.table);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -515,7 +515,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
             return lastComparison;
         }
         if (isSetRow()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -525,7 +525,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
             return lastComparison;
         }
         if (isSetColumns()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -535,7 +535,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
             return lastComparison;
         }
         if (isSetValues()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.values, other.values);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.values, other.values);
             if (lastComparison != 0) {
                 return lastComparison;
             }

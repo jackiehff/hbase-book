@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.filter.ColumnRangeFilter;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -17,13 +17,13 @@ import java.io.IOException;
 public class ColumnRangeFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 30, 2, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 30, 2, true, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
         // vv ColumnRangeFilterExample
         Filter filter = new ColumnRangeFilter(Bytes.toBytes("col-05"), true,
                 Bytes.toBytes("col-11"), false);
@@ -43,6 +43,6 @@ public class ColumnRangeFilterExample {
         // ^^ ColumnRangeFilterExample
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

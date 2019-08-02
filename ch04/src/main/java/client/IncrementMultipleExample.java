@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.client.Increment;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,11 +17,11 @@ import java.util.NavigableMap;
 public class IncrementMultipleExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "daily", "weekly");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "daily", "weekly");
+
+        Table table = HBaseUtils.getTable("testtable");
         Increment increment1 = new Increment(Bytes.toBytes("20150101"));
 
         increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("clicks"), 1);
@@ -64,6 +64,6 @@ public class IncrementMultipleExample {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

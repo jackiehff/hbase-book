@@ -1,14 +1,14 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.BufferedMutator;
 import org.apache.hadoop.hbase.client.BufferedMutatorParams;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +28,11 @@ public class BufferedMutatorExample {
 
     private static final int POOL_SIZE = 10;
     private static final int TASK_COUNT = 100;
-    private static final TableName TABLE = TableName.valueOf("testtable");
     private static final byte[] FAMILY = Bytes.toBytes("colfam1");
 
     public static void main(String[] args) throws Exception {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
         // co BufferedMutatorExample-01-Listener Create a custom listener instance.
         BufferedMutator.ExceptionListener listener =
@@ -47,11 +45,11 @@ public class BufferedMutatorExample {
                 };
 
         // co BufferedMutatorExample-04-Params Create a parameter instance, set the table name and custom listener reference.
-        BufferedMutatorParams params = new BufferedMutatorParams(TABLE).listener(listener);
+        BufferedMutatorParams params = new BufferedMutatorParams(HBaseConstants.TEST_TABLE).listener(listener);
 
         try (
                 // co BufferedMutatorExample-05-Allocate Allocate the shared resources using the Java 7 try-with-resource pattern.
-                Connection conn = helper.getConnection();
+                Connection conn = HBaseUtils.getConnection();
                 BufferedMutator mutator = conn.getBufferedMutator(params)
         ) {
             // co BufferedMutatorExample-06-Pool Create a worker pool to update the shared mutator in parallel.

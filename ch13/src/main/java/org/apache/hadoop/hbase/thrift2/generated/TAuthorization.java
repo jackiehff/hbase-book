@@ -264,7 +264,7 @@ public class TAuthorization implements org.apache.thrift.TBase<TAuthorization, T
       return lastComparison;
     }
     if (isSetLabels()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.labels, other.labels);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.labels, other.labels);
       if (lastComparison != 0) {
         return lastComparison;
       }

@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -46,17 +46,17 @@ public class RenameTableExample {
     }
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 100, 100, "colfam1");
+        HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1");
         // vv RenameTableExample
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         TableName name = TableName.valueOf("testtable");
 
-        // co RenameTableExample-07-Test1 Check the content of the original table. The helper method (see full source code) prints the first value of the first row.
-        Table table = helper.getTable(name);
+        // co RenameTableExample-07-Test1 Check the content of the original table. The HBaseUtils method (see full source code) prints the first value of the first row.
+        Table table = HBaseUtils.getTable(name);
         printFirstValue(table);
 
         TableName rename = TableName.valueOf("newtesttable");
@@ -64,12 +64,12 @@ public class RenameTableExample {
         renameTable(admin, name, rename);
 
         // co RenameTableExample-09-Test2 Perform another check on the new table to see if we get the same first value of the first row back.
-        Table newTable = helper.getTable(rename);
+        Table newTable = HBaseUtils.getTable(rename);
         printFirstValue(newTable);
 
         table.close();
         newTable.close();
         admin.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

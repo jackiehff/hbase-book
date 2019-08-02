@@ -131,7 +131,7 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
     public TRowResult(
             ByteBuffer row) {
         this();
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     }
 
     /**
@@ -177,12 +177,12 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
     }
 
     public byte[] getRow() {
-        setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+        setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
         return row == null ? null : row.array();
     }
 
     public ByteBuffer bufferForRow() {
-        return org.apache.thrift.TBaseHelper.copyBinary(row);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     }
 
     public TRowResult setRow(byte[] row) {
@@ -191,7 +191,7 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
     }
 
     public TRowResult setRow(ByteBuffer row) {
-        this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+        this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
         return this;
     }
 
@@ -431,7 +431,7 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
             return lastComparison;
         }
         if (isSetRow()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -441,7 +441,7 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
             return lastComparison;
         }
         if (isSetColumns()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -451,7 +451,7 @@ public class TRowResult implements org.apache.thrift.TBase<TRowResult, TRowResul
             return lastComparison;
         }
         if (isSetSortedColumns()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sortedColumns, other.sortedColumns);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.sortedColumns, other.sortedColumns);
             if (lastComparison != 0) {
                 return lastComparison;
             }

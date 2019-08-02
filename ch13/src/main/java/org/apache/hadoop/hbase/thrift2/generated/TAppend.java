@@ -164,7 +164,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     List<TColumnValue> columns)
   {
     this();
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     this.columns = columns;
   }
 
@@ -173,7 +173,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
    */
   public TAppend(TAppend other) {
     if (other.isSetRow()) {
-      this.row = org.apache.thrift.TBaseHelper.copyBinary(other.row);
+      this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(other.row);
     }
     if (other.isSetColumns()) {
       List<TColumnValue> __this__columns = new ArrayList<TColumnValue>(other.columns.size());
@@ -208,12 +208,12 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
   }
 
   public byte[] getRow() {
-    setRow(org.apache.thrift.TBaseHelper.rightSize(row));
+    setRow(org.apache.thrift.TBaseHBaseUtils.rightSize(row));
     return row == null ? null : row.array();
   }
 
   public ByteBuffer bufferForRow() {
-    return org.apache.thrift.TBaseHelper.copyBinary(row);
+    return org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
   }
 
   public TAppend setRow(byte[] row) {
@@ -222,7 +222,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
   }
 
   public TAppend setRow(ByteBuffer row) {
-    this.row = org.apache.thrift.TBaseHelper.copyBinary(row);
+    this.row = org.apache.thrift.TBaseHBaseUtils.copyBinary(row);
     return this;
   }
 
@@ -564,7 +564,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
       return lastComparison;
     }
     if (isSetRow()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.row, other.row);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.row, other.row);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -574,7 +574,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
       return lastComparison;
     }
     if (isSetColumns()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.columns, other.columns);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.columns, other.columns);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -584,7 +584,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
       return lastComparison;
     }
     if (isSetAttributes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.attributes, other.attributes);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.attributes, other.attributes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -594,7 +594,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
       return lastComparison;
     }
     if (isSetDurability()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.durability, other.durability);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.durability, other.durability);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -604,7 +604,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
       return lastComparison;
     }
     if (isSetCellVisibility()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cellVisibility, other.cellVisibility);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.cellVisibility, other.cellVisibility);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -633,7 +633,7 @@ public class TAppend implements org.apache.thrift.TBase<TAppend, TAppend._Fields
     if (this.row == null) {
       sb.append("null");
     } else {
-      org.apache.thrift.TBaseHelper.toString(this.row, sb);
+      org.apache.thrift.TBaseHBaseUtils.toString(this.row, sb);
     }
     first = false;
     if (!first) sb.append(", ");

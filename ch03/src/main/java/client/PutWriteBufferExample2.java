@@ -3,7 +3,7 @@ package client;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,13 +15,12 @@ import java.util.List;
 public class PutWriteBufferExample2 {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
 
         TableName name = TableName.valueOf("testtable");
-        Table table = helper.getTable(name);
-        BufferedMutator mutator = helper.getConnection().getBufferedMutator(name);
+        Table table = HBaseUtils.getTable(name);
+        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(name);
 
         // co PutWriteBufferExample2-1-DoPut Create a list to hold all mutations.
         List<Mutation> mutations = new ArrayList<>();
@@ -55,6 +54,6 @@ public class PutWriteBufferExample2 {
 
         mutator.close();
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

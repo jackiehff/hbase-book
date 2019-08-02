@@ -247,7 +247,7 @@ public class TCellVisibility implements org.apache.thrift.TBase<TCellVisibility,
       return lastComparison;
     }
     if (isSetExpression()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.expression, other.expression);
+      lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.expression, other.expression);
       if (lastComparison != 0) {
         return lastComparison;
       }

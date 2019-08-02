@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcUtils;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,20 +20,20 @@ public class EndpointExample {
 
     public static void main(String[] args) throws IOException {
         TableName tableName = TableName.valueOf("testtable");
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
-        helper.put("testtable",
+
+        HBaseUtils.dropTable(tableName);
+        HBaseUtils.createTable(tableName, "colfam1", "colfam2");
+        HBaseUtils.put(tableName,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1"},
                 new long[]{1, 2},
                 new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        helper.dump("testtable",
+        HBaseUtils.dump("testtable",
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = helper.getConnection().getAdmin();
+        Admin admin = HBaseUtils.getConnection().getAdmin();
         try {
             admin.split(tableName, Bytes.toBytes("row3"));
         } catch (IOException e) {
@@ -47,7 +47,7 @@ public class EndpointExample {
             }
         }
         //vv EndpointExample
-        Table table = helper.getConnection().getTable(tableName);
+        Table table = HBaseUtils.getConnection().getTable(tableName);
         try {
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();
@@ -78,6 +78,6 @@ public class EndpointExample {
         }
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

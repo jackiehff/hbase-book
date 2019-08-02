@@ -11,7 +11,7 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.SkipFilter;
 import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -21,13 +21,13 @@ import java.io.IOException;
 public class SkipFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 30, 5, 2, true, true, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 30, 5, 2, true, true, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
         // vv SkipFilterExample
         Filter filter1 = new ValueFilter(CompareOperator.NOT_EQUAL,
                 new BinaryComparator(Bytes.toBytes("val-0")));
@@ -76,6 +76,6 @@ public class SkipFilterExample {
         System.out.println("Total cell count for scan #2: " + n);
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

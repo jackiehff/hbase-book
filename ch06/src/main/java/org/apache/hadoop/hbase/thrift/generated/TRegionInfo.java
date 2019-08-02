@@ -166,14 +166,14 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             ByteBuffer serverName,
             int port) {
         this();
-        this.startKey = org.apache.thrift.TBaseHelper.copyBinary(startKey);
-        this.endKey = org.apache.thrift.TBaseHelper.copyBinary(endKey);
+        this.startKey = org.apache.thrift.TBaseHBaseUtils.copyBinary(startKey);
+        this.endKey = org.apache.thrift.TBaseHBaseUtils.copyBinary(endKey);
         this.id = id;
         setIdIsSet(true);
-        this.name = org.apache.thrift.TBaseHelper.copyBinary(name);
+        this.name = org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
         this.version = version;
         setVersionIsSet(true);
-        this.serverName = org.apache.thrift.TBaseHelper.copyBinary(serverName);
+        this.serverName = org.apache.thrift.TBaseHBaseUtils.copyBinary(serverName);
         this.port = port;
         setPortIsSet(true);
     }
@@ -219,12 +219,12 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public byte[] getStartKey() {
-        setStartKey(org.apache.thrift.TBaseHelper.rightSize(startKey));
+        setStartKey(org.apache.thrift.TBaseHBaseUtils.rightSize(startKey));
         return startKey == null ? null : startKey.array();
     }
 
     public ByteBuffer bufferForStartKey() {
-        return org.apache.thrift.TBaseHelper.copyBinary(startKey);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(startKey);
     }
 
     public TRegionInfo setStartKey(byte[] startKey) {
@@ -233,7 +233,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public TRegionInfo setStartKey(ByteBuffer startKey) {
-        this.startKey = org.apache.thrift.TBaseHelper.copyBinary(startKey);
+        this.startKey = org.apache.thrift.TBaseHBaseUtils.copyBinary(startKey);
         return this;
     }
 
@@ -255,12 +255,12 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public byte[] getEndKey() {
-        setEndKey(org.apache.thrift.TBaseHelper.rightSize(endKey));
+        setEndKey(org.apache.thrift.TBaseHBaseUtils.rightSize(endKey));
         return endKey == null ? null : endKey.array();
     }
 
     public ByteBuffer bufferForEndKey() {
-        return org.apache.thrift.TBaseHelper.copyBinary(endKey);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(endKey);
     }
 
     public TRegionInfo setEndKey(byte[] endKey) {
@@ -269,7 +269,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public TRegionInfo setEndKey(ByteBuffer endKey) {
-        this.endKey = org.apache.thrift.TBaseHelper.copyBinary(endKey);
+        this.endKey = org.apache.thrift.TBaseHBaseUtils.copyBinary(endKey);
         return this;
     }
 
@@ -316,12 +316,12 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public byte[] getName() {
-        setName(org.apache.thrift.TBaseHelper.rightSize(name));
+        setName(org.apache.thrift.TBaseHBaseUtils.rightSize(name));
         return name == null ? null : name.array();
     }
 
     public ByteBuffer bufferForName() {
-        return org.apache.thrift.TBaseHelper.copyBinary(name);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
     }
 
     public TRegionInfo setName(byte[] name) {
@@ -330,7 +330,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public TRegionInfo setName(ByteBuffer name) {
-        this.name = org.apache.thrift.TBaseHelper.copyBinary(name);
+        this.name = org.apache.thrift.TBaseHBaseUtils.copyBinary(name);
         return this;
     }
 
@@ -377,12 +377,12 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public byte[] getServerName() {
-        setServerName(org.apache.thrift.TBaseHelper.rightSize(serverName));
+        setServerName(org.apache.thrift.TBaseHBaseUtils.rightSize(serverName));
         return serverName == null ? null : serverName.array();
     }
 
     public ByteBuffer bufferForServerName() {
-        return org.apache.thrift.TBaseHelper.copyBinary(serverName);
+        return org.apache.thrift.TBaseHBaseUtils.copyBinary(serverName);
     }
 
     public TRegionInfo setServerName(byte[] serverName) {
@@ -391,7 +391,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
     }
 
     public TRegionInfo setServerName(ByteBuffer serverName) {
-        this.serverName = org.apache.thrift.TBaseHelper.copyBinary(serverName);
+        this.serverName = org.apache.thrift.TBaseHBaseUtils.copyBinary(serverName);
         return this;
     }
 
@@ -686,7 +686,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetStartKey()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startKey, other.startKey);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.startKey, other.startKey);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -696,7 +696,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetEndKey()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.endKey, other.endKey);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.endKey, other.endKey);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -706,7 +706,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetId()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, other.id);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.id, other.id);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -716,7 +716,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetName()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, other.name);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.name, other.name);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -726,7 +726,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetVersion()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.version, other.version);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.version, other.version);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -736,7 +736,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetServerName()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.serverName, other.serverName);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.serverName, other.serverName);
             if (lastComparison != 0) {
                 return lastComparison;
             }
@@ -746,7 +746,7 @@ public class TRegionInfo implements org.apache.thrift.TBase<TRegionInfo, TRegion
             return lastComparison;
         }
         if (isSetPort()) {
-            lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.port, other.port);
+            lastComparison = org.apache.thrift.TBaseHBaseUtils.compareTo(this.port, other.port);
             if (lastComparison != 0) {
                 return lastComparison;
             }

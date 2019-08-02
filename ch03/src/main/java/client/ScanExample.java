@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -16,14 +16,13 @@ import java.io.IOException;
 public class ScanExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
         // Tip: Remove comment below to enable padding, adjust start and stop row, as well as columns below to match. See scan #5 comments.
-        helper.fillTable("testtable", 1, 100, 100, /* 3, false, */ "colfam1", "colfam2");
+        HBaseUtils.fillTable("testtable", 1, 100, 100, /* 3, false, */ "colfam1", "colfam2");
 
-        Table table = helper.getTable(TableName.valueOf("testtable"));
+        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
 
         System.out.println("Scanning table #1...");
         // co ScanExample-1-NewScan Create empty Scan instance.
@@ -87,6 +86,6 @@ public class ScanExample {
         scanner5.close();
 
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

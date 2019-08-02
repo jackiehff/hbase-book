@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -15,19 +15,18 @@ import java.io.IOException;
 public class ScanTimeoutExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
+        HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
 
-        Table table = helper.getTable("testtable");
+        Table table = HBaseUtils.getTable("testtable");
 
         Scan scan = new Scan();
         ResultScanner scanner = table.getScanner(scan);
 
         // co ScanTimeoutExample-1-GetConf Get currently configured lease timeout.
-        int scannerTimeout = (int) helper.getConfiguration().getLong(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, -1);
+        int scannerTimeout = (int) HBaseUtils.getConfiguration().getLong(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, -1);
         System.out.println("Current (local) lease period: " + scannerTimeout + "ms");
         System.out.println("Sleeping now for " + (scannerTimeout + 5000) + "ms...");
         try {
@@ -52,6 +51,6 @@ public class ScanTimeoutExample {
         }
         scanner.close();
         table.close();
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }

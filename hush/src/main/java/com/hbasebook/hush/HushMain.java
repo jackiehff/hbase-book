@@ -16,7 +16,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class HushMain {
 
     /**
-     * Helper method to print out the command line arguments available.
+     * HBaseUtils method to print out the command line arguments available.
      *
      * @param options  The command line argument definition.
      * @param exitCode The exit code to use when exiting the application.

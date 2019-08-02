@@ -11,7 +11,7 @@ import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.filter.WhileMatchFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-import util.HBaseHelper;
+import util.HBaseUtils;
 
 import java.io.IOException;
 
@@ -21,13 +21,13 @@ import java.io.IOException;
 public class WhileMatchFilterExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseHelper helper = HBaseHelper.getHelper();
-        helper.dropTable("testtable");
-        helper.createTable("testtable", "colfam1");
-        System.out.println("Adding rows to table...");
-        helper.fillTable("testtable", 1, 10, 1, 2, true, false, "colfam1");
 
-        Table table = helper.getTable("testtable");
+        HBaseUtils.dropTable("testtable");
+        HBaseUtils.createTable("testtable", "colfam1");
+        System.out.println("Adding rows to table...");
+        HBaseUtils.fillTable("testtable", 1, 10, 1, 2, true, false, "colfam1");
+
+        Table table = HBaseUtils.getTable("testtable");
         Filter filter1 = /*[*/new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));/*]*/
 
         Scan scan = new Scan();
@@ -63,6 +63,6 @@ public class WhileMatchFilterExample {
         scanner2.close();
         System.out.println("Total cell count for scan #2: " + n);
 
-        helper.close();
+        HBaseUtils.closeConnection();
     }
 }
