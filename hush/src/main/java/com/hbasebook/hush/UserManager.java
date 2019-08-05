@@ -25,7 +25,7 @@ public class UserManager {
 
     private final ResourceManager rm;
 
-    UserManager(ResourceManager rm) throws IOException {
+    UserManager(ResourceManager rm) {
         this.rm = rm;
     }
 

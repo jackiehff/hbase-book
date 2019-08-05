@@ -1,6 +1,5 @@
 package com.hbasebook.hush.coprocessor;
 
-import org.apache.hadoop.hbase.coprocessor.BaseRegionObserver;
 import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 
 import java.io.IOException;
@@ -9,8 +8,7 @@ import java.io.IOException;
  * An observer implementation that checks for new URL records and
  * asynchronously fetches some into about it.
  */
-public class FetchUrlInfoObserver extends BaseRegionObserver
-        implements RegionObserver, FetchUrlInfoProtocol {
+public class FetchUrlInfoObserver implements RegionObserver, FetchUrlInfoProtocol {
 
 
     @Override

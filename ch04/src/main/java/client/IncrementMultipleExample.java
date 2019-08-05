@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Increment;
 import org.apache.hadoop.hbase.client.Result;
@@ -17,11 +18,10 @@ import java.util.NavigableMap;
 public class IncrementMultipleExample {
 
     public static void main(String[] args) throws IOException {
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "daily", "weekly");
 
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "daily", "weekly");
-
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         Increment increment1 = new Increment(Bytes.toBytes("20150101"));
 
         increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("clicks"), 1);

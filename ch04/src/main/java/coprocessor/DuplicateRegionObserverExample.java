@@ -1,11 +1,11 @@
 package coprocessor;
 
+import constant.HBaseConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.Coprocessor;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
@@ -45,9 +45,8 @@ public class DuplicateRegionObserverExample implements RegionObserver {
     }
 
     public static void main(String[] args) throws IOException {
-        TableName tableName = TableName.valueOf("testtable");
-        HBaseUtils.dropTable(tableName);
-        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(tableName)
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(HBaseConstants.TEST_TABLE)
                 .setColumnFamily(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("colfam1")).build())
                 .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(DuplicateRegionObserverExample.class.getCanonicalName())
                         .setPriority(Coprocessor.PRIORITY_USER).build())
@@ -69,12 +68,12 @@ public class DuplicateRegionObserverExample implements RegionObserver {
 
         Admin admin = HBaseUtils.getConnection().getAdmin();
         admin.createTable(tableDescriptor);
-        System.out.println(admin.getDescriptor(tableName));
+        System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
 
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1");
 
-        Table table = HBaseUtils.getTable(tableName);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         Get get = new Get(Bytes.toBytes("row-1"));
         Result result = table.get(get);
 

@@ -1,7 +1,7 @@
 package coprocessor;
 
+import constant.HBaseConstants;
 import coprocessor.generated.RowCounterProtos;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcUtils;
@@ -19,35 +19,33 @@ import java.util.Map;
 public class EndpointExample {
 
     public static void main(String[] args) throws IOException {
-        TableName tableName = TableName.valueOf("testtable");
-
-        HBaseUtils.dropTable(tableName);
-        HBaseUtils.createTable(tableName, "colfam1", "colfam2");
-        HBaseUtils.put(tableName,
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1"},
                 new long[]{1, 2},
                 new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        HBaseUtils.dump("testtable",
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
         Admin admin = HBaseUtils.getConnection().getAdmin();
         try {
-            admin.split(tableName, Bytes.toBytes("row3"));
+            admin.split(HBaseConstants.TEST_TABLE, Bytes.toBytes("row3"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         // wait for the split to be done
-        while (admin.getRegions(tableName).size() < 2) {
+        while (admin.getRegions(HBaseConstants.TEST_TABLE).size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
         }
         //vv EndpointExample
-        Table table = HBaseUtils.getConnection().getTable(tableName);
+        Table table = HBaseUtils.getConnection().getTable(HBaseConstants.TEST_TABLE);
         try {
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();

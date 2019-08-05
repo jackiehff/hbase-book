@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -12,10 +13,9 @@ import java.io.IOException;
 public class IncrementSingleExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "daily");
-        Table table = HBaseUtils.getTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "daily");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co IncrementSingleExample-1-Incr1 Increase counter by one.
         long cnt1 = table.incrementColumnValue(Bytes.toBytes("20110101"), Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);

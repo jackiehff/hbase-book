@@ -1,6 +1,6 @@
 package coprocessor;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -16,25 +16,23 @@ import static coprocessor.generated.RowCounterProtos.*;
 public class EndpointProxyExample {
 
     public static void main(String[] args) throws IOException {
-        TableName tableName = TableName.valueOf("testtable");
-
-        HBaseUtils.dropTable(tableName);
-        HBaseUtils.createTable(tableName, 3, "colfam1", "colfam2");
-        HBaseUtils.put(tableName,
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"}, new String[]{"qual1", "qual1"},
                 new long[]{1, 2}, new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        HBaseUtils.dump(tableName, new String[]{"row1", "row2", "row3", "row4", "row5"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3", "row4", "row5"}, null, null);
         Admin admin = HBaseUtils.getConnection().getAdmin();
         try {
-            admin.split(tableName, Bytes.toBytes("row3"));
+            admin.split(HBaseConstants.TEST_TABLE, Bytes.toBytes("row3"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Table table = HBaseUtils.getTable(tableName);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // wait for the split to be done
-        while (admin.getRegions(tableName).size() < 2) {
+        while (admin.getRegions(HBaseConstants.TEST_TABLE).size() < 2) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -43,7 +41,7 @@ public class EndpointProxyExample {
 
         try {
             //vv EndpointProxyExample
-            RegionInfo hri = admin.getRegions(tableName).get(0);
+            RegionInfo hri = admin.getRegions(HBaseConstants.TEST_TABLE).get(0);
             Scan scan = new Scan().withStartRow(hri.getStartKey()).withStopRow(hri.getEndKey()).setMaxVersions();
             ResultScanner scanner = table.getScanner(scan);
             for (Result result : scanner) {
