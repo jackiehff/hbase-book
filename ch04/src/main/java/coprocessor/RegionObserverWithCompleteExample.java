@@ -40,7 +40,7 @@ public class RegionObserverWithCompleteExample implements RegionObserver {
             LOG.debug("Had a match, adding fake cell: " + cell);
             results.add(cell);
             // Once the special cell is inserted all further processing is skipped.
-            e.complete();
+            //e.complete();
         }
         // ^^ RegionObserverWithCompleteExample
     }

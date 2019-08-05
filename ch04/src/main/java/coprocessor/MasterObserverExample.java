@@ -11,7 +11,6 @@ import org.apache.hadoop.hbase.coprocessor.MasterCoprocessorEnvironment;
 import org.apache.hadoop.hbase.coprocessor.MasterObserver;
 import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.master.MasterFileSystem;
-import org.apache.hadoop.hbase.master.MasterServices;
 
 import java.io.IOException;
 
@@ -22,18 +21,16 @@ public class MasterObserverExample implements MasterObserver {
     public static final Log LOG = LogFactory.getLog(MasterObserverExample.class);
 
     @Override
-    public void postCreateTable(
-            ObserverContext<MasterCoprocessorEnvironment> ctx,
-            TableDescriptor desc, RegionInfo[] regions)
-            throws IOException {
+    public void postCreateTable(ObserverContext<MasterCoprocessorEnvironment> ctx,
+                                TableDescriptor desc, RegionInfo[] regions) throws IOException {
         LOG.debug("Got postCreateTable callback");
         // co MasterObserverExample-1-GetName Get the new table's name from the table descriptor.
         TableName tableName = desc.getTableName();
 
         LOG.debug("Created table: " + tableName + ", region count: " + regions.length);
-        MasterServices services = ctx.getEnvironment().getServices();
-        // co MasterObserverExample-2-Services Get the available services and retrieve a reference to the actual file system.
-        MasterFileSystem masterFileSystem = services.getMasterFileSystem();
+
+        // co MasterObserverExample-2-Services Retrieve a reference to the actual file system.
+        MasterFileSystem masterFileSystem = new MasterFileSystem(ctx.getEnvironment().getConnection().getConfiguration());
         FileSystem fileSystem = masterFileSystem.getFileSystem();
 
         // co MasterObserverExample-3-Path Create a new directory that will store binary data from the client application.

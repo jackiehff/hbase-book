@@ -1,5 +1,6 @@
 package coprocessor;
 
+import com.google.protobuf.RpcCallback;
 import coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair;
 import coprocessor.generated.ObserverStatisticsProtos.ObserverStatisticsService;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest;
@@ -33,7 +34,7 @@ public class ObserverStatisticsExample {
                 statistics -> {
                     BlockingRpcCallback<StatisticsResponse> rpcCallback =
                             new BlockingRpcCallback<>();
-                    statistics.getStatistics(null, request, rpcCallback);
+                    statistics.getStatistics(null, request, (RpcCallback<StatisticsResponse>) rpcCallback);
                     StatisticsResponse response = rpcCallback.get();
                     Map<String, Integer> stats = new LinkedHashMap<>();
                     for (NameInt32Pair pair : response.getAttributeList()) {
@@ -66,7 +67,6 @@ public class ObserverStatisticsExample {
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
         try {
-
             table = HBaseUtils.getTable(tableName);
             printStatistics(false, true);
 
@@ -177,14 +177,14 @@ public class ObserverStatisticsExample {
             System.out.println("Apply checkAndDelete (failing)...");
             delete = new Delete(Bytes.toBytes("row10"));
             delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual17"));
-            cap = table.checkAndDelete(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual15"), null, delete);
+            cap = table.checkAndMutate(Bytes.toBytes("row10"),
+                    Bytes.toBytes("colfam1")).qualifier(Bytes.toBytes("qual15")).thenDelete(delete);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
 
             System.out.println("Apply checkAndDelete (succeeding)...");
-            cap = table.checkAndDelete(Bytes.toBytes("row10"),
-                    Bytes.toBytes("colfam1"), Bytes.toBytes("qual18"), null, delete);
+            cap = table.checkAndMutate(Bytes.toBytes("row10"),
+                    Bytes.toBytes("colfam1")).qualifier(Bytes.toBytes("qual18")).thenDelete(delete);
             System.out.println("  -> success: " + cap);
             printStatistics(true, true);
 

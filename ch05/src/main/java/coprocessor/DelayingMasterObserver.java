@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.ServerName;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.coprocessor.MasterCoprocessorEnvironment;
+import org.apache.hadoop.hbase.coprocessor.MasterObserver;
 import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 
 /**
- * DelayingMasterObserver Special master observer that delays region asignments
+ * DelayingMasterObserver Special master observer that delays region assignments
  */
-public class DelayingMasterObserver implements RegionObserver {
+public class DelayingMasterObserver implements MasterObserver {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(DelayingMasterObserver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DelayingMasterObserver.class);
 
     private Random rnd = new Random();
 
