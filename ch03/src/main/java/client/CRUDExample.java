@@ -16,9 +16,7 @@ public class CRUDExample {
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
 
-        try (
-                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
-        ) {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             // Put操作
             Put put = new Put(Bytes.toBytes("row1"));
             put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));

@@ -17,20 +17,18 @@ public class PutExample {
         // Create the required configuration.
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
-        // Create put with specific row.
-        Put put = new Put(Bytes.toBytes("row1"));
-        // Add a column, whose name is "colfam1:qual1", to the put.
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
-        // Add another column, whose name is "colfam1:qual2", to the put.
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("val2"));
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            // Create put with specific row.
+            Put put = new Put(Bytes.toBytes("row1"));
+            // Add a column, whose name is "colfam1:qual1", to the put.
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
+            // Add another column, whose name is "colfam1:qual2", to the put.
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("val2"));
 
-        // Store row with column into the HBase table.
-        table.put(put);
-
-        // Close table and connection instances to free resources.
-        table.close();
+            // Store row with column into the HBase table.
+            table.put(put);
+        }
 
         HBaseUtils.closeConnection();
     }

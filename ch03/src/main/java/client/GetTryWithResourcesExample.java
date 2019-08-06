@@ -15,16 +15,11 @@ import java.io.IOException;
 public class GetTryWithResourcesExample {
 
     public static void main(String[] args) throws IOException {
-        // co GetTryWithResourcesExample-1-CreateConf Create the configuration.
-
         if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
             HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
 
-        try (
-                // co GetTryWithResourcesExample-2-NewTable Instantiate a new table reference in "try" block.
-                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
-        ) {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             Get get = new Get(Bytes.toBytes("row1"));
             get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
             Result result = table.get(get);
@@ -32,6 +27,7 @@ public class GetTryWithResourcesExample {
                     Bytes.toBytes("qual1"));
             System.out.println("Value: " + Bytes.toString(val));
         }// co GetTryWithResourcesExample-3-Close No explicit close needed, Java will handle AutoClosable's.
+
         HBaseUtils.closeConnection();
     }
 }

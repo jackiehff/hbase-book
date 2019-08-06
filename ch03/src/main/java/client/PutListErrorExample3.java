@@ -17,9 +17,7 @@ import java.util.List;
 public class PutListErrorExample3 {
 
     public static void main(String[] args) throws IOException {
-        try (
-                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
-        ) {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
             HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
             List<Put> puts = new ArrayList<>();

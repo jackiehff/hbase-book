@@ -34,48 +34,46 @@ public class BatchCallbackExample {
         System.out.println("Before batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            // co BatchCallbackExample-1-CreateList Create a list to hold all values.
+            List<Row> batch = new ArrayList<>();
 
-        // co BatchCallbackExample-1-CreateList Create a list to hold all values.
-        List<Row> batch = new ArrayList<>();
+            Put put = new Put(ROW2);
+            // co BatchCallbackExample-2-AddPut Add a Put instance.
+            put.addColumn(COLFAM2, QUAL1, 4, Bytes.toBytes("val5"));
+            batch.add(put);
 
-        Put put = new Put(ROW2);
-        // co BatchCallbackExample-2-AddPut Add a Put instance.
-        put.addColumn(COLFAM2, QUAL1, 4, Bytes.toBytes("val5"));
-        batch.add(put);
+            Get get1 = new Get(ROW1);
+            // co BatchCallbackExample-3-AddGet Add a Get instance for a different row.
+            get1.addColumn(COLFAM1, QUAL1);
+            batch.add(get1);
 
-        Get get1 = new Get(ROW1);
-        // co BatchCallbackExample-3-AddGet Add a Get instance for a different row.
-        get1.addColumn(COLFAM1, QUAL1);
-        batch.add(get1);
+            Delete delete = new Delete(ROW1);
+            // co BatchCallbackExample-4-AddDelete Add a Delete instance.
+            delete.addColumns(COLFAM1, QUAL2);
+            batch.add(delete);
 
-        Delete delete = new Delete(ROW1);
-        // co BatchCallbackExample-4-AddDelete Add a Delete instance.
-        delete.addColumns(COLFAM1, QUAL2);
-        batch.add(delete);
+            Get get2 = new Get(ROW2);
+            // co BatchCallbackExample-5-AddBogus Add a Get instance that will fail.
+            get2.addFamily(Bytes.toBytes("BOGUS"));
+            batch.add(get2);
 
-        Get get2 = new Get(ROW2);
-        // co BatchCallbackExample-5-AddBogus Add a Get instance that will fail.
-        get2.addFamily(Bytes.toBytes("BOGUS"));
-        batch.add(get2);
+            // co BatchCallbackExample-6-CreateResult Create result array.
+            Object[] results = new Object[batch.size()];
+            try {
+                table.batchCallback(batch, results, (Batch.Callback<Result>) (region, row, result) -> System.out.println("Received callback for row[" +
+                        Bytes.toString(row) + "] -> " + result));
+            } catch (Exception e) {
+                // co BatchCallbackExample-7-Print Print error that was caught.
+                System.err.println("Error: " + e);
+            }
 
-        // co BatchCallbackExample-6-CreateResult Create result array.
-        Object[] results = new Object[batch.size()];
-        try {
-            table.batchCallback(batch, results, (Batch.Callback<Result>) (region, row, result) -> System.out.println("Received callback for row[" +
-                    Bytes.toString(row) + "] -> " + result));
-        } catch (Exception e) {
-            // co BatchCallbackExample-7-Print Print error that was caught.
-            System.err.println("Error: " + e);
+            for (int i = 0; i < results.length; i++) {
+                // co BatchCallbackExample-8-Dump Print all results and class types.
+                System.out.println("Result[" + i + "]: type = " +
+                        results[i].getClass().getSimpleName() + "; " + results[i]);
+            }
         }
-
-        for (int i = 0; i < results.length; i++) {
-            // co BatchCallbackExample-8-Dump Print all results and class types.
-            System.out.println("Result[" + i + "]: type = " +
-                    results[i].getClass().getSimpleName() + "; " + results[i]);
-        }
-
-        table.close();
         System.out.println("After batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
         HBaseUtils.closeConnection();

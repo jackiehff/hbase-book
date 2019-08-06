@@ -4,6 +4,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
@@ -15,7 +16,7 @@ public class RowKeyExample {
         byte[] data = new byte[100];
         Arrays.fill(data, (byte) '@');
         String username = "johndoe";
-        byte[] usernameBytes = username.getBytes(Charset.forName("UTF8"));
+        byte[] usernameBytes = username.getBytes(StandardCharsets.UTF_8);
 
         System.arraycopy(usernameBytes, 0, data, 45, usernameBytes.length);
         System.out.println("data length: " + data.length + ", data: " + Bytes.toString(data));

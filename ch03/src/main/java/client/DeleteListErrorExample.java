@@ -74,7 +74,6 @@ public class DeleteListErrorExample {
             // co DeleteListErrorExample-3-Catch Guard against remote exceptions.
             System.err.println("Error: " + e);
         }
-        table.close();
 
         // co DeleteListErrorExample-4-CheckSize Check the length of the list after the call.
         System.out.println("Deletes length: " + deletes.size());

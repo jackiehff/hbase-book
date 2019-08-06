@@ -25,39 +25,38 @@ public class BatchSameRowExample {
         System.out.println("Before batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            List<Row> batch = new ArrayList<>();
 
-        List<Row> batch = new ArrayList<>();
+            Put put = new Put(ROW1);
+            put.addColumn(COLFAM1, QUAL1, 2L, Bytes.toBytes("val2"));
+            batch.add(put);
 
-        Put put = new Put(ROW1);
-        put.addColumn(COLFAM1, QUAL1, 2L, Bytes.toBytes("val2"));
-        batch.add(put);
+            Get get1 = new Get(ROW1);
+            get1.addColumn(COLFAM1, QUAL1);
+            batch.add(get1);
 
-        Get get1 = new Get(ROW1);
-        get1.addColumn(COLFAM1, QUAL1);
-        batch.add(get1);
+            Delete delete = new Delete(ROW1);
+            // co BatchSameRowExample-1-AddDelete Delete the row that was just put above.
+            delete.addColumns(COLFAM1, QUAL1, 3L);
+            batch.add(delete);
 
-        Delete delete = new Delete(ROW1);
-        // co BatchSameRowExample-1-AddDelete Delete the row that was just put above.
-        delete.addColumns(COLFAM1, QUAL1, 3L);
-        batch.add(delete);
+            Get get2 = new Get(ROW1);
+            get1.addColumn(COLFAM1, QUAL1);
+            batch.add(get2);
 
-        Get get2 = new Get(ROW1);
-        get1.addColumn(COLFAM1, QUAL1);
-        batch.add(get2);
+            Object[] results = new Object[batch.size()];
+            try {
+                table.batch(batch, results);
+            } catch (Exception e) {
+                System.err.println("Error: " + e);
+            }
 
-        Object[] results = new Object[batch.size()];
-        try {
-            table.batch(batch, results);
-        } catch (Exception e) {
-            System.err.println("Error: " + e);
+            for (int i = 0; i < results.length; i++) {
+                System.out.println("Result[" + i + "]: type = " +
+                        results[i].getClass().getSimpleName() + "; " + results[i]);
+            }
         }
-
-        for (int i = 0; i < results.length; i++) {
-            System.out.println("Result[" + i + "]: type = " +
-                    results[i].getClass().getSimpleName() + "; " + results[i]);
-        }
-        table.close();
         System.out.println("After batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();

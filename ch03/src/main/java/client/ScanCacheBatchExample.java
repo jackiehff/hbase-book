@@ -17,8 +17,7 @@ public class ScanCacheBatchExample {
 
     private static Table table = null;
 
-    private static void scan(int caching, int batch, boolean small)
-            throws IOException {
+    private static void scan(int caching, int batch, boolean small) throws IOException {
         int count = 0;
         Scan scan = new Scan()
                 .setCaching(caching)  // co ScanCacheBatchExample-1-Set Set caching and batch parameters.
@@ -60,6 +59,7 @@ public class ScanCacheBatchExample {
         scan(10, 10, false);
 
         table.close();
+
         HBaseUtils.closeConnection();
     }
 }

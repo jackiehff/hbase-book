@@ -25,20 +25,20 @@ public class GetFluentExample {
                 new String[]{"val1", "val1", "val2", "val2"});
         System.out.println("Before get call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
-        // co GetFluentExample-1-Create Create a new get using the fluent interface.
-        Get get = new Get(Bytes.toBytes("row1"))
-                .setId("GetFluentExample")
-                .readAllVersions()
-                .setTimestamp(1)
-                .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"))
-                .addFamily(Bytes.toBytes("colfam2"));
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            // co GetFluentExample-1-Create Create a new get using the fluent interface.
+            Get get = new Get(Bytes.toBytes("row1"))
+                    .setId("GetFluentExample")
+                    .readAllVersions()
+                    .setTimestamp(1)
+                    .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"))
+                    .addFamily(Bytes.toBytes("colfam2"));
 
-        Result result = table.get(get);
-        System.out.println("Result: " + result);
+            Result result = table.get(get);
+            System.out.println("Result: " + result);
 
-        table.close();
+        }
         HBaseUtils.closeConnection();
     }
 }

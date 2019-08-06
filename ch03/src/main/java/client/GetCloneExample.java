@@ -18,16 +18,16 @@ public class GetCloneExample {
         if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
             HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
-        Get get1 = new Get(Bytes.toBytes("row1"));
-        get1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Get get1 = new Get(Bytes.toBytes("row1"));
+            get1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
 
-        Get get2 = new Get(get1);
-        Result result = table.get(get2);
-        System.out.println("Result : " + result);
+            Get get2 = new Get(get1);
+            Result result = table.get(get2);
+            System.out.println("Result : " + result);
+        }
 
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

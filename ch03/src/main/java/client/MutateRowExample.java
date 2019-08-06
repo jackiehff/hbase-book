@@ -24,24 +24,22 @@ public class MutateRowExample {
         System.out.println("Before delete call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Put put = new Put(Bytes.toBytes("row1"));
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
+                    4, Bytes.toBytes("val99"));
+            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual4"),
+                    4, Bytes.toBytes("val100"));
 
-        Put put = new Put(Bytes.toBytes("row1"));
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-                4, Bytes.toBytes("val99"));
-        put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual4"),
-                4, Bytes.toBytes("val100"));
+            Delete delete = new Delete(Bytes.toBytes("row1"));
+            delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"));
 
-        Delete delete = new Delete(Bytes.toBytes("row1"));
-        delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"));
+            RowMutations mutations = new RowMutations(Bytes.toBytes("row1"));
+            mutations.add((Mutation) put);
+            mutations.add((Mutation) delete);
 
-        RowMutations mutations = new RowMutations(Bytes.toBytes("row1"));
-        mutations.add((Mutation) put);
-        mutations.add((Mutation) delete);
-
-        table.mutateRow(mutations);
-
-        table.close();
+            table.mutateRow(mutations);
+        }
         System.out.println("After mutate call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();

@@ -58,6 +58,7 @@ public class ScanSlicingExample {
         scan(6, 11, -1, -1, -1, 10000, false);
 
         table.close();
+
         HBaseUtils.closeConnection();
     }
 }

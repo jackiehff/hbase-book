@@ -20,36 +20,34 @@ public class GetMaxResultsRowOffsetExample1 {
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Put put = new Put(Bytes.toBytes("row1"));
+            for (int n = 1; n <= 1000; n++) {
+                String num = String.format("%04d", n);
+                put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual" + num),
+                        Bytes.toBytes("val" + num));
+            }
+            table.put(put);
 
-        Put put = new Put(Bytes.toBytes("row1"));
-        for (int n = 1; n <= 1000; n++) {
-            String num = String.format("%04d", n);
-            put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual" + num),
-                    Bytes.toBytes("val" + num));
+            Get get1 = new Get(Bytes.toBytes("row1"));
+            // co GetMaxResultsRowOffsetExample1-1-Get1 Ask for ten cells to be returned at most.
+            get1.setMaxResultsPerColumnFamily(10);
+            Result result1 = table.get(get1);
+            CellScanner scanner1 = result1.cellScanner();
+            while (scanner1.advance()) {
+                System.out.println("Get 1 Cell: " + scanner1.current());
+            }
+
+            Get get2 = new Get(Bytes.toBytes("row1"));
+            get2.setMaxResultsPerColumnFamily(10);
+            // co GetMaxResultsRowOffsetExample1-2-Get2 In addition, also skip the first 100 cells.
+            get2.setRowOffsetPerColumnFamily(100);
+            Result result2 = table.get(get2);
+            CellScanner scanner2 = result2.cellScanner();
+            while (scanner2.advance()) {
+                System.out.println("Get 2 Cell: " + scanner2.current());
+            }
         }
-        table.put(put);
-
-        Get get1 = new Get(Bytes.toBytes("row1"));
-        // co GetMaxResultsRowOffsetExample1-1-Get1 Ask for ten cells to be returned at most.
-        get1.setMaxResultsPerColumnFamily(10);
-        Result result1 = table.get(get1);
-        CellScanner scanner1 = result1.cellScanner();
-        while (scanner1.advance()) {
-            System.out.println("Get 1 Cell: " + scanner1.current());
-        }
-
-        Get get2 = new Get(Bytes.toBytes("row1"));
-        get2.setMaxResultsPerColumnFamily(10);
-        // co GetMaxResultsRowOffsetExample1-2-Get2 In addition, also skip the first 100 cells.
-        get2.setRowOffsetPerColumnFamily(100);
-        Result result2 = table.get(get2);
-        CellScanner scanner2 = result2.cellScanner();
-        while (scanner2.advance()) {
-            System.out.println("Get 2 Cell: " + scanner2.current());
-        }
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }
