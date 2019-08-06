@@ -1,6 +1,7 @@
 package security;
 
 import com.google.protobuf.ByteString;
+import constant.HBaseConstants;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
@@ -151,18 +152,17 @@ public class VisibilityLabelExample {
         final AuthenticatedUser app1 = new AuthenticatedUser(
                 "app1user1@HBASE.BOOK", "/tmp/app1user1.keytab", "Application");
 
-        tableName = TableName.valueOf("testtable");
+        tableName = HBaseConstants.TEST_TABLE;
 
         System.out.println("Superuser: Preparing table and data...");
         superuser.doAs((PrivilegedExceptionAction<Void>) () -> {
             Configuration conf = superuser.getConfiguration();
-
-            HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
-            HBaseUtils.dropTable("testtable");
-            HBaseUtils.createTable("testtable", "colfam1");
+            //HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
+            HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
             System.out.println("Superuser: Adding rows to table...");
-            HBaseUtils.fillTable("testtable", 1, 2, 2, "colfam1");
+            HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 2, 2, "colfam1");
             HBaseUtils.closeConnection();
             return null;
         });

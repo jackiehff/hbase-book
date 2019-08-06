@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.TableName;
@@ -62,13 +63,12 @@ public class DependentColumnFilterExample {
     }
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 10, 10, true, "colfam1", "colfam2");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, true, "colfam1", "colfam2");
 
-        table = HBaseUtils.getTable(TableName.valueOf("testtable"));
+        table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // vv DependentColumnFilterExample
         filter(true, CompareOperator.NO_OP, null);
         filter(false, CompareOperator.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.

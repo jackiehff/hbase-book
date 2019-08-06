@@ -1,6 +1,7 @@
 package coprocessor;
 
 import com.google.protobuf.RpcCallback;
+import constant.HBaseConstants;
 import coprocessor.generated.ObserverStatisticsProtos.NameInt32Pair;
 import coprocessor.generated.ObserverStatisticsProtos.ObserverStatisticsService;
 import coprocessor.generated.ObserverStatisticsProtos.StatisticsRequest;
@@ -55,19 +56,18 @@ public class ObserverStatisticsExample {
     }
 
     public static void main(String[] args) throws IOException {
-        TableName tableName = TableName.valueOf("testtable");
-        HBaseUtils.dropTable(tableName);
-        HBaseUtils.createTable(tableName, 3, "colfam1", "colfam2");
-        HBaseUtils.put(tableName,
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 new String[]{"colfam1", "colfam2"}, new String[]{"qual1", "qual1"},
                 new long[]{1, 2}, new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        HBaseUtils.dump(tableName,
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
         try {
-            table = HBaseUtils.getTable(tableName);
+            table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
             printStatistics(false, true);
 
             System.out.println("Apply single put...");

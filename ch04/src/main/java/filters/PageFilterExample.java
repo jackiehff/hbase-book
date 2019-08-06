@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -19,13 +20,12 @@ public class PageFilterExample {
     private static final byte[] POSTFIX = new byte[]{0x00};
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 1000, 10, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 1000, 10, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // vv PageFilterExample
         Filter filter = new PageFilter(15);

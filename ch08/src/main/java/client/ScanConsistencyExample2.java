@@ -16,10 +16,10 @@ public class ScanConsistencyExample2 {
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 5, 2, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 5, 2, "colfam1");
 
         System.out.println("Table before the operations:");
-        HBaseUtils.dump("testtable");
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE);
 
         Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 

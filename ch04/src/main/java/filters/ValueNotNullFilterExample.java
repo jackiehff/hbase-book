@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.*;
@@ -17,13 +18,12 @@ import java.io.IOException;
 public class ValueNotNullFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 10, 5, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 5, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         Put put = new Put(Bytes.toBytes("row-5"))
                 .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-6"),

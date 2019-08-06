@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.Result;
@@ -21,13 +22,12 @@ import java.io.IOException;
 public class WhileMatchFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 10, 1, 2, true, false, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 1, 2, true, false, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         Filter filter1 = /*[*/new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));/*]*/
 
         Scan scan = new Scan();

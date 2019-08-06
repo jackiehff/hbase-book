@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -20,14 +21,13 @@ import java.util.Set;
 public class FirstKeyValueMatchingQualifiersFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTableRandom("testtable", /* row */ 1, 50, 0,
+        HBaseUtils.fillTableRandom(HBaseConstants.TEST_TABLE, /* row */ 1, 50, 0,
                 /* col */ 1, 10, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         Set<byte[]> quals = new HashSet<>();
         quals.add(Bytes.toBytes("col-2"));
         quals.add(Bytes.toBytes("col-4"));

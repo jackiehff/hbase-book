@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -17,13 +18,12 @@ import java.io.IOException;
 public class RowFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1", "colfam2");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 100, "colfam1", "colfam2");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // vv RowFilterExample
         Scan scan = new Scan();
         scan.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-1"));

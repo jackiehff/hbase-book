@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -17,13 +18,12 @@ import java.io.IOException;
 public class FamilyFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2", "colfam3", "colfam4");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2", "colfam3", "colfam4");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 10, 2, "colfam1", "colfam2", "colfam3", "colfam4");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 2, "colfam1", "colfam2", "colfam3", "colfam4");
 
-        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // vv FamilyFilterExample
         Filter filter1 = new FamilyFilter(CompareOperator.LESS, // co FamilyFilterExample-1-Filter Create filter, while specifying the comparison operator and comparator.
                 new BinaryComparator(Bytes.toBytes("colfam3")));

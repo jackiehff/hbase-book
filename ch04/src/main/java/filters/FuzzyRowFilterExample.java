@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -20,13 +21,12 @@ import java.util.List;
 public class FuzzyRowFilterExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 20, 10, 2, true, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 20, 10, 2, true, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // vv FuzzyRowFilterExample
         List<Pair<byte[], byte[]>> keys = new ArrayList<>();
         keys.add(new Pair<>(

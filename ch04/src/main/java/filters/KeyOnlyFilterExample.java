@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -41,14 +42,13 @@ public class KeyOnlyFilterExample {
     }
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTableRandom("testtable", /* row */ 1, 5, 0,
+        HBaseUtils.fillTableRandom(HBaseConstants.TEST_TABLE, /* row */ 1, 5, 0,
                 /* col */ 1, 30, 0,  /* val */ 0, 10000, 0, true, "colfam1");
 
-        table = HBaseUtils.getTable("testtable");
+        table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         System.out.println("Scan #1");
         // vv KeyOnlyFilterExample
         Filter filter1 = new KeyOnlyFilter();

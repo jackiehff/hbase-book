@@ -20,7 +20,7 @@ public class SnapshotExample {
         HBaseUtils.dropTable("testtable2");
         HBaseUtils.dropTable("testtable3");
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1", "colfam2");
-        HBaseUtils.put("testtable", new String[]{"row1"},
+        HBaseUtils.put(HBaseConstants.TEST_TABLE, new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
@@ -82,7 +82,7 @@ public class SnapshotExample {
         System.out.println("Snapshots after waiting: " + snaps);
 
         System.out.println("Table before restoring snapshot 1");
-        HBaseUtils.dump("testtable", new String[]{"row1", "row2"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
 
         // ^^ SnapshotExample
     /*
@@ -101,7 +101,7 @@ public class SnapshotExample {
         admin.enableTable(HBaseConstants.TEST_TABLE);
 
         System.out.println("Table after restoring snapshot 1");
-        HBaseUtils.dump("testtable", new String[]{"row1", "row2"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
 
         // co SnapshotExample-6-DelSnap1 Remove the first snapshot, and list the available ones again.
         admin.deleteSnapshot("snapshot1");

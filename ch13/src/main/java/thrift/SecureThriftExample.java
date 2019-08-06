@@ -1,5 +1,6 @@
 package thrift;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.thrift.generated.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -53,7 +54,7 @@ public class SecureThriftExample {
     private void run() throws Exception {
         // ^^ SecureThriftExample
 
-        HBaseUtils.dropTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
 
         // vv SecureThriftExample
         System.out.println("Using port " + port + " and server " + hostname);

@@ -1,5 +1,6 @@
 package filters;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -22,15 +23,14 @@ import static org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
 public class MultiRowRangeFilterExample {
 
     public static void main(String[] args) throws IOException {
-
 //    if (!HBaseUtils.existsTable("testtable")) {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 100, 10, 3, false, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 10, 3, false, "colfam1");
 //    }
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // vv MultiRowRangeFilterExample
         List<RowRange> ranges = new ArrayList<>();

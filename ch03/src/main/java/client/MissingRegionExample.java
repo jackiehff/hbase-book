@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HRegionLocation;
@@ -66,17 +67,17 @@ public class MissingRegionExample {
 
     public static void main(String[] args) throws IOException {
         Configuration conf = HBaseConfiguration.create();
-        tableName = TableName.valueOf("testtable");
+        tableName = HBaseConstants.TEST_TABLE;
         connection = ConnectionFactory.createConnection(conf);
         Table table = connection.getTable(tableName);
 
-        HBaseUtils.dropTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         byte[][] regions = new byte[][]{
                 Bytes.toBytes("row-030"),
                 Bytes.toBytes("row-060")
         };
-        HBaseUtils.createTable("testtable", regions, "colfam1", "colfam2");
-        HBaseUtils.fillTable("testtable", 1, 100, 1, 3, false, "colfam1", "colfam2");
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE_NAME, regions, "colfam1", "colfam2");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 1, 3, false, "colfam1", "colfam2");
         printTableRegions();
 
         // vv MissingRegionExample
@@ -93,8 +94,7 @@ public class MissingRegionExample {
             // ignore
         }
 
-        RegionLocator locator = connection.getRegionLocator(
-                TableName.valueOf("testtable"));
+        RegionLocator locator = connection.getRegionLocator(HBaseConstants.TEST_TABLE);
         HRegionLocation location = locator.getRegionLocation(
                 Bytes.toBytes("row-050"));
         System.out.println("\nUnassigning region: " + location.getRegion().
