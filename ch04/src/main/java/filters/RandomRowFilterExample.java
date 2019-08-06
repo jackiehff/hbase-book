@@ -23,24 +23,22 @@ public class RandomRowFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 30, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv RandomRowFilterExample
-        Filter filter = new RandomRowFilter(0.5f);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new RandomRowFilter(0.5f);
 
-        for (int loop = 1; loop <= 3; loop++) {
-            Scan scan = new Scan();
-            scan.setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            // ^^ RandomRowFilterExample
-            System.out.println("Results of scan for loop: " + loop);
-            // vv RandomRowFilterExample
-            for (Result result : scanner) {
-                System.out.println(Bytes.toString(result.getRow()));
+            for (int loop = 1; loop <= 3; loop++) {
+                Scan scan = new Scan();
+                scan.setFilter(filter);
+                ResultScanner scanner = table.getScanner(scan);
+                // ^^ RandomRowFilterExample
+                System.out.println("Results of scan for loop: " + loop);
+                // vv RandomRowFilterExample
+                for (Result result : scanner) {
+                    System.out.println(Bytes.toString(result.getRow()));
+                }
+                scanner.close();
             }
-            scanner.close();
         }
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

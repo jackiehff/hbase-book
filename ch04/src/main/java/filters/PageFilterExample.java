@@ -25,38 +25,35 @@ public class PageFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 1000, 10, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new PageFilter(15);
 
-        // vv PageFilterExample
-        Filter filter = new PageFilter(15);
-
-        int totalRows = 0;
-        byte[] lastRow = null;
-        while (true) {
-            Scan scan = new Scan();
-            scan.setFilter(filter);
-            if (lastRow != null) {
-                byte[] startRow = Bytes.add(lastRow, POSTFIX);
-                System.out.println("start row: " +
-                        Bytes.toStringBinary(startRow));
-                scan.withStartRow(startRow);
+            int totalRows = 0;
+            byte[] lastRow = null;
+            while (true) {
+                Scan scan = new Scan();
+                scan.setFilter(filter);
+                if (lastRow != null) {
+                    byte[] startRow = Bytes.add(lastRow, POSTFIX);
+                    System.out.println("start row: " +
+                            Bytes.toStringBinary(startRow));
+                    scan.withStartRow(startRow);
+                }
+                ResultScanner scanner = table.getScanner(scan);
+                int localRows = 0;
+                Result result;
+                while ((result = scanner.next()) != null) {
+                    System.out.println(localRows++ + ": " + result);
+                    totalRows++;
+                    lastRow = result.getRow();
+                }
+                scanner.close();
+                if (localRows == 0) {
+                    break;
+                }
             }
-            ResultScanner scanner = table.getScanner(scan);
-            int localRows = 0;
-            Result result;
-            while ((result = scanner.next()) != null) {
-                System.out.println(localRows++ + ": " + result);
-                totalRows++;
-                lastRow = result.getRow();
-            }
-            scanner.close();
-            if (localRows == 0) {
-                break;
-            }
+            System.out.println("total rows: " + totalRows);
         }
-        System.out.println("total rows: " + totalRows);
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

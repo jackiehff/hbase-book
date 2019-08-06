@@ -23,23 +23,21 @@ public class ColumnPaginationFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 30, 2, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv ColumnPaginationFilterExample
-        Filter filter = new ColumnPaginationFilter(5, 15);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new ColumnPaginationFilter(5, 15);
 
-        Scan scan = new Scan();
-        scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ ColumnPaginationFilterExample
-        System.out.println("Results of scan:");
-        // vv ColumnPaginationFilterExample
-        for (Result result : scanner) {
-            System.out.println(result);
+            Scan scan = new Scan();
+            scan.setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ ColumnPaginationFilterExample
+            System.out.println("Results of scan:");
+            // vv ColumnPaginationFilterExample
+            for (Result result : scanner) {
+                System.out.println(result);
+            }
+            scanner.close();
         }
-        scanner.close();
-        // ^^ ColumnPaginationFilterExample
 
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

@@ -73,13 +73,11 @@ public class DuplicateRegionObserverExample implements RegionObserver {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        Get get = new Get(Bytes.toBytes("row-1"));
-        Result result = table.get(get);
-
-        HBaseUtils.dumpResult(result);
-
-        table.close();
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Get get = new Get(Bytes.toBytes("row-1"));
+            Result result = table.get(get);
+            HBaseUtils.dumpResult(result);
+        }
         admin.close();
         HBaseUtils.closeConnection();
     }

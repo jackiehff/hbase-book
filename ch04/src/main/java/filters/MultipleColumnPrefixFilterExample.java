@@ -24,30 +24,28 @@ public class MultipleColumnPrefixFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 30, 50, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv MultipleColumnPrefixFilterExample
-        Filter filter = new MultipleColumnPrefixFilter(new byte[][]{
-                Bytes.toBytes("col-1"), Bytes.toBytes("col-2")
-        });
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new MultipleColumnPrefixFilter(new byte[][]{
+                    Bytes.toBytes("col-1"), Bytes.toBytes("col-2")
+            });
 
-        Scan scan = new Scan()
-                .setRowPrefixFilter(Bytes.toBytes("row-1")) // co MultipleColumnPrefixFilterExample-1-Row Limit to rows starting with a specific prefix.
-                .setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ MultipleColumnPrefixFilterExample
-        System.out.println("Results of scan:");
-        // vv MultipleColumnPrefixFilterExample
-        for (Result result : scanner) {
-            System.out.print(Bytes.toString(result.getRow()) + ": ");
-            for (Cell cell : result.rawCells()) {
-                System.out.print(Bytes.toString(cell.getQualifierArray(),
-                        cell.getQualifierOffset(), cell.getQualifierLength()) + ", ");
+            Scan scan = new Scan()
+                    .setRowPrefixFilter(Bytes.toBytes("row-1")) // co MultipleColumnPrefixFilterExample-1-Row Limit to rows starting with a specific prefix.
+                    .setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ MultipleColumnPrefixFilterExample
+            System.out.println("Results of scan:");
+            // vv MultipleColumnPrefixFilterExample
+            for (Result result : scanner) {
+                System.out.print(Bytes.toString(result.getRow()) + ": ");
+                for (Cell cell : result.rawCells()) {
+                    System.out.print(Bytes.toString(cell.getQualifierArray(),
+                            cell.getQualifierOffset(), cell.getQualifierLength()) + ", ");
+                }
+                System.out.println();
             }
-            System.out.println();
+            scanner.close();
         }
-        scanner.close();
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

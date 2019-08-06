@@ -27,42 +27,42 @@ public class WhileMatchFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 1, 2, true, false, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        Filter filter1 = /*[*/new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));/*]*/
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter1 = /*[*/new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));/*]*/
 
-        Scan scan = new Scan();
-        scan.setFilter(filter1);
-        ResultScanner scanner1 = table.getScanner(scan);
-        System.out.println("Results of scan #1:");
-        int n = 0;
-        for (Result result : scanner1) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
-                n++;
+            Scan scan = new Scan();
+            scan.setFilter(filter1);
+            ResultScanner scanner1 = table.getScanner(scan);
+            System.out.println("Results of scan #1:");
+            int n = 0;
+            for (Result result : scanner1) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                    n++;
+                }
             }
-        }
-        scanner1.close();
+            scanner1.close();
 
-        Filter filter2 = new /*[*/WhileMatchFilter(filter1);/*]*/
+            Filter filter2 = new /*[*/WhileMatchFilter(filter1);/*]*/
 
-        scan.setFilter(filter2);
-        ResultScanner scanner2 = table.getScanner(scan);
-        System.out.println("Total cell count for scan #1: " + n);
-        n = 0;
-        System.out.println("Results of scan #2:");
-        for (Result result : scanner2) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
-                n++;
+            scan.setFilter(filter2);
+            ResultScanner scanner2 = table.getScanner(scan);
+            System.out.println("Total cell count for scan #1: " + n);
+            n = 0;
+            System.out.println("Results of scan #2:");
+            for (Result result : scanner2) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                    n++;
+                }
             }
+            scanner2.close();
+            System.out.println("Total cell count for scan #2: " + n);
         }
-        scanner2.close();
-        System.out.println("Total cell count for scan #2: " + n);
-
         HBaseUtils.closeConnection();
     }
 }

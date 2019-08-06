@@ -39,7 +39,7 @@ public class EndpointCombinedExample {
             e.printStackTrace();
         }
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+
         // wait for the split to be done
         RegionLocator locator = HBaseUtils.getConnection().getRegionLocator(HBaseConstants.TEST_TABLE);
         while (locator.getAllRegionLocations().size() < 2) {
@@ -49,7 +49,7 @@ public class EndpointCombinedExample {
             }
         }
 
-        try {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();
             Map<byte[], Pair<Long, Long>> results = table.coprocessorService(

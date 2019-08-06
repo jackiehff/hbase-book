@@ -25,28 +25,27 @@ public class FirstKeyOnlyFilterExample {
         HBaseUtils.fillTableRandom(HBaseConstants.TEST_TABLE, /* row */ 1, 30, 0,
                 /* col */ 1, 30, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv FirstKeyOnlyFilterExample
-        Filter filter = new FirstKeyOnlyFilter();
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new FirstKeyOnlyFilter();
 
-        Scan scan = new Scan();
-        scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ FirstKeyOnlyFilterExample
-        System.out.println("Results of scan:");
-        // vv FirstKeyOnlyFilterExample
-        int rowCount = 0;
-        for (Result result : scanner) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
+            Scan scan = new Scan();
+            scan.setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ FirstKeyOnlyFilterExample
+            System.out.println("Results of scan:");
+            // vv FirstKeyOnlyFilterExample
+            int rowCount = 0;
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                }
+                rowCount++;
             }
-            rowCount++;
+            System.out.println("Total num of rows: " + rowCount);
+            scanner.close();
         }
-        System.out.println("Total num of rows: " + rowCount);
-        scanner.close();
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

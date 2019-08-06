@@ -30,7 +30,7 @@ public class EndpointProxyExample {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+
         // wait for the split to be done
         while (admin.getRegions(HBaseConstants.TEST_TABLE).size() < 2) {
             try {
@@ -39,7 +39,7 @@ public class EndpointProxyExample {
             }
         }
 
-        try {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             //vv EndpointProxyExample
             RegionInfo hri = admin.getRegions(HBaseConstants.TEST_TABLE).get(0);
             Scan scan = new Scan().withStartRow(hri.getStartKey()).withStopRow(hri.getEndKey()).setMaxVersions();
@@ -62,7 +62,6 @@ public class EndpointProxyExample {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-
         admin.close();
         HBaseUtils.closeConnection();
     }

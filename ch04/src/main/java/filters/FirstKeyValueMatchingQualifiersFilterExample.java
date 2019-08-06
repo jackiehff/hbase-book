@@ -27,30 +27,31 @@ public class FirstKeyValueMatchingQualifiersFilterExample {
         HBaseUtils.fillTableRandom(HBaseConstants.TEST_TABLE, /* row */ 1, 50, 0,
                 /* col */ 1, 10, 0,  /* val */ 0, 100, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        Set<byte[]> quals = new HashSet<>();
-        quals.add(Bytes.toBytes("col-2"));
-        quals.add(Bytes.toBytes("col-4"));
-        quals.add(Bytes.toBytes("col-6"));
-        quals.add(Bytes.toBytes("col-8"));
-        Filter filter = new FirstKeyValueMatchingQualifiersFilter(quals);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Set<byte[]> quals = new HashSet<>();
+            quals.add(Bytes.toBytes("col-2"));
+            quals.add(Bytes.toBytes("col-4"));
+            quals.add(Bytes.toBytes("col-6"));
+            quals.add(Bytes.toBytes("col-8"));
+            Filter filter = new FirstKeyValueMatchingQualifiersFilter(quals);
 
-        Scan scan = new Scan();
-        scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ FirstKeyValueMatchingQualifiersFilterExample
-        System.out.println("Results of scan:");
-        // vv FirstKeyValueMatchingQualifiersFilterExample
-        int rowCount = 0;
-        for (Result result : scanner) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
+            Scan scan = new Scan();
+            scan.setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ FirstKeyValueMatchingQualifiersFilterExample
+            System.out.println("Results of scan:");
+            // vv FirstKeyValueMatchingQualifiersFilterExample
+            int rowCount = 0;
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                }
+                rowCount++;
             }
-            rowCount++;
+            System.out.println("Total num of rows: " + rowCount);
+            scanner.close();
         }
-        System.out.println("Total num of rows: " + rowCount);
-        scanner.close();
     }
 }

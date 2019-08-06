@@ -45,8 +45,7 @@ public class EndpointExample {
             }
         }
         //vv EndpointExample
-        Table table = HBaseUtils.getConnection().getTable(HBaseConstants.TEST_TABLE);
-        try {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             final RowCounterProtos.CountRequest request =
                     RowCounterProtos.CountRequest.getDefaultInstance();
             // co EndpointExample-3-Batch Create an anonymous class to be sent to all region servers.
@@ -75,7 +74,6 @@ public class EndpointExample {
             throwable.printStackTrace();
         }
 
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

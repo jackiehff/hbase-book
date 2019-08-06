@@ -45,8 +45,7 @@ public class EndpointBatchExample {
             }
         }
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        try {
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             final CountRequest request = CountRequest.getDefaultInstance();
             Map<byte[], CountResponse> results = table.batchCoprocessorService(
                     RowCountService.getDescriptor().findMethodByName("getRowCount"),

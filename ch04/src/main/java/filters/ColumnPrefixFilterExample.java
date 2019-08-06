@@ -18,29 +18,25 @@ import java.io.IOException;
 public class ColumnPrefixFilterExample {
 
     public static void main(String[] args) throws IOException {
-
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 30, 0, true, "colfam1");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv ColumnPrefixFilterExample
-        Filter filter = new ColumnPrefixFilter(Bytes.toBytes("col-1"));
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Filter filter = new ColumnPrefixFilter(Bytes.toBytes("col-1"));
 
-        Scan scan = new Scan();
-        scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ ColumnPrefixFilterExample
-        System.out.println("Results of scan:");
-        // vv ColumnPrefixFilterExample
-        for (Result result : scanner) {
-            System.out.println(result);
+            Scan scan = new Scan();
+            scan.setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ ColumnPrefixFilterExample
+            System.out.println("Results of scan:");
+            // vv ColumnPrefixFilterExample
+            for (Result result : scanner) {
+                System.out.println(result);
+            }
+            scanner.close();
         }
-        scanner.close();
-        // ^^ ColumnPrefixFilterExample
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

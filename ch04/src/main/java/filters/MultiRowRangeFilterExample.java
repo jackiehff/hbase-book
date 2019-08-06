@@ -30,41 +30,38 @@ public class MultiRowRangeFilterExample {
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 10, 3, false, "colfam1");
 //    }
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            List<RowRange> ranges = new ArrayList<>();
+            ranges.add(new RowRange(Bytes.toBytes("row-010"), true,
+                    Bytes.toBytes("row-020"), false));
+            ranges.add(new RowRange(Bytes.toBytes("row-050"), true,
+                    Bytes.toBytes("row-090"), true));
+            ranges.add(new RowRange(Bytes.toBytes("row-096"), true,
+                    Bytes.toBytes("row-097"), false));
 
-        // vv MultiRowRangeFilterExample
-        List<RowRange> ranges = new ArrayList<>();
-        ranges.add(new RowRange(Bytes.toBytes("row-010"), true,
-                Bytes.toBytes("row-020"), false));
-        ranges.add(new RowRange(Bytes.toBytes("row-050"), true,
-                Bytes.toBytes("row-090"), true));
-        ranges.add(new RowRange(Bytes.toBytes("row-096"), true,
-                Bytes.toBytes("row-097"), false));
+            Filter filter = new MultiRowRangeFilter(ranges);
 
-        Filter filter = new MultiRowRangeFilter(ranges);
+            Scan scan = new Scan().withStartRow(Bytes.toBytes("row-005")).withStopRow(Bytes.toBytes("row-110"));
+            scan.setFilter(filter);
 
-        Scan scan = new Scan().withStartRow(Bytes.toBytes("row-005")).withStopRow(Bytes.toBytes("row-110"));
-        scan.setFilter(filter);
-
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ MultiRowRangeFilterExample
-        System.out.println("Results of scan:");
-        // vv MultiRowRangeFilterExample
-        int numRows = 0;
-        for (Result result : scanner) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ MultiRowRangeFilterExample
+            System.out.println("Results of scan:");
+            // vv MultiRowRangeFilterExample
+            int numRows = 0;
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                }
+                numRows++;
             }
-            numRows++;
+            // ^^ MultiRowRangeFilterExample
+            System.out.println("Number of rows: " + numRows);
+            // vv MultiRowRangeFilterExample
+            scanner.close();
         }
-        // ^^ MultiRowRangeFilterExample
-        System.out.println("Number of rows: " + numRows);
-        // vv MultiRowRangeFilterExample
-        scanner.close();
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }

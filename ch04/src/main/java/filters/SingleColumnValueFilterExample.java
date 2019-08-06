@@ -22,41 +22,39 @@ public class SingleColumnValueFilterExample {
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1", "colfam2");
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv SingleColumnValueFilterExample
-        SingleColumnValueFilter filter = new SingleColumnValueFilter(
-                Bytes.toBytes("colfam1"),
-                Bytes.toBytes("col-5"),
-                CompareOperator.NOT_EQUAL,
-                new SubstringComparator("val-5"));
-        filter.setFilterIfMissing(true);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            SingleColumnValueFilter filter = new SingleColumnValueFilter(
+                    Bytes.toBytes("colfam1"),
+                    Bytes.toBytes("col-5"),
+                    CompareOperator.NOT_EQUAL,
+                    new SubstringComparator("val-5"));
+            filter.setFilterIfMissing(true);
 
-        Scan scan = new Scan();
-        scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        // ^^ SingleColumnValueFilterExample
-        System.out.println("Results of scan:");
-        // vv SingleColumnValueFilterExample
-        for (Result result : scanner) {
+            Scan scan = new Scan();
+            scan.setFilter(filter);
+            ResultScanner scanner = table.getScanner(scan);
+            // ^^ SingleColumnValueFilterExample
+            System.out.println("Results of scan:");
+            // vv SingleColumnValueFilterExample
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                }
+            }
+            scanner.close();
+
+            Get get = new Get(Bytes.toBytes("row-6"));
+            get.setFilter(filter);
+            Result result = table.get(get);
+            System.out.println("Result of get: ");
             for (Cell cell : result.rawCells()) {
                 System.out.println("Cell: " + cell + ", Value: " +
                         Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                                 cell.getValueLength()));
             }
         }
-        scanner.close();
-
-        Get get = new Get(Bytes.toBytes("row-6"));
-        get.setFilter(filter);
-        Result result = table.get(get);
-        System.out.println("Result of get: ");
-        for (Cell cell : result.rawCells()) {
-            System.out.println("Cell: " + cell + ", Value: " +
-                    Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                            cell.getValueLength()));
-        }
-
-        table.close();
         HBaseUtils.closeConnection();
     }
 }
