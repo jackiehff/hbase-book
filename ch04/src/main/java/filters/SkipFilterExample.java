@@ -35,18 +35,14 @@ public class SkipFilterExample {
             // co SkipFilterExample-1-AddFilter1 Only add the ValueFilter to the first scan.
             scan.setFilter(filter1);
             ResultScanner scanner1 = table.getScanner(scan);
-            // ^^ SkipFilterExample
             System.out.println("Results of scan #1:");
             int n = 0;
-            // vv SkipFilterExample
             for (Result result : scanner1) {
                 for (Cell cell : result.rawCells()) {
                     System.out.println("Cell: " + cell + ", Value: " +
                             Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                                     cell.getValueLength()));
-                    // ^^ SkipFilterExample
                     n++;
-                    // vv SkipFilterExample
                 }
             }
             scanner1.close();
@@ -55,25 +51,21 @@ public class SkipFilterExample {
             // co SkipFilterExample-2-AddFilter2 Add the decorating skip filter for the second scan.
             scan.setFilter(filter2);
             ResultScanner scanner2 = table.getScanner(scan);
-            // ^^ SkipFilterExample
             System.out.println("Total cell count for scan #1: " + n);
             n = 0;
             System.out.println("Results of scan #2:");
-            // vv SkipFilterExample
             for (Result result : scanner2) {
                 for (Cell cell : result.rawCells()) {
                     System.out.println("Cell: " + cell + ", Value: " +
                             Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                                     cell.getValueLength()));
-                    // ^^ SkipFilterExample
                     n++;
-                    // vv SkipFilterExample
                 }
             }
             scanner2.close();
-            // ^^ SkipFilterExample
             System.out.println("Total cell count for scan #2: " + n);
         }
+
         HBaseUtils.closeConnection();
     }
 }

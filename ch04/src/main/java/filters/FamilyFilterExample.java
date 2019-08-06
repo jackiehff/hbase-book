@@ -30,9 +30,7 @@ public class FamilyFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter1);
             ResultScanner scanner = table.getScanner(scan); // co FamilyFilterExample-2-Scan Scan over table while applying the filter.
-            // ^^ FamilyFilterExample
             System.out.println("Scanning table... ");
-            // vv FamilyFilterExample
             for (Result result : scanner) {
                 System.out.println(result);
             }

@@ -34,9 +34,7 @@ public class TimestampFilterExample {
             Scan scan1 = new Scan();
             scan1.setFilter(filter); // co TimestampFilterExample-2-AddFilter Add the filter to an otherwise default Scan instance.
             ResultScanner scanner1 = table.getScanner(scan1);
-            // ^^ TimestampFilterExample
             System.out.println("Results of scan #1:");
-            // vv TimestampFilterExample
             for (Result result : scanner1) {
                 System.out.println(result);
             }
@@ -46,14 +44,13 @@ public class TimestampFilterExample {
             scan2.setFilter(filter);
             scan2.setTimeRange(8, 12); // co TimestampFilterExample-3-AddTSRange Also add a time range to verify how it affects the filter
             ResultScanner scanner2 = table.getScanner(scan2);
-            // ^^ TimestampFilterExample
             System.out.println("Results of scan #2:");
-            // vv TimestampFilterExample
             for (Result result : scanner2) {
                 System.out.println(result);
             }
             scanner2.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

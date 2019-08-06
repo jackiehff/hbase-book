@@ -31,9 +31,7 @@ public class RowFilterExample {
                     new BinaryComparator(Bytes.toBytes("row-22")));
             scan.setFilter(filter1);
             ResultScanner scanner1 = table.getScanner(scan);
-            // ^^ RowFilterExample
             System.out.println("Scanning table #1...");
-            // vv RowFilterExample
             for (Result res : scanner1) {
                 System.out.println(res);
             }
@@ -43,9 +41,7 @@ public class RowFilterExample {
                     new RegexStringComparator(".*-.5"));
             scan.setFilter(filter2);
             ResultScanner scanner2 = table.getScanner(scan);
-            // ^^ RowFilterExample
             System.out.println("Scanning table #2...");
-            // vv RowFilterExample
             for (Result res : scanner2) {
                 System.out.println(res);
             }
@@ -56,9 +52,7 @@ public class RowFilterExample {
                     new SubstringComparator("-5"));
             scan.setFilter(filter3);
             ResultScanner scanner3 = table.getScanner(scan);
-            // ^^ RowFilterExample
             System.out.println("Scanning table #3...");
-            // vv RowFilterExample
             for (Result res : scanner3) {
                 System.out.println(res);
             }

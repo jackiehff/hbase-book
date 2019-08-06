@@ -24,9 +24,7 @@ public class KeyOnlyFilterExample {
         Scan scan = new Scan();
         scan.setFilter(filter);
         ResultScanner scanner = table.getScanner(scan);
-        // ^^ KeyOnlyFilterExample
         System.out.println("Results of scan:");
-        // vv KeyOnlyFilterExample
         int rowCount = 0;
         for (Result result : scanner) {
             for (Cell cell : result.rawCells()) {
@@ -49,13 +47,12 @@ public class KeyOnlyFilterExample {
                 /* col */ 1, 30, 0,  /* val */ 0, 10000, 0, true, "colfam1");
 
         table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+
         System.out.println("Scan #1");
-        // vv KeyOnlyFilterExample
         Filter filter1 = new KeyOnlyFilter();
         scan(filter1);
-        // ^^ KeyOnlyFilterExample
+
         System.out.println("Scan #2");
-        // vv KeyOnlyFilterExample
         Filter filter2 = new KeyOnlyFilter(true);
         scan(filter2);
 

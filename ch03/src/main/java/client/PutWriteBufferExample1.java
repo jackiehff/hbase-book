@@ -43,6 +43,7 @@ public class PutWriteBufferExample1 {
             // co PutWriteBufferExample1-5-Get2 Now the row is persisted and can be loaded.
             System.out.println("Result: " + res2);
         }
+
         HBaseUtils.closeConnection();
     }
 }

@@ -57,6 +57,7 @@ public class BatchSameRowExample {
                         results[i].getClass().getSimpleName() + "; " + results[i]);
             }
         }
+
         System.out.println("After batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();

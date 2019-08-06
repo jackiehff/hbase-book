@@ -56,6 +56,7 @@ public class ScanTimeoutExample {
             }
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

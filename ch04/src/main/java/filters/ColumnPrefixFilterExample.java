@@ -25,13 +25,10 @@ public class ColumnPrefixFilterExample {
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             Filter filter = new ColumnPrefixFilter(Bytes.toBytes("col-1"));
-
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ ColumnPrefixFilterExample
             System.out.println("Results of scan:");
-            // vv ColumnPrefixFilterExample
             for (Result result : scanner) {
                 System.out.println(result);
             }

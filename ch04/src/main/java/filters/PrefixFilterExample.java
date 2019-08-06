@@ -27,9 +27,7 @@ public class PrefixFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ PrefixFilterExample
             System.out.println("Results of scan:");
-            // vv PrefixFilterExample
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
                     System.out.println("Cell: " + cell + ", Value: " +
@@ -42,15 +40,14 @@ public class PrefixFilterExample {
             Get get = new Get(Bytes.toBytes("row-5"));
             get.setFilter(filter);
             Result result = table.get(get);
-            // ^^ PrefixFilterExample
             System.out.println("Result of get: ");
-            // vv PrefixFilterExample
             for (Cell cell : result.rawCells()) {
                 System.out.println("Cell: " + cell + ", Value: " +
                         Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                                 cell.getValueLength()));
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

@@ -33,9 +33,7 @@ public class SingleColumnValueFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ SingleColumnValueFilterExample
             System.out.println("Results of scan:");
-            // vv SingleColumnValueFilterExample
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
                     System.out.println("Cell: " + cell + ", Value: " +
@@ -55,6 +53,7 @@ public class SingleColumnValueFilterExample {
                                 cell.getValueLength()));
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

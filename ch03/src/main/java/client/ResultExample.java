@@ -37,6 +37,7 @@ public class ResultExample {
             result2.copyFrom(result1);
             System.out.println(result2);
         }
+
         HBaseUtils.closeConnection();
     }
 }

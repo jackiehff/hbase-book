@@ -61,6 +61,7 @@ public class CheckAndPutExample {
             // We will not get here as an exception is thrown beforehand!
             System.out.println("Put 3 applied: " + res4);
         }
+
         HBaseUtils.closeConnection();
     }
 }

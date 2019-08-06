@@ -32,6 +32,7 @@ public class PutIdenticalExample {
             System.out.println("Result: " + result + ", Value: " + Bytes.toString(
                     result.getValue(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"))));
         }
+
         HBaseUtils.closeConnection();
     }
 }

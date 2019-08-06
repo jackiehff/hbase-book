@@ -37,8 +37,8 @@ public class GetFluentExample {
 
             Result result = table.get(get);
             System.out.println("Result: " + result);
-
         }
+
         HBaseUtils.closeConnection();
     }
 }

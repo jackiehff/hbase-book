@@ -25,12 +25,12 @@ public class AppendExample {
         System.out.println("Before append call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        Append append = new Append(Bytes.toBytes("row1"));
-        append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("newvalue"));
-        append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("anothervalue"));
-        table.append(append);
-
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            Append append = new Append(Bytes.toBytes("row1"));
+            append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("newvalue"));
+            append.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual2"), Bytes.toBytes("anothervalue"));
+            table.append(append);
+        }
         System.out.println("After append call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();

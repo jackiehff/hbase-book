@@ -54,6 +54,7 @@ public class PageFilterExample {
             }
             System.out.println("total rows: " + totalRows);
         }
+
         HBaseUtils.closeConnection();
     }
 }

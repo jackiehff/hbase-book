@@ -22,7 +22,8 @@ public class ScanCacheBatchExample {
         Scan scan = new Scan()
                 .setCaching(caching)  // co ScanCacheBatchExample-1-Set Set caching and batch parameters.
                 .setBatch(batch)
-                .setSmall(small)
+                .setLimit(100)   //
+                .setReadType(Scan.ReadType.PREAD)
                 .setScanMetricsEnabled(true);
         ResultScanner scanner = table.getScanner(scan);
         for (Result result : scanner) {

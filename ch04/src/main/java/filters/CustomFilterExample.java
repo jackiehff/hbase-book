@@ -44,9 +44,7 @@ public class CustomFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filterList);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ CustomFilterExample
             System.out.println("Results of scan:");
-            // vv CustomFilterExample
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
                     System.out.println("Cell: " + cell + ", Value: " +

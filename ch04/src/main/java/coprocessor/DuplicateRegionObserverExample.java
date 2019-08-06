@@ -1,8 +1,6 @@
 package coprocessor;
 
 import constant.HBaseConstants;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.Coprocessor;
@@ -11,6 +9,8 @@ import org.apache.hadoop.hbase.coprocessor.ObserverContext;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.coprocessor.RegionObserver;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.HBaseUtils;
 
 import java.io.IOException;
@@ -22,15 +22,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DuplicateRegionObserverExample implements RegionObserver {
 
-    public static final Log LOG = LogFactory.getLog(DuplicateRegionObserverExample.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DuplicateRegionObserverExample.class);
 
-    public static final byte[] FIXED_COLUMN = Bytes.toBytes("@@@GET_COUNTER@@@");
+    private static final byte[] FIXED_COLUMN = Bytes.toBytes("@@@GET_COUNTER@@@");
     private static AtomicInteger counter = new AtomicInteger(0);
 
     @Override
     public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results) {
         int count = counter.incrementAndGet();
-        LOG.info("Current preGet count: " + count + " [" + this + "]");
+        LOGGER.info("Current preGet count: " + count + " [" + this + "]");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DuplicateRegionObserverExample implements RegionObserver {
         CellScanner scanner = put.cellScanner();
         scanner.advance();
         Cell cell = scanner.current();
-        LOG.debug("Adding fake cell: " + cell);
+        LOGGER.debug("Adding fake cell: " + cell);
         results.add(cell);
     }
 

@@ -22,7 +22,6 @@ public class MissingRegionExample {
 
     private static void printTableRegions() throws IOException {
         System.out.println("Printing regions of table: " + tableName);
-        Table table = connection.getTable(tableName);
         RegionLocator locator = connection.getRegionLocator(tableName);
         Pair<byte[][], byte[][]> pair = locator.getStartEndKeys();
         for (int n = 0; n < pair.getFirst().length; n++) {
@@ -66,9 +65,8 @@ public class MissingRegionExample {
     // ^^ MissingRegionExample
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create();
         tableName = HBaseConstants.TEST_TABLE;
-        connection = ConnectionFactory.createConnection(conf);
+        connection = HBaseUtils.getConnection();
         Table table = connection.getTable(tableName);
 
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);

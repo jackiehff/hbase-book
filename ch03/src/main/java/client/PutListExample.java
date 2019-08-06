@@ -41,6 +41,7 @@ public class PutListExample {
             // co PutListExample-5-DoPut Store multiple rows with columns into HBase.
             table.put(puts);
         }
+
         HBaseUtils.closeConnection();
     }
 }

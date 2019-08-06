@@ -18,7 +18,6 @@ public class DependentColumnFilterExample {
 
     private static Table table = null;
 
-    // vv DependentColumnFilterExample
     private static void filter(boolean drop, CompareOperator operator, ByteArrayComparable comparator)
             throws IOException {
         Filter filter;
@@ -34,9 +33,7 @@ public class DependentColumnFilterExample {
         scan.setFilter(filter);
         // scan.setBatch(4); // cause an error
         ResultScanner scanner = table.getScanner(scan);
-        // ^^ DependentColumnFilterExample
         System.out.println("Results of scan:");
-        // vv DependentColumnFilterExample
         for (Result result : scanner) {
             for (Cell cell : result.rawCells()) {
                 System.out.println("Cell: " + cell + ", Value: " +
@@ -49,17 +46,13 @@ public class DependentColumnFilterExample {
         Get get = new Get(Bytes.toBytes("row-5"));
         get.setFilter(filter);
         Result result = table.get(get);
-        // ^^ DependentColumnFilterExample
         System.out.println("Result of get: ");
-        // vv DependentColumnFilterExample
         for (Cell cell : result.rawCells()) {
             System.out.println("Cell: " + cell + ", Value: " +
                     Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
                             cell.getValueLength()));
         }
-        // ^^ DependentColumnFilterExample
         System.out.println("");
-        // vv DependentColumnFilterExample
     }
 
     public static void main(String[] args) throws IOException {
@@ -69,7 +62,6 @@ public class DependentColumnFilterExample {
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, true, "colfam1", "colfam2");
 
         table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
-        // vv DependentColumnFilterExample
         filter(true, CompareOperator.NO_OP, null);
         filter(false, CompareOperator.NO_OP, null); // co DependentColumnFilterExample-2-Filter Call filter method with various options.
         filter(true, CompareOperator.EQUAL,

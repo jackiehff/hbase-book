@@ -29,9 +29,7 @@ public class QualifierFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ QualifierFilterExample
             System.out.println("Scanning table... ");
-            // vv QualifierFilterExample
             for (Result result : scanner) {
                 System.out.println(result);
             }
@@ -42,6 +40,7 @@ public class QualifierFilterExample {
             Result result = table.get(get);
             System.out.println("Result of get(): " + result);
         }
+
         HBaseUtils.closeConnection();
     }
 }

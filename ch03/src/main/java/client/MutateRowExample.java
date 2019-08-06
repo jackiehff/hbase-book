@@ -40,6 +40,7 @@ public class MutateRowExample {
 
             table.mutateRow(mutations);
         }
+
         System.out.println("After mutate call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();

@@ -83,6 +83,7 @@ public class GetListExample {
                 System.out.println(result);
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

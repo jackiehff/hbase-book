@@ -81,6 +81,7 @@ public class GetClosestRowBeforeExample {
                 System.out.println("Get 4 Cell: " + scanner4.current());
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

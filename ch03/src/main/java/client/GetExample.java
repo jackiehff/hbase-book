@@ -32,6 +32,7 @@ public class GetExample {
             // co GetExample-7-Print Print out the value while converting it back.
             System.out.println("Value: " + Bytes.toString(val));
         }
+
         HBaseUtils.closeConnection();
     }
 }

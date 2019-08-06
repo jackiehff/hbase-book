@@ -31,9 +31,7 @@ public class FirstKeyOnlyFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ FirstKeyOnlyFilterExample
             System.out.println("Results of scan:");
-            // vv FirstKeyOnlyFilterExample
             int rowCount = 0;
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
@@ -46,6 +44,7 @@ public class FirstKeyOnlyFilterExample {
             System.out.println("Total num of rows: " + rowCount);
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

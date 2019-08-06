@@ -38,9 +38,7 @@ public class FirstKeyValueMatchingQualifiersFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ FirstKeyValueMatchingQualifiersFilterExample
             System.out.println("Results of scan:");
-            // vv FirstKeyValueMatchingQualifiersFilterExample
             int rowCount = 0;
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {

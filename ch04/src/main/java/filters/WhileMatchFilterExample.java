@@ -28,7 +28,7 @@ public class WhileMatchFilterExample {
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 1, 2, true, false, "colfam1");
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
-            Filter filter1 = /*[*/new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));/*]*/
+            Filter filter1 = new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes("row-05")));
 
             Scan scan = new Scan();
             scan.setFilter(filter1);
@@ -45,8 +45,7 @@ public class WhileMatchFilterExample {
             }
             scanner1.close();
 
-            Filter filter2 = new /*[*/WhileMatchFilter(filter1);/*]*/
-
+            Filter filter2 = new WhileMatchFilter(filter1);
             scan.setFilter(filter2);
             ResultScanner scanner2 = table.getScanner(scan);
             System.out.println("Total cell count for scan #1: " + n);
@@ -63,6 +62,7 @@ public class WhileMatchFilterExample {
             scanner2.close();
             System.out.println("Total cell count for scan #2: " + n);
         }
+
         HBaseUtils.closeConnection();
     }
 }

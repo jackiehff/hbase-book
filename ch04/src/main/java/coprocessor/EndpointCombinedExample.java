@@ -39,7 +39,6 @@ public class EndpointCombinedExample {
             e.printStackTrace();
         }
 
-
         // wait for the split to be done
         RegionLocator locator = HBaseUtils.getConnection().getRegionLocator(HBaseConstants.TEST_TABLE);
         while (locator.getAllRegionLocations().size() < 2) {

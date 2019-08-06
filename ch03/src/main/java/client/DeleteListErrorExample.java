@@ -43,46 +43,45 @@ public class DeleteListErrorExample {
         System.out.println("Before delete call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3"}, null, null);
 
-        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
+            List<Delete> deletes = new ArrayList<>();
 
-        List<Delete> deletes = new ArrayList<>();
+            Delete delete1 = new Delete(Bytes.toBytes("row1"));
+            delete1.setTimestamp(4);
+            deletes.add(delete1);
 
-        Delete delete1 = new Delete(Bytes.toBytes("row1"));
-        delete1.setTimestamp(4);
-        deletes.add(delete1);
+            Delete delete2 = new Delete(Bytes.toBytes("row2"));
+            delete2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
+            delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), 5);
+            deletes.add(delete2);
 
-        Delete delete2 = new Delete(Bytes.toBytes("row2"));
-        delete2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
-        delete2.addColumns(Bytes.toBytes("colfam2"), Bytes.toBytes("qual3"), 5);
-        deletes.add(delete2);
+            Delete delete3 = new Delete(Bytes.toBytes("row3"));
+            delete3.addFamily(Bytes.toBytes("colfam1"));
+            delete3.addFamily(Bytes.toBytes("colfam2"), 3);
+            deletes.add(delete3);
 
-        Delete delete3 = new Delete(Bytes.toBytes("row3"));
-        delete3.addFamily(Bytes.toBytes("colfam1"));
-        delete3.addFamily(Bytes.toBytes("colfam2"), 3);
-        deletes.add(delete3);
+            Delete delete4 = new Delete(Bytes.toBytes("row2"));
 
-        Delete delete4 = new Delete(Bytes.toBytes("row2"));
+            // co DeleteListErrorExample-1-DelColNoTS Add bogus column family to trigger an error.
+            delete4.addColumn(Bytes.toBytes("BOGUS"), Bytes.toBytes("qual1"));
+            deletes.add(delete4);
 
-        // co DeleteListErrorExample-1-DelColNoTS Add bogus column family to trigger an error.
-        delete4.addColumn(Bytes.toBytes("BOGUS"), Bytes.toBytes("qual1"));
-        deletes.add(delete4);
+            try {
+                // co DeleteListErrorExample-2-DoDel Delete the data from multiple rows the HBase table.
+                table.delete(deletes);
+            } catch (Exception e) {
+                // co DeleteListErrorExample-3-Catch Guard against remote exceptions.
+                System.err.println("Error: " + e);
+            }
 
-        try {
-            // co DeleteListErrorExample-2-DoDel Delete the data from multiple rows the HBase table.
-            table.delete(deletes);
-        } catch (Exception e) {
-            // co DeleteListErrorExample-3-Catch Guard against remote exceptions.
-            System.err.println("Error: " + e);
+            // co DeleteListErrorExample-4-CheckSize Check the length of the list after the call.
+            System.out.println("Deletes length: " + deletes.size());
+            for (Delete delete : deletes) {
+                // co DeleteListErrorExample-5-Dump Print out failed delete for debugging purposes.
+                System.out.println(delete);
+            }
         }
 
-        // co DeleteListErrorExample-4-CheckSize Check the length of the list after the call.
-        System.out.println("Deletes length: " + deletes.size());
-        for (Delete delete : deletes) {
-            // co DeleteListErrorExample-5-Dump Print out failed delete for debugging purposes.
-            System.out.println(delete);
-        }
-
-        table.close();
         System.out.println("After delete call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3"}, null, null);
         HBaseUtils.closeConnection();

@@ -44,6 +44,7 @@ public class PutListErrorExample2 {
                 // co PutListErrorExample2-2-Catch Catch local exception and commit queued updates.
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

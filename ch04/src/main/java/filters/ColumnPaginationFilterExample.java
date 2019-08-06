@@ -29,9 +29,7 @@ public class ColumnPaginationFilterExample {
             Scan scan = new Scan();
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ ColumnPaginationFilterExample
             System.out.println("Results of scan:");
-            // vv ColumnPaginationFilterExample
             for (Result result : scanner) {
                 System.out.println(result);
             }

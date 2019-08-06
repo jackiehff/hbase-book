@@ -74,6 +74,7 @@ public class BatchCallbackExample {
                         results[i].getClass().getSimpleName() + "; " + results[i]);
             }
         }
+
         System.out.println("After batch call...");
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2"}, null, null);
         HBaseUtils.closeConnection();

@@ -48,6 +48,7 @@ public class GetMaxResultsRowOffsetExample1 {
                 System.out.println("Get 2 Cell: " + scanner2.current());
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

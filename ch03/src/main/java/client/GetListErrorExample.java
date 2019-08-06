@@ -52,6 +52,7 @@ public class GetListErrorExample {
             // co GetListErrorExample-4-SOUT This line will never reached!
             System.out.println("Result count: " + results.length);
         }
+
         HBaseUtils.closeConnection();
     }
 }

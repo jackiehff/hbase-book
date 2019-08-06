@@ -27,9 +27,6 @@ public class CheckAndMutateExample {
         HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
-            //BinaryComparator bc = new BinaryComparator(Bytes.toBytes("val1"));
-            //System.out.println(bc.compareTo(Bytes.toBytes("val2")));
-
             Put put = new Put(Bytes.toBytes("row1"));
             put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
                     4, Bytes.toBytes("val99"));
@@ -62,10 +59,10 @@ public class CheckAndMutateExample {
                     .ifMatches(CompareOperator.LESS, Bytes.toBytes("val1"))
                     .thenMutate(mutations);
             System.out.println("Mutate 2 successful: " + res2);
-
-            System.out.println("After check and mutate calls...");
-            HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         }
+
+        System.out.println("After check and mutate calls...");
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();
     }
 }

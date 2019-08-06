@@ -37,6 +37,7 @@ public class PutListErrorExample1 {
             // co PutListErrorExample1-2-DoPut Store multiple rows with columns into HBase.
             table.put(puts);
         }
+
         HBaseUtils.closeConnection();
     }
 }

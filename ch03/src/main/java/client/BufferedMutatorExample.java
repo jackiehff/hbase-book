@@ -3,7 +3,6 @@ package client;
 import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.BufferedMutator;
 import org.apache.hadoop.hbase.client.BufferedMutatorParams;
-import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
@@ -47,11 +46,7 @@ public class BufferedMutatorExample {
         // co BufferedMutatorExample-04-Params Create a parameter instance, set the table name and custom listener reference.
         BufferedMutatorParams params = new BufferedMutatorParams(HBaseConstants.TEST_TABLE).listener(listener);
 
-        try (
-                // co BufferedMutatorExample-05-Allocate Allocate the shared resources using the Java 7 try-with-resource pattern.
-                Connection conn = HBaseUtils.getConnection();
-                BufferedMutator mutator = conn.getBufferedMutator(params)
-        ) {
+        try (BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(params)) {
             // co BufferedMutatorExample-06-Pool Create a worker pool to update the shared mutator in parallel.
             ExecutorService workerPool = Executors.newFixedThreadPool(POOL_SIZE);
             List<Future<Void>> futures = new ArrayList<>(TASK_COUNT);
@@ -76,7 +71,7 @@ public class BufferedMutatorExample {
             }
             workerPool.shutdown();
         } catch (IOException e) { // co BufferedMutatorExample-10-ImplicitClose The try-with-resource construct ensures that first the mutator, and then the connection are closed. This could trigger exceptions and call the custom listener.
-            LOGGER.info("Exception while creating or freeing resources", e);
+            LOGGER.error("Exception while creating or freeing resources", e);
         }
     }
 }

@@ -23,12 +23,10 @@ import static org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
 public class MultiRowRangeFilterExample {
 
     public static void main(String[] args) throws IOException {
-//    if (!HBaseUtils.existsTable("testtable")) {
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 10, 3, false, "colfam1");
-//    }
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             List<RowRange> ranges = new ArrayList<>();
@@ -45,9 +43,7 @@ public class MultiRowRangeFilterExample {
             scan.setFilter(filter);
 
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ MultiRowRangeFilterExample
             System.out.println("Results of scan:");
-            // vv MultiRowRangeFilterExample
             int numRows = 0;
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
@@ -57,11 +53,10 @@ public class MultiRowRangeFilterExample {
                 }
                 numRows++;
             }
-            // ^^ MultiRowRangeFilterExample
             System.out.println("Number of rows: " + numRows);
-            // vv MultiRowRangeFilterExample
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

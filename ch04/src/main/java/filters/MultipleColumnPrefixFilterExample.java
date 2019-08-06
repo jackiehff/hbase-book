@@ -33,9 +33,7 @@ public class MultipleColumnPrefixFilterExample {
                     .setRowPrefixFilter(Bytes.toBytes("row-1")) // co MultipleColumnPrefixFilterExample-1-Row Limit to rows starting with a specific prefix.
                     .setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ MultipleColumnPrefixFilterExample
             System.out.println("Results of scan:");
-            // vv MultipleColumnPrefixFilterExample
             for (Result result : scanner) {
                 System.out.print(Bytes.toString(result.getRow()) + ": ");
                 for (Cell cell : result.rawCells()) {
@@ -46,6 +44,7 @@ public class MultipleColumnPrefixFilterExample {
             }
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

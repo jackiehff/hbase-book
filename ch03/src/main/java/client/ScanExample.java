@@ -84,6 +84,7 @@ public class ScanExample {
             }
             scanner5.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

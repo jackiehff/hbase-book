@@ -30,15 +30,14 @@ public class RandomRowFilterExample {
                 Scan scan = new Scan();
                 scan.setFilter(filter);
                 ResultScanner scanner = table.getScanner(scan);
-                // ^^ RandomRowFilterExample
                 System.out.println("Results of scan for loop: " + loop);
-                // vv RandomRowFilterExample
                 for (Result result : scanner) {
                     System.out.println(Bytes.toString(result.getRow()));
                 }
                 scanner.close();
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

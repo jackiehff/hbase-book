@@ -32,9 +32,7 @@ public class ValueFilterExample {
             // co ValueFilterExample-2-SetFilter Set filter for the scan.
             scan.setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ ValueFilterExample
             System.out.println("Results of scan:");
-            // vv ValueFilterExample
             for (Result result : scanner) {
                 for (Cell cell : result.rawCells()) {
                     // co ValueFilterExample-3-Print1 Print out value to check that filter works.
@@ -55,6 +53,7 @@ public class ValueFilterExample {
                                 cell.getValueLength()));
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

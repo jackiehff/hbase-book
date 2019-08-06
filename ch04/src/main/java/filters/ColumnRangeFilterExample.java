@@ -26,20 +26,18 @@ public class ColumnRangeFilterExample {
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             Filter filter = new ColumnRangeFilter(Bytes.toBytes("col-05"), true,
                     Bytes.toBytes("col-11"), false);
-
             Scan scan = new Scan()
                     .withStartRow(Bytes.toBytes("row-03"))
                     .withStopRow(Bytes.toBytes("row-05"))
                     .setFilter(filter);
             ResultScanner scanner = table.getScanner(scan);
-            // ^^ ColumnRangeFilterExample
             System.out.println("Results of scan:");
-            // vv ColumnRangeFilterExample
             for (Result result : scanner) {
                 System.out.println(result);
             }
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }

@@ -37,7 +37,6 @@ public class ValueNotNullFilterExample {
                     .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-3"));
             table.delete(delete);
 
-            // vv ValueNotNullFilterExample
             SingleColumnValueFilter filter = new SingleColumnValueFilter(
                     Bytes.toBytes("colfam1"), Bytes.toBytes("col-6"),
                     CompareOperator.NOT_EQUAL, new NullComparator());
@@ -65,6 +64,7 @@ public class ValueNotNullFilterExample {
             }
             scanner.close();
         }
+
         HBaseUtils.closeConnection();
     }
 }
