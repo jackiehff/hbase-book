@@ -1,6 +1,6 @@
 package client;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -13,13 +13,12 @@ import java.io.IOException;
 public class PutWriteBufferExample1 {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
-        TableName name = TableName.valueOf("testtable");
-        Table table = HBaseUtils.getTable(name);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // co PutWriteBufferExample1-1-CheckFlush Get a mutator instance for the table.
-        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(name);
+        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(HBaseConstants.TEST_TABLE);
 
         Put put1 = new Put(Bytes.toBytes("row1"));
         put1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));

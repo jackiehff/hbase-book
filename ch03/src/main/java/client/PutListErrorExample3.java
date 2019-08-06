@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
 import org.apache.hadoop.hbase.client.Table;
@@ -17,10 +18,10 @@ public class PutListErrorExample3 {
 
     public static void main(String[] args) throws IOException {
         try (
-                Table table = HBaseUtils.getTable("testtable")
+                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
         ) {
-            HBaseUtils.dropTable("testtable");
-            HBaseUtils.createTable("testtable", "colfam1");
+            HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
             List<Put> puts = new ArrayList<>();
 
             Put put1 = new Put(Bytes.toBytes("row1"));

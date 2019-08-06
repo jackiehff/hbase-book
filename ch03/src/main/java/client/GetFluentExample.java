@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
@@ -14,17 +15,17 @@ import java.io.IOException;
 public class GetFluentExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 5, "colfam1", "colfam2");
-        HBaseUtils.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 5, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2"},
                 new long[]{1, 2, 3, 4},
                 new String[]{"val1", "val1", "val2", "val2"});
         System.out.println("Before get call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
-        Table table = HBaseUtils.getTable("testtable");
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co GetFluentExample-1-Create Create a new get using the fluent interface.
         Get get = new Get(Bytes.toBytes("row1"))

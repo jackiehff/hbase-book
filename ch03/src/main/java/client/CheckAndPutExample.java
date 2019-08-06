@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
@@ -14,10 +15,10 @@ import java.io.IOException;
 public class CheckAndPutExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
-        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // Create a new Put instance.
         Put put1 = new Put(Bytes.toBytes("row1"));

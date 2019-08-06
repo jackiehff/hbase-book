@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -15,12 +16,12 @@ import java.io.IOException;
 public class ScanTimeoutExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 10, 10, "colfam1", "colfam2");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1", "colfam2");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         Scan scan = new Scan();
         ResultScanner scanner = table.getScanner(scan);

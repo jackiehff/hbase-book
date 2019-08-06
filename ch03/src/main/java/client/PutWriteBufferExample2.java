@@ -1,6 +1,6 @@
 package client;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -15,12 +15,12 @@ import java.util.List;
 public class PutWriteBufferExample2 {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
-        TableName name = TableName.valueOf("testtable");
-        Table table = HBaseUtils.getTable(name);
-        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(name);
+        //TableName name = TableName.valueOf("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
+        BufferedMutator mutator = HBaseUtils.getConnection().getBufferedMutator(HBaseConstants.TEST_TABLE);
 
         // co PutWriteBufferExample2-1-DoPut Create a list to hold all mutations.
         List<Mutation> mutations = new ArrayList<>();

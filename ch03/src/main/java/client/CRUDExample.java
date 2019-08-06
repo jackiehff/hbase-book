@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -12,11 +13,11 @@ import java.io.IOException;
 public class CRUDExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
 
         try (
-                Table table = HBaseUtils.getTable("testtable")
+                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
         ) {
             // Put操作
             Put put = new Put(Bytes.toBytes("row1"));

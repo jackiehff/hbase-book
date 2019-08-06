@@ -13,7 +13,9 @@ import util.HBaseUtils;
 
 import java.io.IOException;
 
-// cc RestExample Example of using the REST client classes
+/**
+ * RestExample Example of using the REST client classes
+ */
 public class RestExample {
 
     public static void main(String[] args) throws IOException {

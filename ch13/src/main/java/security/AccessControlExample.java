@@ -1,5 +1,6 @@
 package security;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -30,19 +31,17 @@ public class AccessControlExample {
         AuthenticatedUser app1 = new AuthenticatedUser(
                 "app1user1@HBASE.BOOK", "/tmp/app1user1.keytab", "Application");
 
-        tableName = TableName.valueOf("testtable");
+        tableName = HBaseConstants.TEST_TABLE;
         // ^^ AccessControlExample
 
         System.out.println("Superuser: Preparing table and data...");
         superuser.doAs((PrivilegedExceptionAction<Void>) () -> {
             Configuration conf = superuser.getConfiguration();
-
-            HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
-            HBaseUtils.dropTable("testtable");
-            HBaseUtils.createTable("testtable", "colfam1", "colfam2");
+            HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
 
             System.out.println("Adding rows to table...");
-            HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1", "colfam2");
+            HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 100, "colfam1", "colfam2");
             HBaseUtils.closeConnection();
             return null;
         });

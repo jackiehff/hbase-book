@@ -1,13 +1,13 @@
 package client;
 
 import constant.HBaseConstants;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.client.BufferedMutator;
 import org.apache.hadoop.hbase.client.BufferedMutatorParams;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.HBaseUtils;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BufferedMutatorExample {
 
-    private static final Log LOG = LogFactory.getLog(BufferedMutatorExample.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BufferedMutatorExample.class);
 
     private static final int POOL_SIZE = 10;
     private static final int TASK_COUNT = 100;
@@ -40,7 +40,7 @@ public class BufferedMutatorExample {
                     // co BufferedMutatorExample-02-OnException Handle callback in case of an exception.
                     for (int i = 0; i < e.getNumExceptions(); i++) {
                         // co BufferedMutatorExample-03-PrintRow Generically retrieve the mutation that failed, using the common superclass.
-                        LOG.info("Failed to send put: " + e.getRow(i));
+                        LOGGER.info("Failed to send put: " + e.getRow(i));
                     }
                 };
 
@@ -76,7 +76,7 @@ public class BufferedMutatorExample {
             }
             workerPool.shutdown();
         } catch (IOException e) { // co BufferedMutatorExample-10-ImplicitClose The try-with-resource construct ensures that first the mutator, and then the connection are closed. This could trigger exceptions and call the custom listener.
-            LOG.info("Exception while creating or freeing resources", e);
+            LOGGER.info("Exception while creating or freeing resources", e);
         }
     }
 }

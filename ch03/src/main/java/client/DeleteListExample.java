@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -15,30 +16,30 @@ import java.util.List;
 public class DeleteListExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 100, "colfam1", "colfam2");
-        HBaseUtils.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
-        HBaseUtils.put("testtable",
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row2"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
-        HBaseUtils.put("testtable",
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row3"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val2", "val3", "val4", "val5", "val6"});
         System.out.println("Before delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3"}, null, null);
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co DeleteListExample-1-CreateList Create a list that holds the Delete instances.
         List<Delete> deletes = new ArrayList<>();
@@ -67,7 +68,7 @@ public class DeleteListExample {
 
         table.close();
         System.out.println("After delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1", "row2", "row3"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3"}, null, null);
         HBaseUtils.closeConnection();
     }
 }

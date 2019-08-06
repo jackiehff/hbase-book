@@ -1,5 +1,6 @@
 package datatasks;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.TableName;
@@ -9,7 +10,9 @@ import util.HBaseUtils;
 
 import java.io.IOException;
 
-// cc RenameTableExample An example how to rename a table using the API.
+/**
+ * RenameTableExample An example how to rename a table using the API.
+ */
 public class RenameTableExample {
 
     // vv RenameTableExample
@@ -46,22 +49,20 @@ public class RenameTableExample {
     }
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 100, "colfam1");
         // vv RenameTableExample
         Admin admin = HBaseUtils.getConnection().getAdmin();
-        TableName name = TableName.valueOf("testtable");
 
         // co RenameTableExample-07-Test1 Check the content of the original table. The HBaseUtils method (see full source code) prints the first value of the first row.
-        Table table = HBaseUtils.getTable(name);
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         printFirstValue(table);
 
         TableName rename = TableName.valueOf("newtesttable");
         // co RenameTableExample-08-Rename Rename the table calling the above method.
-        renameTable(admin, name, rename);
+        renameTable(admin, HBaseConstants.TEST_TABLE, rename);
 
         // co RenameTableExample-09-Test2 Perform another check on the new table to see if we get the same first value of the first row back.
         Table newTable = HBaseUtils.getTable(rename);

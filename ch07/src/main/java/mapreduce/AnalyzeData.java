@@ -25,7 +25,9 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.IOException;
 
-// cc AnalyzeData MapReduce job that reads the imported data and analyzes it.
+/**
+ * AnalyzeData MapReduce job that reads the imported data and analyzes it.
+ */
 public class AnalyzeData {
 
     public static final String NAME = "AnalyzeData";

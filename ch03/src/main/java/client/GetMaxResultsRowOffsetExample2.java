@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Get;
@@ -15,10 +16,10 @@ import util.HBaseUtils;
 public class GetMaxResultsRowOffsetExample2 {
 
     public static void main(String[] args) throws Exception {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 3, "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1");
 
-        Table table = HBaseUtils.getTable(TableName.valueOf("testtable"));
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co GetMaxResultsRowOffsetExample2-1-Loop Insert three versions of each column.
         for (int version = 1; version <= 3; version++) {

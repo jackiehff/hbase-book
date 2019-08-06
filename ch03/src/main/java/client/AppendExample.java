@@ -16,7 +16,7 @@ public class AppendExample {
     public static void main(String[] args) throws IOException {
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
-        HBaseUtils.put("testtable",
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1"},
                 new String[]{"qual1"},

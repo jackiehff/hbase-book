@@ -1,6 +1,6 @@
 package client;
 
-import org.apache.hadoop.hbase.TableName;
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
@@ -44,12 +44,11 @@ public class ScanSlicingExample {
     }
 
     public static void main(String[] args) throws IOException {
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1", "colfam2");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, 2, true, "colfam1", "colfam2");
 
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1", "colfam2");
-        HBaseUtils.fillTable("testtable", 1, 10, 10, 2, true, "colfam1", "colfam2");
-
-        table = HBaseUtils.getTable(TableName.valueOf("testtable"));
+        table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         scan(1, 11, 0, 0, 2, -1, true);
         scan(2, 11, 0, 4, 2, -1, true);

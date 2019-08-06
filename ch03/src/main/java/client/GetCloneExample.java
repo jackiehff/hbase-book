@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
@@ -14,10 +15,10 @@ import java.io.IOException;
 public class GetCloneExample {
 
     public static void main(String[] args) throws IOException {
-        if (!HBaseUtils.existsTable("testtable")) {
-            HBaseUtils.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         Get get1 = new Get(Bytes.toBytes("row1"));
         get1.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));

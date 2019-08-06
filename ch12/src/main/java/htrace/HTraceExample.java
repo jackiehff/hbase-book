@@ -1,8 +1,8 @@
 package htrace;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.trace.SpanReceiverHost;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -20,7 +20,9 @@ import java.util.Map;
 //import org.apache.htrace.TraceScope;
 //import org.apache.htrace.impl.ProbabilitySampler;
 
-// cc HTraceExample Shows the use of the HBase HTrace integration
+/**
+ * HTraceExample Shows the use of the HBase HTrace integration
+ */
 public class HTraceExample {
 
     // vv HTraceExample
@@ -29,11 +31,10 @@ public class HTraceExample {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Configuration conf = HBaseConfiguration.create();
-        HBaseUtils HBaseUtils = HBaseUtils.getHBaseUtils(conf);
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable("testtable", 1, 100, 100, "colfam1");
+        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 100, 100, "colfam1");
 
         // vv HTraceExample
         Map<String, String> configMap = new HashMap<>();
@@ -60,11 +61,11 @@ public class HTraceExample {
         }
 
         Admin admin = connection.getAdmin();
-        admin.flush(TableName.valueOf("testtable"));
+        admin.flush(HBaseConstants.TEST_TABLE);
         Thread.sleep(3000);
 
         // vv HTraceExample
-        Table table = connection.getTable(TableName.valueOf("testtable"));
+        Table table = connection.getTable(HBaseConstants.TEST_TABLE);
 
         Tracer tracer1 = new Tracer.Builder("Get Trace").build();
         TraceScope ts1 = tracer1.newScope("Get Trace"); // co HTraceExample-2-Start Start a span, giving it a name and sample rate.
@@ -98,7 +99,8 @@ public class HTraceExample {
             Scan scan = new Scan();
             scan.setCaching(1); // co HTraceExample-7-OneRow The scan performs a separate RPC call for each row it retrieves, creating a span for every row.
             ResultScanner scanner = table.getScanner(scan);
-            while (scanner.next() != null){}
+            while (scanner.next() != null) {
+            }
             scanner.close();
         } finally {
             ts2.close();

@@ -13,7 +13,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Map;
 
-// cc ThriftExample Example using the Thrift generated client API
+/**
+ * ThriftExample Example using the Thrift generated client API
+ */
 public class ThriftExample {
     // vv ThriftExample
     private static final byte[] TABLE = Bytes.toBytes("testtable");

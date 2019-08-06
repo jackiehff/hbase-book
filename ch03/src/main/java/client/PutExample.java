@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -14,9 +15,9 @@ public class PutExample {
 
     public static void main(String[] args) throws IOException {
         // Create the required configuration.
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
-        Table table = HBaseUtils.getTable("testtable");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // Create put with specific row.
         Put put = new Put(Bytes.toBytes("row1"));

@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -12,19 +13,18 @@ import java.io.IOException;
 public class MutateRowExample {
 
     public static void main(String[] args) throws IOException {
-
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 3, "colfam1");
-        HBaseUtils.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 3, "colfam1");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1"},
                 new String[]{"qual1", "qual2", "qual3"},
                 new long[]{1, 2, 3},
                 new String[]{"val1", "val2", "val3"});
         System.out.println("Before delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         Put put = new Put(Bytes.toBytes("row1"));
         put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
@@ -43,7 +43,7 @@ public class MutateRowExample {
 
         table.close();
         System.out.println("After mutate call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();
     }
 }

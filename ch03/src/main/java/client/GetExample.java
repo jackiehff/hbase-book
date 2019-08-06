@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
@@ -16,11 +17,11 @@ public class GetExample {
     public static void main(String[] args) throws IOException {
         // co GetExample-1-CreateConf Create the configuration.
 
-        if (!HBaseUtils.existsTable("testtable")) {
-            HBaseUtils.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
         // co GetExample-2-NewTable Instantiate a new table reference.
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
         // co GetExample-3-NewGet Create get with specific row.
         Get get = new Get(Bytes.toBytes("row1"));
         // co GetExample-4-AddCol Add a column to the get.

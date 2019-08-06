@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.client.Get;
@@ -18,11 +19,11 @@ import java.util.List;
 public class GetListExample {
 
     public static void main(String[] args) throws IOException {
-        if (!HBaseUtils.existsTable("testtable")) {
-            HBaseUtils.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         byte[] cf1 = Bytes.toBytes("colfam1");
         byte[] qf1 = Bytes.toBytes("qual1");

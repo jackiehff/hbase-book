@@ -1,6 +1,7 @@
 package client;
 
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -14,18 +15,18 @@ import java.io.IOException;
 public class CheckAndMutateExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 100, "colfam1", "colfam2");
-        HBaseUtils.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual2", "qual3"},
                 new long[]{1, 2, 3},
                 new String[]{"val1", "val2", "val3"});
         System.out.println("Before check and mutate calls...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         //BinaryComparator bc = new BinaryComparator(Bytes.toBytes("val1"));
         //System.out.println(bc.compareTo(Bytes.toBytes("val2")));
@@ -64,7 +65,7 @@ public class CheckAndMutateExample {
         System.out.println("Mutate 2 successful: " + res2);
 
         System.out.println("After check and mutate calls...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         table.close();
         HBaseUtils.closeConnection();
     }

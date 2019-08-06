@@ -7,9 +7,13 @@ import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.coprocessor.MasterCoprocessorEnvironment;
 import org.apache.hadoop.hbase.coprocessor.MasterObserver;
 import org.apache.hadoop.hbase.coprocessor.RegionObserver;
+import org.apache.hadoop.hbase.master.HMaster;
+import org.apache.hadoop.hbase.master.MasterServices;
+import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -43,6 +47,13 @@ public class DelayingMasterObserver implements MasterObserver {
     @Override
     public void start(CoprocessorEnvironment ctx) {
         MasterCoprocessorEnvironment env = (MasterCoprocessorEnvironment) ctx;
-        env.getServerName().getAssignmentManager().registerListener(this);
+        try {
+            MasterServices masterServices = new HMaster(ctx.getConfiguration());
+            masterServices.getAssignmentManager().registerListener(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (KeeperException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
@@ -18,10 +19,10 @@ import java.util.List;
 public class GetClosestRowBeforeExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", "colfam1");
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         List<Put> puts = new ArrayList<>();
         Put put1 = new Put(Bytes.toBytes("row1"));
@@ -49,7 +50,7 @@ public class GetClosestRowBeforeExample {
         Get get2 = new Get(Bytes.toBytes("row3"));
         get2.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
         // co GetClosestRowBeforeExample-2-Get2 Instruct the get() call to fall back to the previous row, if necessary.
-        get2.setClosestRowBefore(true);
+        //get2.setClosestRowBefore(true);
         Result result2 = table.get(get2);
 
         System.out.println("Get 2 isEmpty: " + result2.isEmpty());
@@ -61,7 +62,7 @@ public class GetClosestRowBeforeExample {
         // co GetClosestRowBeforeExample-3-Get3 Attempt to read a row that exists.
         Get get3 = new Get(Bytes.toBytes("row2"));
         get3.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
-        get3.setClosestRowBefore(true);
+        //get3.setClosestRowBefore(true);
         Result result3 = table.get(get3);
 
         System.out.println("Get 3 isEmpty: " + result3.isEmpty());

@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -13,18 +14,18 @@ import java.io.IOException;
 public class DeleteExample {
 
     public static void main(String[] args) throws IOException {
-        HBaseUtils.dropTable("testtable");
-        HBaseUtils.createTable("testtable", 100, "colfam1", "colfam2");
-        HBaseUtils.put("testtable",
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
+        HBaseUtils.put(HBaseConstants.TEST_TABLE,
                 new String[]{"row1"},
                 new String[]{"colfam1", "colfam2"},
                 new String[]{"qual1", "qual1", "qual2", "qual2", "qual3", "qual3"},
                 new long[]{1, 2, 3, 4, 5, 6},
                 new String[]{"val1", "val1", "val2", "val2", "val3", "val3"});
         System.out.println("Before delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
 
-        Table table = HBaseUtils.getTable("testtable");
+        Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE);
 
         // co DeleteExample-1-NewDel Create delete with specific row.
         Delete delete = new Delete(Bytes.toBytes("row1"));
@@ -48,7 +49,7 @@ public class DeleteExample {
 
         table.close();
         System.out.println("After delete call...");
-        HBaseUtils.dump("testtable", new String[]{"row1"}, null, null);
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1"}, null, null);
         HBaseUtils.closeConnection();
     }
 }

@@ -1,5 +1,6 @@
 package client;
 
+import constant.HBaseConstants;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
@@ -16,13 +17,13 @@ public class GetTryWithResourcesExample {
     public static void main(String[] args) throws IOException {
         // co GetTryWithResourcesExample-1-CreateConf Create the configuration.
 
-        if (!HBaseUtils.existsTable("testtable")) {
-            HBaseUtils.createTable("testtable", "colfam1");
+        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
+            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
         }
 
         try (
                 // co GetTryWithResourcesExample-2-NewTable Instantiate a new table reference in "try" block.
-                Table table = HBaseUtils.getTable("testtable")
+                Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)
         ) {
             Get get = new Get(Bytes.toBytes("row1"));
             get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
