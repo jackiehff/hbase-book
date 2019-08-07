@@ -29,12 +29,12 @@ public class RandomRowFilterExample {
             for (int loop = 1; loop <= 3; loop++) {
                 Scan scan = new Scan();
                 scan.setFilter(filter);
-                ResultScanner scanner = table.getScanner(scan);
-                System.out.println("Results of scan for loop: " + loop);
-                for (Result result : scanner) {
-                    System.out.println(Bytes.toString(result.getRow()));
+                try (ResultScanner scanner = table.getScanner(scan)) {
+                    System.out.println("Results of scan for loop: " + loop);
+                    for (Result result : scanner) {
+                        System.out.println(Bytes.toString(result.getRow()));
+                    }
                 }
-                scanner.close();
             }
         }
 

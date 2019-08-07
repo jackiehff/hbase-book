@@ -27,12 +27,12 @@ public class ColumnPrefixFilterExample {
             Filter filter = new ColumnPrefixFilter(Bytes.toBytes("col-1"));
             Scan scan = new Scan();
             scan.setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            for (Result result : scanner) {
-                System.out.println(result);
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                for (Result result : scanner) {
+                    System.out.println(result);
+                }
             }
-            scanner.close();
         }
         HBaseUtils.closeConnection();
     }

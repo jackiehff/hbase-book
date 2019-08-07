@@ -23,20 +23,20 @@ public class KeyOnlyFilterExample {
     private static void scan(Filter filter) throws IOException {
         Scan scan = new Scan();
         scan.setFilter(filter);
-        ResultScanner scanner = table.getScanner(scan);
-        System.out.println("Results of scan:");
-        int rowCount = 0;
-        for (Result result : scanner) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " + (
-                        cell.getValueLength() > 0 ?
-                                Bytes.toInt(cell.getValueArray(), cell.getValueOffset(),
-                                        cell.getValueLength()) : "n/a"));
+        try (ResultScanner scanner = table.getScanner(scan)) {
+            System.out.println("Results of scan:");
+            int rowCount = 0;
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " + (
+                            cell.getValueLength() > 0 ?
+                                    Bytes.toInt(cell.getValueArray(), cell.getValueOffset(),
+                                            cell.getValueLength()) : "n/a"));
+                }
+                rowCount++;
             }
-            rowCount++;
+            System.out.println("Total num of rows: " + rowCount);
         }
-        System.out.println("Total num of rows: " + rowCount);
-        scanner.close();
     }
 
     public static void main(String[] args) throws IOException {

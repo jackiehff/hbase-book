@@ -39,15 +39,16 @@ public class PageFilterExample {
                             Bytes.toStringBinary(startRow));
                     scan.withStartRow(startRow);
                 }
-                ResultScanner scanner = table.getScanner(scan);
+
                 int localRows = 0;
-                Result result;
-                while ((result = scanner.next()) != null) {
-                    System.out.println(localRows++ + ": " + result);
-                    totalRows++;
-                    lastRow = result.getRow();
+                try (ResultScanner scanner = table.getScanner(scan)) {
+                    Result result;
+                    while ((result = scanner.next()) != null) {
+                        System.out.println(localRows++ + ": " + result);
+                        totalRows++;
+                        lastRow = result.getRow();
+                    }
                 }
-                scanner.close();
                 if (localRows == 0) {
                     break;
                 }

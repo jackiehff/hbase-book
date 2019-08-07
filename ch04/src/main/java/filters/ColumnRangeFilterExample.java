@@ -30,12 +30,12 @@ public class ColumnRangeFilterExample {
                     .withStartRow(Bytes.toBytes("row-03"))
                     .withStopRow(Bytes.toBytes("row-05"))
                     .setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            for (Result result : scanner) {
-                System.out.println(result);
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                for (Result result : scanner) {
+                    System.out.println(result);
+                }
             }
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();

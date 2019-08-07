@@ -53,16 +53,16 @@ public class ValueNotNullFilterExample {
             Scan scan = new Scan();
             scan.setFilter(list);
 
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            for (Result result : scanner) {
-                for (Cell cell : result.rawCells()) {
-                    System.out.println("Cell: " + cell + ", Value: " +
-                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                    cell.getValueLength()));
+            try(ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                for (Result result : scanner) {
+                    for (Cell cell : result.rawCells()) {
+                        System.out.println("Cell: " + cell + ", Value: " +
+                                Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                        cell.getValueLength()));
+                    }
                 }
             }
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();

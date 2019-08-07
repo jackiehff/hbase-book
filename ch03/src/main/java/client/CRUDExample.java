@@ -1,7 +1,6 @@
 package client;
 
 import constant.HBaseConstants;
-import org.apache.hadoop.hbase.CellScanner;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import util.HBaseUtils;
@@ -26,10 +25,11 @@ public class CRUDExample {
 
             // Scan 操作
             Scan scan = new Scan();
-            ResultScanner scanner = table.getScanner(scan);
-            for (Result result : scanner) {
-                while (result.advance()) {
-                    System.out.println("Cell: " + result.current());
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                for (Result result : scanner) {
+                    while (result.advance()) {
+                        System.out.println("Cell: " + result.current());
+                    }
                 }
             }
 

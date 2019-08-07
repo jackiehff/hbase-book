@@ -30,19 +30,19 @@ public class FirstKeyOnlyFilterExample {
 
             Scan scan = new Scan();
             scan.setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            int rowCount = 0;
-            for (Result result : scanner) {
-                for (Cell cell : result.rawCells()) {
-                    System.out.println("Cell: " + cell + ", Value: " +
-                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                    cell.getValueLength()));
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                int rowCount = 0;
+                for (Result result : scanner) {
+                    for (Cell cell : result.rawCells()) {
+                        System.out.println("Cell: " + cell + ", Value: " +
+                                Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                        cell.getValueLength()));
+                    }
+                    rowCount++;
                 }
-                rowCount++;
+                System.out.println("Total num of rows: " + rowCount);
             }
-            System.out.println("Total num of rows: " + rowCount);
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();

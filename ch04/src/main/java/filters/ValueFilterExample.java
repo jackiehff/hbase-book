@@ -31,16 +31,16 @@ public class ValueFilterExample {
             Scan scan = new Scan();
             // co ValueFilterExample-2-SetFilter Set filter for the scan.
             scan.setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            for (Result result : scanner) {
-                for (Cell cell : result.rawCells()) {
-                    // co ValueFilterExample-3-Print1 Print out value to check that filter works.
-                    System.out.println("Cell: " + cell + ", Value: " + Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                            cell.getValueLength()));
+            try(ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                for (Result result : scanner) {
+                    for (Cell cell : result.rawCells()) {
+                        // co ValueFilterExample-3-Print1 Print out value to check that filter works.
+                        System.out.println("Cell: " + cell + ", Value: " + Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                cell.getValueLength()));
+                    }
                 }
             }
-            scanner.close();
 
             Get get = new Get(Bytes.toBytes("row-5"));
             // co ValueFilterExample-4-SetFilter2 Assign same filter to Get instance.

@@ -42,19 +42,19 @@ public class MultiRowRangeFilterExample {
             Scan scan = new Scan().withStartRow(Bytes.toBytes("row-005")).withStopRow(Bytes.toBytes("row-110"));
             scan.setFilter(filter);
 
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            int numRows = 0;
-            for (Result result : scanner) {
-                for (Cell cell : result.rawCells()) {
-                    System.out.println("Cell: " + cell + ", Value: " +
-                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                    cell.getValueLength()));
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                int numRows = 0;
+                for (Result result : scanner) {
+                    for (Cell cell : result.rawCells()) {
+                        System.out.println("Cell: " + cell + ", Value: " +
+                                Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                        cell.getValueLength()));
+                    }
+                    numRows++;
                 }
-                numRows++;
+                System.out.println("Number of rows: " + numRows);
             }
-            System.out.println("Number of rows: " + numRows);
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();

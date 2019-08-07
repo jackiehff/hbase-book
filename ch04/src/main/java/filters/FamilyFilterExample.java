@@ -29,12 +29,12 @@ public class FamilyFilterExample {
 
             Scan scan = new Scan();
             scan.setFilter(filter1);
-            ResultScanner scanner = table.getScanner(scan); // co FamilyFilterExample-2-Scan Scan over table while applying the filter.
-            System.out.println("Scanning table... ");
-            for (Result result : scanner) {
-                System.out.println(result);
+            try(ResultScanner scanner = table.getScanner(scan)) { // co FamilyFilterExample-2-Scan Scan over table while applying the filter.
+                System.out.println("Scanning table... ");
+                for (Result result : scanner) {
+                    System.out.println(result);
+                }
             }
-            scanner.close();
 
             Get get1 = new Get(Bytes.toBytes("row-5"));
             get1.setFilter(filter1);

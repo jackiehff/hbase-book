@@ -28,12 +28,12 @@ public class QualifierFilterExample {
 
             Scan scan = new Scan();
             scan.setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Scanning table... ");
-            for (Result result : scanner) {
-                System.out.println(result);
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Scanning table... ");
+                for (Result result : scanner) {
+                    System.out.println(result);
+                }
             }
-            scanner.close();
 
             Get get = new Get(Bytes.toBytes("row-5"));
             get.setFilter(filter);

@@ -32,16 +32,16 @@ public class DependentColumnFilterExample {
         Scan scan = new Scan();
         scan.setFilter(filter);
         // scan.setBatch(4); // cause an error
-        ResultScanner scanner = table.getScanner(scan);
-        System.out.println("Results of scan:");
-        for (Result result : scanner) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell + ", Value: " +
-                        Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                cell.getValueLength()));
+        try(ResultScanner scanner = table.getScanner(scan)) {
+            System.out.println("Results of scan:");
+            for (Result result : scanner) {
+                for (Cell cell : result.rawCells()) {
+                    System.out.println("Cell: " + cell + ", Value: " +
+                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                    cell.getValueLength()));
+                }
             }
         }
-        scanner.close();
 
         Get get = new Get(Bytes.toBytes("row-5"));
         get.setFilter(filter);
@@ -72,6 +72,8 @@ public class DependentColumnFilterExample {
                 new RegexStringComparator(".*\\.5"));
         filter(false, CompareOperator.EQUAL,
                 new RegexStringComparator(".*\\.5"));
+
+        table.close();
 
         HBaseUtils.closeConnection();
     }

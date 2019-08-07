@@ -35,12 +35,12 @@ public class FuzzyRowFilterExample {
             Scan scan = new Scan()
                     .addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("col-5"))
                     .setFilter(filter);
-            ResultScanner scanner = table.getScanner(scan);
-            System.out.println("Results of scan:");
-            for (Result result : scanner) {
-                System.out.println(result);
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                System.out.println("Results of scan:");
+                for (Result result : scanner) {
+                    System.out.println(result);
+                }
             }
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();

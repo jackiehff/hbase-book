@@ -32,35 +32,36 @@ public class WhileMatchFilterExample {
 
             Scan scan = new Scan();
             scan.setFilter(filter1);
-            ResultScanner scanner1 = table.getScanner(scan);
-            System.out.println("Results of scan #1:");
-            int n = 0;
-            for (Result result : scanner1) {
-                for (Cell cell : result.rawCells()) {
-                    System.out.println("Cell: " + cell + ", Value: " +
-                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                    cell.getValueLength()));
-                    n++;
+            try (ResultScanner scanner1 = table.getScanner(scan)) {
+                System.out.println("Results of scan #1:");
+                int n = 0;
+                for (Result result : scanner1) {
+                    for (Cell cell : result.rawCells()) {
+                        System.out.println("Cell: " + cell + ", Value: " +
+                                Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                        cell.getValueLength()));
+                        n++;
+                    }
                 }
+                System.out.println("Total cell count for scan #1: " + n);
             }
-            scanner1.close();
 
             Filter filter2 = new WhileMatchFilter(filter1);
             scan.setFilter(filter2);
-            ResultScanner scanner2 = table.getScanner(scan);
-            System.out.println("Total cell count for scan #1: " + n);
-            n = 0;
-            System.out.println("Results of scan #2:");
-            for (Result result : scanner2) {
-                for (Cell cell : result.rawCells()) {
-                    System.out.println("Cell: " + cell + ", Value: " +
-                            Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
-                                    cell.getValueLength()));
-                    n++;
+            try (ResultScanner scanner2 = table.getScanner(scan)) {
+
+                int n = 0;
+                System.out.println("Results of scan #2:");
+                for (Result result : scanner2) {
+                    for (Cell cell : result.rawCells()) {
+                        System.out.println("Cell: " + cell + ", Value: " +
+                                Bytes.toString(cell.getValueArray(), cell.getValueOffset(),
+                                        cell.getValueLength()));
+                        n++;
+                    }
                 }
+                System.out.println("Total cell count for scan #2: " + n);
             }
-            scanner2.close();
-            System.out.println("Total cell count for scan #2: " + n);
         }
 
         HBaseUtils.closeConnection();
