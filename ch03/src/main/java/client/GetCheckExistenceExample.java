@@ -41,8 +41,7 @@ public class GetCheckExistenceExample {
             // co GetCheckExistenceExample-2-Get1 Check first with existing data.
             Result result1 = table.get(get1);
 
-            byte[] val = result1.getValue(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual1"));
+            byte[] val = result1.getValue(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
 
             System.out.println("Get 1 Exists: " + result1.getExists());
             // co GetCheckExistenceExample-3-Result1 Exists is "true", while no cell was actually returned.

@@ -31,7 +31,8 @@ public class ResultExample {
             Result result1 = table.get(get);
             System.out.println(result1);
 
-            Result result2 = Result.EMPTY_RESULT;
+            //Result result2 = Result.EMPTY_RESULT;
+            Result result2 = new Result();
             System.out.println(result2);
 
             result2.copyFrom(result1);

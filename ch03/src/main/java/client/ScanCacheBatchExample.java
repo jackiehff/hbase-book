@@ -25,17 +25,16 @@ public class ScanCacheBatchExample {
                 .setLimit(100)   //
                 .setReadType(Scan.ReadType.PREAD)
                 .setScanMetricsEnabled(true);
-        ResultScanner scanner = table.getScanner(scan);
-        for (Result result : scanner) {
-            // co ScanCacheBatchExample-2-Count Count the number of Results available.
-            count++;
+        try (ResultScanner scanner = table.getScanner(scan)) {
+            for (Result result : scanner) {
+                // co ScanCacheBatchExample-2-Count Count the number of Results available.
+                count++;
+            }
+            ScanMetrics metrics = scanner.getScanMetrics();
+            System.out.println("Caching: " + caching + ", Batch: " + batch +
+                    ", Small: " + small + ", Results: " + count +
+                    ", RPCs: " + metrics.countOfRPCcalls);
         }
-        ScanMetrics metrics = scanner.getScanMetrics();
-        System.out.println("Caching: " + caching + ", Batch: " + batch +
-                ", Small: " + small + ", Results: " + count +
-                ", RPCs: " + metrics.countOfRPCcalls);
-
-        scanner.close();
     }
 
     public static void main(String[] args) throws IOException {

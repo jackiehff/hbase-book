@@ -20,14 +20,18 @@ public class HBaseUtils {
 
     private static Configuration configuration;
     private static Connection connection;
+    private static AsyncConnection asyncConnection;
     private static Admin admin;
+    private static AsyncAdmin asyncAdmin;
 
     static {
         configuration = HBaseConfiguration.create();
         configuration.set("hbase.zookeeper.quorum", "localhost");
         try {
             connection = ConnectionFactory.createConnection(configuration);
+            asyncConnection = connection.toAsyncConnection();
             admin = connection.getAdmin();
+            asyncAdmin = asyncConnection.getAdmin();
         } catch (IOException e) {
             e.printStackTrace();
         }

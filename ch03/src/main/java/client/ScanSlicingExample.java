@@ -27,20 +27,20 @@ public class ScanSlicingExample {
                 .setMaxResultsPerColumnFamily(maxResults)
                 .setMaxResultSize(maxResultSize)
                 .setScanMetricsEnabled(true);
-        ResultScanner scanner = table.getScanner(scan);
-        System.out.println("Scan #" + num + " running...");
-        for (Result result : scanner) {
-            count++;
-            if (dump) {
-                System.out.println("Result [" + count + "]:" + result);
+        try (ResultScanner scanner = table.getScanner(scan)) {
+            System.out.println("Scan #" + num + " running...");
+            for (Result result : scanner) {
+                count++;
+                if (dump) {
+                    System.out.println("Result [" + count + "]:" + result);
+                }
             }
+            ScanMetrics metrics = scanner.getScanMetrics();
+            System.out.println("Caching: " + caching + ", Batch: " + batch +
+                    ", Offset: " + offset + ", maxResults: " + maxResults +
+                    ", maxSize: " + maxResultSize + ", Results: " + count +
+                    ", RPCs: " + metrics.countOfRPCcalls);
         }
-        ScanMetrics metrics = scanner.getScanMetrics();
-        System.out.println("Caching: " + caching + ", Batch: " + batch +
-                ", Offset: " + offset + ", maxResults: " + maxResults +
-                ", maxSize: " + maxResultSize + ", Results: " + count +
-                ", RPCs: " + metrics.countOfRPCcalls);
-        scanner.close();
     }
 
     public static void main(String[] args) throws IOException {

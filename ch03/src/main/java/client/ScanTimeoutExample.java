@@ -26,9 +26,6 @@ public class ScanTimeoutExample {
         HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1", "colfam2");
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
-            Scan scan = new Scan();
-            ResultScanner scanner = table.getScanner(scan);
-
             // co ScanTimeoutExample-1-GetConf Get currently configured lease timeout.
             int scannerTimeout = (int) HBaseUtils.getConfiguration().getLong(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, -1);
             System.out.println("Current (local) lease period: " + scannerTimeout + "ms");
@@ -41,20 +38,22 @@ public class ScanTimeoutExample {
                 LOGGER.error("InterruptedException", e);
             }
             System.out.println("Attempting to iterate over scanner...");
-            while (true) {
-                try {
-                    Result result = scanner.next();
-                    if (result == null) {
+            Scan scan = new Scan();
+            try (ResultScanner scanner = table.getScanner(scan)) {
+                while (true) {
+                    try {
+                        Result result = scanner.next();
+                        if (result == null) {
+                            break;
+                        }
+                        // co ScanTimeoutExample-3-Dump Print row content.
+                        System.out.println(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                         break;
                     }
-                    // co ScanTimeoutExample-3-Dump Print row content.
-                    System.out.println(result);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
                 }
             }
-            scanner.close();
         }
 
         HBaseUtils.closeConnection();
