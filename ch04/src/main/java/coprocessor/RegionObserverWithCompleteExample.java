@@ -25,7 +25,6 @@ public class RegionObserverWithCompleteExample implements RegionObserver {
     @Override
     public void preGetOp(ObserverContext<RegionCoprocessorEnvironment> e, Get get, List<Cell> results) {
         LOG.debug("Got preGet for row: " + Bytes.toStringBinary(get.getRow()));
-        // vv RegionObserverWithCompleteExample
         if (Bytes.equals(get.getRow(), FIXED_ROW)) {
             long time = System.currentTimeMillis();
             Cell cell = ExtendedCellBuilderFactory.create(CellBuilderType.DEEP_COPY)
@@ -42,6 +41,5 @@ public class RegionObserverWithCompleteExample implements RegionObserver {
             // Once the special cell is inserted all further processing is skipped.
             //e.complete();
         }
-        // ^^ RegionObserverWithCompleteExample
     }
 }

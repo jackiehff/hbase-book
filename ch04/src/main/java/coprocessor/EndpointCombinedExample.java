@@ -32,8 +32,8 @@ public class EndpointCombinedExample {
         HBaseUtils.dump(HBaseConstants.TEST_TABLE,
                 new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = HBaseUtils.getConnection().getAdmin();
-        try {
+
+        try (Admin admin = HBaseUtils.getConnection().getAdmin()) {
             admin.split(HBaseConstants.TEST_TABLE, Bytes.toBytes("row3"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +88,6 @@ public class EndpointCombinedExample {
             throwable.printStackTrace();
         }
 
-        admin.close();
         HBaseUtils.closeConnection();
     }
 }

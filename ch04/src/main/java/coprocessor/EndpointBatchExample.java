@@ -28,20 +28,17 @@ public class EndpointBatchExample {
                 new long[]{1, 2},
                 new String[]{"val1", "val2"});
         System.out.println("Before endpoint call...");
-        HBaseUtils.dump(HBaseConstants.TEST_TABLE,
-                new String[]{"row1", "row2", "row3", "row4", "row5"},
+        HBaseUtils.dump(HBaseConstants.TEST_TABLE, new String[]{"row1", "row2", "row3", "row4", "row5"},
                 null, null);
-        Admin admin = HBaseUtils.getConnection().getAdmin();
-        try {
+
+        try (Admin admin = HBaseUtils.getConnection().getAdmin()) {
             admin.split(HBaseConstants.TEST_TABLE, Bytes.toBytes("row3"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // wait for the split to be done
-        while (admin.getRegions(HBaseConstants.TEST_TABLE).size() < 2) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            // wait for the split to be done
+            while (admin.getRegions(HBaseConstants.TEST_TABLE).size() < 2) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
             }
         }
 
@@ -63,7 +60,6 @@ public class EndpointBatchExample {
             throwable.printStackTrace();
         }
 
-        admin.close();
         HBaseUtils.closeConnection();
     }
 }

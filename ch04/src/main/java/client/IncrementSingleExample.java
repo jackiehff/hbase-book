@@ -27,6 +27,7 @@ public class IncrementSingleExample {
             long cnt3 = table.incrementColumnValue(Bytes.toBytes("20110101"), Bytes.toBytes("daily"), Bytes.toBytes("hits"), -1);
             System.out.println("cnt1: " + cnt1 + ", cnt2: " + cnt2 + ", current: " + current + ", cnt3: " + cnt3);
         }
+
         HBaseUtils.closeConnection();
     }
 }

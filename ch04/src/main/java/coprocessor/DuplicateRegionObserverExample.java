@@ -66,19 +66,17 @@ public class DuplicateRegionObserverExample implements RegionObserver {
 	  */
         // vv DuplicateRegionObserverExample
 
-        Admin admin = HBaseUtils.getConnection().getAdmin();
-        admin.createTable(tableDescriptor);
-        System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
+        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE); Admin admin = HBaseUtils.getConnection().getAdmin()) {
+            admin.createTable(tableDescriptor);
+            System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
 
-        System.out.println("Adding rows to table...");
-        HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1");
+            System.out.println("Adding rows to table...");
+            HBaseUtils.fillTable(HBaseConstants.TEST_TABLE, 1, 10, 10, "colfam1");
 
-        try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             Get get = new Get(Bytes.toBytes("row-1"));
             Result result = table.get(get);
             HBaseUtils.dumpResult(result);
         }
-        admin.close();
         HBaseUtils.closeConnection();
     }
 }

@@ -29,9 +29,7 @@ public class IncrementMultipleExample {
             increment1.addColumn(Bytes.toBytes("daily"), Bytes.toBytes("hits"), 1);
             increment1.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("clicks"), 10);
             increment1.addColumn(Bytes.toBytes("weekly"), Bytes.toBytes("hits"), 10);
-            // ^^ IncrementMultipleExample
-            Map<byte[], NavigableMap<byte[], Long>> longs =
-                    increment1.getFamilyMapOfLongs();
+            Map<byte[], NavigableMap<byte[], Long>> longs = increment1.getFamilyMapOfLongs();
             for (byte[] family : longs.keySet()) {
                 System.out.println("Increment #1 - family: " + Bytes.toString(family));
                 NavigableMap<byte[], Long> longcols = longs.get(family);
@@ -63,6 +61,7 @@ public class IncrementMultipleExample {
                 System.out.println("Cell: " + cell + " Value: " + Bytes.toLong(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength()));
             }
         }
+
         HBaseUtils.closeConnection();
     }
 }

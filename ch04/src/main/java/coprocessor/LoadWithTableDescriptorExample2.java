@@ -23,11 +23,11 @@ public class LoadWithTableDescriptorExample2 {
                 .setCoprocessor(CoprocessorDescriptorBuilder.newBuilder(RegionObserverExample.class.getCanonicalName())
                         .setPriority(Coprocessor.PRIORITY_USER).build()).build();
 
-        Admin admin = HBaseUtils.getConnection().getAdmin();
-        admin.createTable(tableDescriptor);
+        try(Admin admin = HBaseUtils.getConnection().getAdmin()) {
+            admin.createTable(tableDescriptor);
+            System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
+        }
 
-        System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
-        admin.close();
         HBaseUtils.closeConnection();
     }
 }

@@ -25,12 +25,12 @@ public class LoadWithTableDescriptorExample {
                 .setValue("COPROCESSOR$1", "|" + RegionObserverExample.class.getCanonicalName() + "|" + Coprocessor.PRIORITY_USER).build();
 
         // Acquire an administrative API to the cluster and add the table.
-        Admin admin = HBaseUtils.getConnection().getAdmin();
-        admin.createTable(tableDescriptor);
+        try (Admin admin = HBaseUtils.getConnection().getAdmin()) {
+            admin.createTable(tableDescriptor);
+            // Verify if the definition has been applied as expected.
+            System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
+        }
 
-        // Verify if the definition has been applied as expected.
-        System.out.println(admin.getDescriptor(HBaseConstants.TEST_TABLE));
-        admin.close();
         HBaseUtils.closeConnection();
     }
 }

@@ -15,9 +15,8 @@ import java.io.IOException;
 public class GetCloneExample {
 
     public static void main(String[] args) throws IOException {
-        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
-            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
-        }
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
 
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             Get get1 = new Get(Bytes.toBytes("row1"));

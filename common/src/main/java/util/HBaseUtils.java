@@ -51,6 +51,11 @@ public class HBaseUtils {
         }
     }
 
+    /**
+     * 创建命名空间
+     *
+     * @param namespace 命名空间
+     */
     public static void createNamespace(String namespace) {
         try {
             NamespaceDescriptor nd = NamespaceDescriptor.create(namespace).build();
@@ -60,6 +65,12 @@ public class HBaseUtils {
         }
     }
 
+    /**
+     * 删除命名空间
+     *
+     * @param namespace 命名空间
+     * @param force     是否强制删除(true 会删除 namespace 下所有表)
+     */
     public static void dropNamespace(String namespace, boolean force) {
         try {
             if (force) {
@@ -189,30 +200,27 @@ public class HBaseUtils {
 
     public static void fillTable(TableName table, int startRow, int endRow, int numCols,
                                  int pad, boolean setTimestamp, boolean random,
-                                 String... colfams)
-            throws IOException {
-        Table tbl = connection.getTable(table);
-        Random rnd = new Random();
-        for (int row = startRow; row <= endRow; row++) {
-            for (int col = 1; col <= numCols; col++) {
-                Put put = new Put(Bytes.toBytes("row-" + padNum(row, pad)));
-                for (String cf : colfams) {
-                    String colName = "col-" + padNum(col, pad);
-                    String val = "val-" + (random ?
-                            Integer.toString(rnd.nextInt(numCols)) :
-                            padNum(row, pad) + "." + padNum(col, pad));
-                    if (setTimestamp) {
-                        put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName), col,
-                                Bytes.toBytes(val));
-                    } else {
-                        put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName),
-                                Bytes.toBytes(val));
+                                 String... colfams) throws IOException {
+        try (Table tbl = connection.getTable(table)) {
+            Random rnd = new Random();
+            for (int row = startRow; row <= endRow; row++) {
+                for (int col = 1; col <= numCols; col++) {
+                    Put put = new Put(Bytes.toBytes("row-" + padNum(row, pad)));
+                    for (String cf : colfams) {
+                        String colName = "col-" + padNum(col, pad);
+                        String val = "val-" + (random ?
+                                Integer.toString(rnd.nextInt(numCols)) :
+                                padNum(row, pad) + "." + padNum(col, pad));
+                        if (setTimestamp) {
+                            put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName), col, Bytes.toBytes(val));
+                        } else {
+                            put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName), Bytes.toBytes(val));
+                        }
                     }
+                    tbl.put(put);
                 }
-                tbl.put(put);
             }
         }
-        tbl.close();
     }
 
     public static void fillTableRandom(String table,
@@ -229,33 +237,32 @@ public class HBaseUtils {
                                        int minRow, int maxRow, int padRow,
                                        int minCol, int maxCol, int padCol,
                                        int minVal, int maxVal, int padVal,
-                                       boolean setTimestamp, String... colfams)
-            throws IOException {
-        Table tbl = connection.getTable(table);
-        Random rnd = new Random();
-        int maxRows = minRow + rnd.nextInt(maxRow - minRow);
-        for (int row = 0; row < maxRows; row++) {
-            int maxCols = minCol + rnd.nextInt(maxCol - minCol);
-            for (int col = 0; col < maxCols; col++) {
-                int rowNum = rnd.nextInt(maxRow - minRow + 1);
-                Put put = new Put(Bytes.toBytes("row-" + padNum(rowNum, padRow)));
-                for (String cf : colfams) {
-                    int colNum = rnd.nextInt(maxCol - minCol + 1);
-                    String colName = "col-" + padNum(colNum, padCol);
-                    int valNum = rnd.nextInt(maxVal - minVal + 1);
-                    String val = "val-" + padNum(valNum, padCol);
-                    if (setTimestamp) {
-                        put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName), col,
-                                Bytes.toBytes(val));
-                    } else {
-                        put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName),
-                                Bytes.toBytes(val));
+                                       boolean setTimestamp, String... colfams) throws IOException {
+        try (Table tbl = connection.getTable(table)) {
+            Random rnd = new Random();
+            int maxRows = minRow + rnd.nextInt(maxRow - minRow);
+            for (int row = 0; row < maxRows; row++) {
+                int maxCols = minCol + rnd.nextInt(maxCol - minCol);
+                for (int col = 0; col < maxCols; col++) {
+                    int rowNum = rnd.nextInt(maxRow - minRow + 1);
+                    Put put = new Put(Bytes.toBytes("row-" + padNum(rowNum, padRow)));
+                    for (String cf : colfams) {
+                        int colNum = rnd.nextInt(maxCol - minCol + 1);
+                        String colName = "col-" + padNum(colNum, padCol);
+                        int valNum = rnd.nextInt(maxVal - minVal + 1);
+                        String val = "val-" + padNum(valNum, padCol);
+                        if (setTimestamp) {
+                            put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName), col,
+                                    Bytes.toBytes(val));
+                        } else {
+                            put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(colName),
+                                    Bytes.toBytes(val));
+                        }
                     }
+                    tbl.put(put);
                 }
-                tbl.put(put);
             }
         }
-        tbl.close();
     }
 
     public static String padNum(int num, int pad) {
@@ -268,18 +275,16 @@ public class HBaseUtils {
         return res;
     }
 
-    public static void put(String table, String row, String fam, String qual,
-                           String val) throws IOException {
+    public static void put(String table, String row, String fam, String qual, String val) throws IOException {
         put(TableName.valueOf(table), row, fam, qual, val);
     }
 
-    public static void put(TableName table, String row, String fam, String qual,
-                           String val) throws IOException {
-        Table tbl = connection.getTable(table);
-        Put put = new Put(Bytes.toBytes(row));
-        put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), Bytes.toBytes(val));
-        tbl.put(put);
-        tbl.close();
+    public static void put(TableName table, String row, String fam, String qual, String val) throws IOException {
+        try (Table tbl = connection.getTable(table)) {
+            Put put = new Put(Bytes.toBytes(row));
+            put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), Bytes.toBytes(val));
+            tbl.put(put);
+        }
     }
 
     public static void put(String table, String row, String fam, String qual, long ts,
@@ -289,12 +294,12 @@ public class HBaseUtils {
 
     public static void put(TableName table, String row, String fam, String qual, long ts,
                            String val) throws IOException {
-        Table tbl = connection.getTable(table);
-        Put put = new Put(Bytes.toBytes(row));
-        put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), ts,
-                Bytes.toBytes(val));
-        tbl.put(put);
-        tbl.close();
+        try (Table tbl = connection.getTable(table)) {
+            Put put = new Put(Bytes.toBytes(row));
+            put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), ts,
+                    Bytes.toBytes(val));
+            tbl.put(put);
+        }
     }
 
     public static void put(String table, String[] rows, String[] fams, String[] quals,
@@ -304,24 +309,24 @@ public class HBaseUtils {
 
     public static void put(TableName table, String[] rows, String[] fams, String[] quals,
                            long[] ts, String[] vals) throws IOException {
-        Table tbl = connection.getTable(table);
-        for (String row : rows) {
-            Put put = new Put(Bytes.toBytes(row));
-            for (String fam : fams) {
-                int v = 0;
-                for (String qual : quals) {
-                    String val = vals[v < vals.length ? v : vals.length - 1];
-                    long t = ts[v < ts.length ? v : ts.length - 1];
-                    System.out.println("Adding: " + row + " " + fam + " " + qual +
-                            " " + t + " " + val);
-                    put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), t,
-                            Bytes.toBytes(val));
-                    v++;
+        try (Table tbl = connection.getTable(table)) {
+            for (String row : rows) {
+                Put put = new Put(Bytes.toBytes(row));
+                for (String fam : fams) {
+                    int v = 0;
+                    for (String qual : quals) {
+                        String val = vals[v < vals.length ? v : vals.length - 1];
+                        long t = ts[v < ts.length ? v : ts.length - 1];
+                        System.out.println("Adding: " + row + " " + fam + " " + qual +
+                                " " + t + " " + val);
+                        put.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual), t,
+                                Bytes.toBytes(val));
+                        v++;
+                    }
                 }
+                tbl.put(put);
             }
-            tbl.put(put);
         }
-        tbl.close();
     }
 
     public static void dump(String table, String[] rows, String[] fams, String[] quals)
@@ -331,29 +336,25 @@ public class HBaseUtils {
 
     public static void dump(TableName table, String[] rows, String[] fams, String[] quals)
             throws IOException {
-        Table tbl = connection.getTable(table);
-        List<Get> gets = new ArrayList<>();
-        for (String row : rows) {
-            Get get = new Get(Bytes.toBytes(row));
-            get.readAllVersions();
-            if (fams != null) {
-                for (String fam : fams) {
-                    for (String qual : quals) {
-                        get.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual));
+        try (Table tbl = connection.getTable(table)) {
+            List<Get> gets = new ArrayList<>();
+            for (String row : rows) {
+                Get get = new Get(Bytes.toBytes(row));
+                get.readAllVersions();
+                if (fams != null) {
+                    for (String fam : fams) {
+                        for (String qual : quals) {
+                            get.addColumn(Bytes.toBytes(fam), Bytes.toBytes(qual));
+                        }
                     }
                 }
+                gets.add(get);
             }
-            gets.add(get);
-        }
-        Result[] results = tbl.get(gets);
-        for (Result result : results) {
-            for (Cell cell : result.rawCells()) {
-                System.out.println("Cell: " + cell +
-                        ", Value: " + Bytes.toString(cell.getValueArray(),
-                        cell.getValueOffset(), cell.getValueLength()));
+            Result[] results = tbl.get(gets);
+            for (Result result : results) {
+                dumpResult(result);
             }
         }
-        tbl.close();
     }
 
     public static void dump(String table) throws IOException {

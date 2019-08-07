@@ -32,7 +32,7 @@ public class CheckAndDeleteExample {
 
             // Check if column does not exist and perform optional delete operation.
             boolean res1 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
-                    .qualifier(Bytes.toBytes("qual3")).ifEquals(null).thenDelete(delete1);
+                    .qualifier(Bytes.toBytes("qual3")).ifNotExists().thenDelete(delete1);
             // Print out the result, should be "Delete successful: false".
             System.out.println("Delete 1 successful: " + res1);
 
@@ -43,7 +43,7 @@ public class CheckAndDeleteExample {
 
             // co CheckAndDeleteExample-5-CAS2 Attempt to delete same cell again.
             boolean res2 = table.checkAndMutate(Bytes.toBytes("row1"), Bytes.toBytes("colfam2"))
-                    .qualifier(Bytes.toBytes("qual3")).ifEquals(null).thenDelete(delete1);
+                    .qualifier(Bytes.toBytes("qual3")).ifNotExists().thenDelete(delete1);
             // Print out the result, should be "Delete successful: true" since the checked column now is gone.
             System.out.println("Delete 2 successful: " + res2);
 

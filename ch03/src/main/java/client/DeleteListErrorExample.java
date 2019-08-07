@@ -9,8 +9,6 @@ import util.HBaseUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * DeleteListErrorExample Example deleting faulty data from HBase
@@ -18,8 +16,6 @@ import java.util.logging.Logger;
 public class DeleteListErrorExample {
 
     public static void main(String[] args) throws IOException {
-        Logger.getLogger("org.apache.zookeeper").setLevel(Level.OFF);
-
         HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
         HBaseUtils.createTable(HBaseConstants.TEST_TABLE, 100, "colfam1", "colfam2");
         HBaseUtils.put(HBaseConstants.TEST_TABLE,

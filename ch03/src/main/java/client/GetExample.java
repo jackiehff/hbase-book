@@ -15,9 +15,9 @@ import java.io.IOException;
 public class GetExample {
 
     public static void main(String[] args) throws IOException {
-        if (!HBaseUtils.existsTable(HBaseConstants.TEST_TABLE)) {
-            HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
-        }
+        HBaseUtils.dropTable(HBaseConstants.TEST_TABLE);
+        HBaseUtils.createTable(HBaseConstants.TEST_TABLE, "colfam1");
+
         // co GetExample-2-NewTable Instantiate a new table reference.
         try (Table table = HBaseUtils.getTable(HBaseConstants.TEST_TABLE)) {
             // co GetExample-3-NewGet Create get with specific row.
